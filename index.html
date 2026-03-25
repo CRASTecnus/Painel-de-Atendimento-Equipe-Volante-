@@ -2,188 +2,199 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>RMA - Registro Mensal com Soma</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Territorial - 13 de Setembro</title>
     <style>
-        /* 1. CONFIGURAÇÃO DE IMPRESSÃO - OCUPA A FOLHA TODA SEM CABEÇALHOS */
-        @page { size: A4 landscape; margin: 0; }
-        
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-light: #f8f9fa;
+            --text-dark: #333;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e9ecef;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-dark);
+        }
+
+        /* CONFIGURAÇÃO PARA IMPRESSÃO */
         @media print {
-            .no-print { display: none !important; }
-            body { background: white; padding: 0; margin: 0; }
-            .folha {
-                page-break-after: always;
-                padding: 10mm !important;
-                width: 297mm;
-                height: 210mm;
-                display: block;
-                /* Escala fina para garantir que caiba em qualquer impressora */
-                transform: scale(0.95);
-                transform-origin: top left;
-            }
-            table { width: 100% !important; table-layout: fixed; border-collapse: collapse; }
-            th, td { font-size: 8.5pt !important; padding: 2px !important; border: 1px solid #000 !important; }
-            input { font-size: 8.5pt !important; }
-            .bg-orange, .bg-blue, .bg-green { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .sidebar, .footer-bar { display: none !important; }
+            .content { width: 100% !important; height: 100% !important; }
+            iframe { border: none !important; width: 100% !important; height: 100% !important; }
         }
 
-        /* 2. ESTILO VISUAL PARA O ECRÃ */
-        * { box-sizing: border-box; }
-        body { font-family: "Times New Roman", serif; background-color: #525659; margin: 0; padding: 0; }
-        
-        .no-print { 
-            display: flex; justify-content: center; gap: 15px; 
-            background: #1a1a1a; padding: 15px; position: sticky; top: 0; z-index: 1000;
+        /* Menu Lateral */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+            z-index: 10;
         }
 
-        button { padding: 10px 20px; cursor: pointer; font-weight: bold; border-radius: 4px; border: none; transition: 0.2s; }
-        .btn-save { background-color: #28a745; color: white; }
-        .btn-clear { background-color: #dc3545; color: white; }
-        .btn-print { background-color: #007bff; color: white; }
-        button:hover { opacity: 0.8; }
+        .sidebar-header {
+            background-color: var(--primary-color);
+            padding: 25px 20px;
+            color: white;
+            border-bottom: 4px solid var(--accent-color);
+        }
 
-        .folha { background: white; margin: 15px auto; padding: 10mm; width: 280mm; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #000; text-align: center; vertical-align: middle; padding: 3px; }
-        
-        .bg-orange { background-color: #fdeada !important; }
-        .bg-blue { background-color: #c6d9f1 !important; }
-        .bg-green { background-color: #ebf1de !important; }
-        
-        .col-info { text-align: left; width: 300px; font-weight: bold; font-size: 9.5pt; }
-        input { width: 100%; border: none; background: transparent; text-align: center; outline: none; font-size: 10pt; }
-        input[readonly] { font-weight: bold; color: #000; }
-        
-        .header-title { font-size: 14pt; font-weight: bold; margin-bottom: 10px; border-bottom: 2px solid #000; }
+        .sidebar-header h1 {
+            margin: 0;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .menu-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+
+        .menu-section {
+            padding: 20px 20px 8px 20px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #adb5bd;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-button {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: var(--primary-color);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            border-left: 4px solid transparent;
+            margin: 2px 0;
+        }
+
+        .nav-button:hover {
+            background-color: #f1f3f5;
+            color: var(--accent-color);
+            padding-left: 25px;
+        }
+
+        .nav-button.active {
+            background-color: #e7f3ff;
+            border-left-color: var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Área do Conteúdo */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            flex: 1;
+            border: none;
+            background-color: #fff;
+        }
+
+        .footer-bar {
+            padding: 10px 20px;
+            background: #fff;
+            font-size: 12px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .print-area {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-print {
+            width: 100%;
+            padding: 12px;
+            cursor: pointer;
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        .btn-print:hover { background: #1a252f; }
+        .menu-container::-webkit-scrollbar { width: 4px; }
+        .menu-container::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div class="no-print">
-    <button class="btn-save" onclick="saveData()">💾 SALVAR DADOS</button>
-    <button class="btn-clear" onclick="clearData()">🗑️ APAGAR TUDO</button>
-    <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR</button>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h1>Painel Territorial</h1>
+        <span style="font-size: 11px; opacity: 0.8;">13 DE SETEMBRO - BOA VISTA</span>
+    </div>
+
+    <div class="menu-container">
+        <div class="menu-section">Território</div>
+        <a href="Territorio_13_Setembro.html" target="view" class="nav-button">📍 Visão Geral</a>
+        <a href="Mapa_CRAS.html" target="view" class="nav-button">🏠 Rede CRAS</a>
+        <a href="Mapa_CREAS.html" target="view" class="nav-button">🛡️ Rede CREAS</a>
+        <a href="Mapa_RAPS.html" target="view" class="nav-button">🧠 Saúde Mental (RAPS)</a>
+        <a href="Mapa_Conselho Tutelar.html" target="view" class="nav-button">⚖️ Conselho Tutelar</a>
+        <a href="Mapa_Defensoria.html" target="view" class="nav-button">⚖️ Defensoria Pública</a>
+
+        <div class="menu-section">Programas</div>
+        <a href="CPMBV 2026.HTML" target="view" class="nav-button">💳 Cartão Social (CPMBV)</a>
+        <a href="PBF.HTML" target="view" class="nav-button">📅 Bolsa Família (PBF)</a>
+
+        <div class="menu-section">Gestão</div>
+        <a href="Registro de Atendimento (Planilha).html" target="view" class="nav-button">📝 Registro Mensal (RMA)</a>
+    </div>
+
+    <div class="print-area">
+        <button class="btn-print" onclick="window.frames['view'].print()">
+            🖨️ IMPRIMIR CONTEÚDO
+        </button>
+    </div>
 </div>
 
-<div class="folha">
-    <div class="header-title">FOLHA 1: BRASILEIROS - CRAS: <input type="text" style="width:300px; text-align:left;" id="cras_f1"></div>
-    <table>
-        <thead>
-            <tr class="bg-orange">
-                <th rowspan="3" style="width:30px">Nº</th>
-                <th rowspan="3" class="col-info">INFORMAÇÕES MENSAIS</th>
-                <th rowspan="3" class="bg-blue" style="width:60px">TOTAL GERAL</th>
-                <th colspan="7">BRASILEIRO(S)</th>
-            </tr>
-            <tr class="bg-orange">
-                <th colspan="3">FEMININO</th>
-                <th colspan="3">MASCULINO</th>
-                <th rowspan="2" class="bg-green">TOTAL BR</th>
-            </tr>
-            <tr class="bg-orange">
-                <th>0-17</th><th>18-59</th><th>60+</th><th>0-17</th><th>18-59</th><th>60+</th>
-            </tr>
-        </thead>
-        <tbody id="body-br"></tbody>
-    </table>
-</div>
-
-<div class="folha">
-    <div class="header-title">FOLHA 2: VENEZUELANOS - CRAS: <input type="text" style="width:300px; text-align:left;" id="cras_f2"></div>
-    <table>
-        <thead>
-            <tr class="bg-orange">
-                <th rowspan="3" style="width:30px">Nº</th>
-                <th rowspan="3" class="col-info">INFORMAÇÕES MENSAIS</th>
-                <th colspan="7">VENEZUELANO(S)</th>
-            </tr>
-            <tr class="bg-orange">
-                <th colspan="3">FEMININO</th><th colspan="3">MASCULINO</th><th rowspan="2" class="bg-green">TOTAL VN</th>
-            </tr>
-            <tr class="bg-orange">
-                <th>0-17</th><th>18-59</th><th>60+</th><th>0-17</th><th>18-59</th><th>60+</th>
-            </tr>
-        </thead>
-        <tbody id="body-ven"></tbody>
-    </table>
-</div>
-
-<div class="folha">
-    <div class="header-title">FOLHA 3: OUTRAS NACIONALIDADES - CRAS: <input type="text" style="width:300px; text-align:left;" id="cras_f3"></div>
-    <table>
-        <thead>
-            <tr class="bg-orange">
-                <th rowspan="3" style="width:30px">Nº</th>
-                <th rowspan="3" class="col-info">INFORMAÇÕES MENSAIS</th>
-                <th colspan="7">OUTRAS NACIONALIDADES</th>
-                <th rowspan="3">OBSERVAÇÃO</th>
-            </tr>
-            <tr class="bg-orange">
-                <th colspan="3">FEMININO</th><th colspan="3">MASCULINO</th><th rowspan="2" class="bg-green">TOTAL OUT</th>
-            </tr>
-            <tr class="bg-orange">
-                <th>0-17</th><th>18-59</th><th>60+</th><th>0-17</th><th>18-59</th><th>60+</th>
-            </tr>
-        </thead>
-        <tbody id="body-out"></tbody>
-    </table>
+<div class="content">
+    <iframe name="view" src="Territorio_13_Setembro.html"></iframe>
+    <div class="footer-bar">
+        <span><strong>Gestor:</strong> Paulo Luã Oliveira Xavier</span>
+        <span>2026 • Gestão Territorial</span>
+    </div>
 </div>
 
 <script>
-    // Lista de itens extraída do ficheiro original
-    const itens = ["ATENDIMENTO RECEPÇÃO", "ATENDIMENTO RECEPÇÃO (REPETIDO)", "INCLUSÃO NO CADASTRO ÚNICO", "ATUALIZAÇÃO DO CADASTRO ÚNICO", "ACOMPANHAMENTO FAMILIAR – PAIF (A-1)", "ATENDIMENTO PAIF (ATENDIMENTO TÉCNICO)", "ATENDIMENTO PARTICULARIZADO GERAL", "INTEGRANTES ATIVOS NO CONVIVER", "INTEGRANTES ATIVOS NO CABELO DE PRATA", "INTEGRANTES ATIVOS NO FQA", "DECLARAÇÃO DE IDOSOS", "EMISSÃO DA CARTEIRA DA PESSOA IDOSA", "CESTA DE COMPLEMENTAÇÃO ALIMENTAR", "ENTREGA DE KIT DE HIGIENE", "ENTREGA DE KIT DE HIGIENE INFANTIL", "ENTREGA DO CARTÃO DO BEM", "ENTREGA DE ENXOVAL", "ENTREGA DE LATAS DE LEITE", "AUXÍLIO FUNERAL", "FAMÍLIAS ENCAMINHADAS PARA O CREAS", "GRUPO NO ÂMBITO DO PAIF", "ORIENTAÇÃO ACESSO AO BPC", "VISITAS DOMICILIARES REALIZADAS"];
-
-    function criarLinhas() {
-        itens.forEach((texto, i) => {
-            // Folha 1 (Brasileiros) + Coluna Total Geral
-            document.getElementById('body-br').innerHTML += `<tr data-row="${i}"><td>${i+1}</td><td class="col-info">${texto}</td><td><input type="number" id="tg_${i}" readonly></td>` + `<td><input type="number" class="br-val"></td>`.repeat(6) + `<td class="bg-green"><input type="number" id="tbr_${i}" readonly></td></tr>`;
-            
-            // Folha 2 (Venezuelanos)
-            document.getElementById('body-ven').innerHTML += `<tr data-row="${i}"><td>${i+1}</td><td class="col-info">${texto}</td>` + `<td><input type="number" class="ven-val"></td>`.repeat(6) + `<td class="bg-green"><input type="number" id="tven_${i}" readonly></td></tr>`;
-            
-            // Folha 3 (Outros)
-            document.getElementById('body-out').innerHTML += `<tr data-row="${i}"><td>${i+1}</td><td class="col-info">${texto}</td>` + `<td><input type="number" class="out-val"></td>`.repeat(6) + `<td class="bg-green"><input type="number" id="tout_${i}" readonly></td><td><input type="text"></td></tr>`;
-        });
-    }
-
-    criarLinhas();
-
-    // LÓGICA DE SOMA AUTOMÁTICA
-    document.addEventListener('input', function() {
-        itens.forEach((_, i) => {
-            const sum = (selector) => Array.from(document.querySelectorAll(`tr[data-row="${i}"] .${selector}`)).reduce((a, b) => a + (Number(b.value) || 0), 0);
-
-            const tBR = sum('br-val');
-            const tVEN = sum('ven-val');
-            const tOUT = sum('out-val');
-
-            document.getElementById(`tbr_${i}`).value = tBR || "";
-            document.getElementById(`tven_${i}`).value = tVEN || "";
-            document.getElementById(`tout_${i}`).value = tOUT || "";
-            // Soma o Total Geral (BR + VN + OUT)
-            document.getElementById(`tg_${i}`).value = (tBR + tVEN + tOUT) || "";
+    const buttons = document.querySelectorAll('.nav-button');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            buttons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
         });
     });
 
-    function saveData() {
-        const data = {};
-        document.querySelectorAll('input').forEach((inp, i) => data['v'+i] = inp.value);
-        localStorage.setItem('rma_backup_final', JSON.stringify(data));
-        alert('Dados salvos com sucesso!');
-    }
-
     window.onload = () => {
-        const saved = JSON.parse(localStorage.getItem('rma_backup_final'));
-        if(saved) {
-            document.querySelectorAll('input').forEach((inp, i) => inp.value = saved['v'+i] || '');
-        }
+        const firstBtn = document.querySelector('.nav-button');
+        if(firstBtn) firstBtn.classList.add('active');
     };
-
-    function clearData() {
-        if(confirm('Tem certeza que deseja apagar todos os dados digitados?')) {
-            document.querySelectorAll('input').forEach(inp => inp.value = '');
-            localStorage.removeItem('rma_backup_final');
-        }
-    }
 </script>
+
 </body>
 </html>

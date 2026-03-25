@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_d25a4e5efdf93bacb13656790e0e7b0f {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-search@2.9.7/dist/leaflet-search.min.css"/>
+</head>
+<body>
+    
+    
+    <div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); 
+                z-index:9999; background-color: #1a2a6c; color: white; padding: 10px 25px; 
+                border-radius: 25px; font-family: 'Arial'; font-size: 20px; 
+                font-weight: bold; border: 2px solid white; box-shadow: 0px 4px 10px rgba(0,0,0,0.3);">
+        Território 13 de Setembro
+    </div>
+    
+    <div style="position: fixed; top: 15px; right: 15px; z-index:9999;">
+        <a href="https://app.powerbi.com/view?r=eyJrIjoiZTRhOWVlOTgtYTk2MS00YmY3LWEyY2YtMGM1Y2MzODFjMmVjIiwidCI6ImU1YzM3OTgxLTY2NjQtNDEzNC04YTBjLTY1NDNkMmFmODBiZSIsImMiOjh9" target="_blank">
+            <button style="background-color: #f1c40f; color: black; font-weight: bold; padding: 10px 15px; 
+            border-radius: 8px; cursor: pointer; border: 2px solid #333; font-family: Arial;">📊 Power BI</button>
+        </a>
+    </div>
+    
+<script>
+    var map = map_d25a4e5efdf93bacb13656790e0e7b0f;
+    var isZoomed = false;
+    map.on('dblclick', function(e) {
+        if (!isZoomed) {
+            map.setView(e.latlng, 18);
+            isZoomed = true;
+        } else {
+            map.setView([2.8005, -60.6885], 15);
+            isZoomed = false;
+        }
+    });
+</script>
+    
+            <div class="folium-map" id="map_d25a4e5efdf93bacb13656790e0e7b0f" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_d25a4e5efdf93bacb13656790e0e7b0f = L.map(
+                "map_d25a4e5efdf93bacb13656790e0e7b0f",
+                {
+                    center: [2.8005, -60.6885],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+  "doubleClickZoom": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d9c715ed9207d3245ed8276b8f7d4430 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d9c715ed9207d3245ed8276b8f7d4430.addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var feature_group_85c666ac22866759ebb4b51133ee4cc0 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_2c66aa1a801019ee413001020522e88f = L.marker(
+                [2.799242, -60.688689],
+                {
+  "name": "Abrigo Rondon 1",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_04b81d620dd711b36826e20a6b34fb31 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f5eb9c19686665dc00a91bc4081f7aa1 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d76c49a81f68c0424399b0aca76b34b0 = $(`<div id="html_d76c49a81f68c0424399b0aca76b34b0" style="width: 100.0%; height: 100.0%;"><b>Abrigo Rondon 1</b><br><b>End:</b> Av. General Sampaio, S/N<br><b>Perfil:</b> Migrante Venezuela<br>Capacidade: 2242</div>`)[0];
+                popup_f5eb9c19686665dc00a91bc4081f7aa1.setContent(html_d76c49a81f68c0424399b0aca76b34b0);
+            
+        
+
+        marker_2c66aa1a801019ee413001020522e88f.bindPopup(popup_f5eb9c19686665dc00a91bc4081f7aa1)
+        ;
+
+        
+    
+    
+                marker_2c66aa1a801019ee413001020522e88f.setIcon(icon_04b81d620dd711b36826e20a6b34fb31);
+            
+    
+            var marker_c59a30276ddd221a1e18ab97326170dc = L.marker(
+                [2.802001, -60.690751],
+                {
+  "name": "Abrigo Pricum\u00e3",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_14142768e7974dfe2e479d1fb06b64aa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_aefa0c67f0307829ab93a8cff06a15a0 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c511068f5f89f966b8f0fc8b8e23d375 = $(`<div id="html_c511068f5f89f966b8f0fc8b8e23d375" style="width: 100.0%; height: 100.0%;"><b>Abrigo Pricumã</b><br><b>End:</b> Av. Brasil, n° 551<br><b>Perfil:</b> Migrante Venezuela<br>Capacidade: 1390</div>`)[0];
+                popup_aefa0c67f0307829ab93a8cff06a15a0.setContent(html_c511068f5f89f966b8f0fc8b8e23d375);
+            
+        
+
+        marker_c59a30276ddd221a1e18ab97326170dc.bindPopup(popup_aefa0c67f0307829ab93a8cff06a15a0)
+        ;
+
+        
+    
+    
+                marker_c59a30276ddd221a1e18ab97326170dc.setIcon(icon_14142768e7974dfe2e479d1fb06b64aa);
+            
+    
+            var marker_b71353b105247ac6f57c2a307d7692c0 = L.marker(
+                [2.800641, -60.694004],
+                {
+  "name": "Abrigo Rondon 5",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_3bceb0f75568d125729e65068b2e9abb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "home",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_425cb40fa3d3cec8d2dc21c09ddc47ff = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_bf0bb897f13064ab47c53a315f794ad7 = $(`<div id="html_bf0bb897f13064ab47c53a315f794ad7" style="width: 100.0%; height: 100.0%;"><b>Abrigo Rondon 5</b><br><b>End:</b> Av. Gen. Sampaio, S/N<br><b>Perfil:</b> Migrante Venezuela<br>Capacidade: 1100</div>`)[0];
+                popup_425cb40fa3d3cec8d2dc21c09ddc47ff.setContent(html_bf0bb897f13064ab47c53a315f794ad7);
+            
+        
+
+        marker_b71353b105247ac6f57c2a307d7692c0.bindPopup(popup_425cb40fa3d3cec8d2dc21c09ddc47ff)
+        ;
+
+        
+    
+    
+                marker_b71353b105247ac6f57c2a307d7692c0.setIcon(icon_3bceb0f75568d125729e65068b2e9abb);
+            
+    
+            var marker_a58c1dc9b782e2beb99050e1c3056cf2 = L.marker(
+                [2.798044, -60.690263],
+                {
+  "name": "Abrigo Waraotuma",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_305464937eadb59f644ed08e11c3d434 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "leaf",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_54dd6d9cf90a52e4411a9d1ed837e6c2 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d75071c47f6841d0707cdd4f77460e09 = $(`<div id="html_d75071c47f6841d0707cdd4f77460e09" style="width: 100.0%; height: 100.0%;"><b>Abrigo Waraotuma</b><br><b>End:</b> Av. Gen. Sampaio, S/N<br><b>Perfil:</b> Indígena Venezuela<br>Capacidade: 1500</div>`)[0];
+                popup_54dd6d9cf90a52e4411a9d1ed837e6c2.setContent(html_d75071c47f6841d0707cdd4f77460e09);
+            
+        
+
+        marker_a58c1dc9b782e2beb99050e1c3056cf2.bindPopup(popup_54dd6d9cf90a52e4411a9d1ed837e6c2)
+        ;
+
+        
+    
+    
+                marker_a58c1dc9b782e2beb99050e1c3056cf2.setIcon(icon_305464937eadb59f644ed08e11c3d434);
+            
+    
+            var marker_a396e510a8d9b40c615b75435b036b9b = L.marker(
+                [2.80179, -60.687697],
+                {
+  "name": "Abrigo Janokoida",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_b479916b83bee92f7d2a08413a14c819 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "green",
+  "iconColor": "white",
+  "icon": "leaf",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b248f97fab5074e818933b36e9e12185 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_4acc5a45316e3be0493e535a2fc98f1f = $(`<div id="html_4acc5a45316e3be0493e535a2fc98f1f" style="width: 100.0%; height: 100.0%;"><b>Abrigo Janokoida</b><br><b>End:</b> Av. Gen. Sampaio, n° 1978<br><b>Perfil:</b> Indígena Venezuela<br>Capacidade: 400</div>`)[0];
+                popup_b248f97fab5074e818933b36e9e12185.setContent(html_4acc5a45316e3be0493e535a2fc98f1f);
+            
+        
+
+        marker_a396e510a8d9b40c615b75435b036b9b.bindPopup(popup_b248f97fab5074e818933b36e9e12185)
+        ;
+
+        
+    
+    
+                marker_a396e510a8d9b40c615b75435b036b9b.setIcon(icon_b479916b83bee92f7d2a08413a14c819);
+            
+    
+            var marker_ebdf79ed0640ee48447d4b3c2a865f20 = L.marker(
+                [2.798438, -60.689718],
+                {
+  "name": "PRA (Antigo Rondon 2)",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_62d7af4bd152d6f445a2444b46bcb997 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5d2718a43751d3a271252bb4ea62c712 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_61353dea1932d5235fbfab9704179a9f = $(`<div id="html_61353dea1932d5235fbfab9704179a9f" style="width: 100.0%; height: 100.0%;"><b>PRA (Antigo Rondon 2)</b><br><b>End:</b> Av. Gen. Sampaio, S/N<br><b>Perfil:</b> Pernoite e apoio<br></div>`)[0];
+                popup_5d2718a43751d3a271252bb4ea62c712.setContent(html_61353dea1932d5235fbfab9704179a9f);
+            
+        
+
+        marker_ebdf79ed0640ee48447d4b3c2a865f20.bindPopup(popup_5d2718a43751d3a271252bb4ea62c712)
+        ;
+
+        
+    
+    
+                marker_ebdf79ed0640ee48447d4b3c2a865f20.setIcon(icon_62d7af4bd152d6f445a2444b46bcb997);
+            
+    
+            var marker_727113d444cc1083cc853626aa504f2e = L.marker(
+                [2.802648, -60.686652],
+                {
+  "name": "CCI",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_e863016872f17616a9d2988c73cca8f4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "plane",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_09197b63a1e29ae4773851151fbae20f = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_4e684e1df9f371f0f2626c0c7023c098 = $(`<div id="html_4e684e1df9f371f0f2626c0c7023c098" style="width: 100.0%; height: 100.0%;"><b>CCI</b><br><b>End:</b> Av. Gen. Sampaio, n° 260<br><b>Perfil:</b> Interiorização<br></div>`)[0];
+                popup_09197b63a1e29ae4773851151fbae20f.setContent(html_4e684e1df9f371f0f2626c0c7023c098);
+            
+        
+
+        marker_727113d444cc1083cc853626aa504f2e.bindPopup(popup_09197b63a1e29ae4773851151fbae20f)
+        ;
+
+        
+    
+    
+                marker_727113d444cc1083cc853626aa504f2e.setIcon(icon_e863016872f17616a9d2988c73cca8f4);
+            
+    
+            var marker_9dde85e02de873d9813663566ba84657 = L.marker(
+                [2.80224, -60.692419],
+                {
+  "name": "PTRIG",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_71510f1274ced73e9a921d5e4eddcbd1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "file",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_33aba55de689ba4325257957cd06fa87 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_92d34cb35c76a2675a37e96ed75a4c4b = $(`<div id="html_92d34cb35c76a2675a37e96ed75a4c4b" style="width: 100.0%; height: 100.0%;"><b>PTRIG</b><br><b>End:</b> Av. Brasil, S/N<br><b>Perfil:</b> Documentação<br></div>`)[0];
+                popup_33aba55de689ba4325257957cd06fa87.setContent(html_92d34cb35c76a2675a37e96ed75a4c4b);
+            
+        
+
+        marker_9dde85e02de873d9813663566ba84657.bindPopup(popup_33aba55de689ba4325257957cd06fa87)
+        ;
+
+        
+    
+    
+                marker_9dde85e02de873d9813663566ba84657.setIcon(icon_71510f1274ced73e9a921d5e4eddcbd1);
+            
+    
+            var marker_e2a5b8846caf95cec6d9a0b1e27e32c7 = L.marker(
+                [2.79762, -60.683189],
+                {
+  "name": "UBS Vanderly Nascimento",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_49fa6da0214ba900ea4d76bbcc55e720 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkred",
+  "iconColor": "white",
+  "icon": "plus",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_230f4fff746741ed59adacc6a93bb939 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_d82630ef27d741a9f350f1ca74e7b2aa = $(`<div id="html_d82630ef27d741a9f350f1ca74e7b2aa" style="width: 100.0%; height: 100.0%;"><b>UBS Vanderly Nascimento</b><br><b>End:</b> Av. Eldorado, n° 19<br><b>Perfil:</b> Unidade Básica de Saúde<br></div>`)[0];
+                popup_230f4fff746741ed59adacc6a93bb939.setContent(html_d82630ef27d741a9f350f1ca74e7b2aa);
+            
+        
+
+        marker_e2a5b8846caf95cec6d9a0b1e27e32c7.bindPopup(popup_230f4fff746741ed59adacc6a93bb939)
+        ;
+
+        
+    
+    
+                marker_e2a5b8846caf95cec6d9a0b1e27e32c7.setIcon(icon_49fa6da0214ba900ea4d76bbcc55e720);
+            
+    
+            var marker_c4b65b05da0c280d11533047f4862f28 = L.marker(
+                [2.7999, -60.683583],
+                {
+  "name": "Escola Est. 13 de Setembro",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_ab84f6d170140118eaaba36fe12de96b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "book",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8dad86671e6793f216633ca3788c0e70 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_fb95fa729acb6ee6c6c7c61883562f4f = $(`<div id="html_fb95fa729acb6ee6c6c7c61883562f4f" style="width: 100.0%; height: 100.0%;"><b>Escola Est. 13 de Setembro</b><br><b>End:</b> Av. Caracaraí, n° 237<br><b>Perfil:</b> Escola Estadual<br></div>`)[0];
+                popup_8dad86671e6793f216633ca3788c0e70.setContent(html_fb95fa729acb6ee6c6c7c61883562f4f);
+            
+        
+
+        marker_c4b65b05da0c280d11533047f4862f28.bindPopup(popup_8dad86671e6793f216633ca3788c0e70)
+        ;
+
+        
+    
+    
+                marker_c4b65b05da0c280d11533047f4862f28.setIcon(icon_ab84f6d170140118eaaba36fe12de96b);
+            
+    
+            var marker_635744f653a8085d3f01810a8c4e434b = L.marker(
+                [2.803633, -60.68495],
+                {
+  "name": "Escola Maria das Dores",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_1e1d1d34dc4be4dc28e611657c60fa5e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "book",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_940476b7fb313dc4cf5961a16dbe728b = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_34bf15fe12cf988c07221472234c6512 = $(`<div id="html_34bf15fe12cf988c07221472234c6512" style="width: 100.0%; height: 100.0%;"><b>Escola Maria das Dores</b><br><b>End:</b> Av. das Guianas, n° 1201<br><b>Perfil:</b> Escola Estadual Tempo Integral<br></div>`)[0];
+                popup_940476b7fb313dc4cf5961a16dbe728b.setContent(html_34bf15fe12cf988c07221472234c6512);
+            
+        
+
+        marker_635744f653a8085d3f01810a8c4e434b.bindPopup(popup_940476b7fb313dc4cf5961a16dbe728b)
+        ;
+
+        
+    
+    
+                marker_635744f653a8085d3f01810a8c4e434b.setIcon(icon_1e1d1d34dc4be4dc28e611657c60fa5e);
+            
+    
+            var marker_6da56b9a3f21cc695586807e685599b3 = L.marker(
+                [2.797102, -60.683186],
+                {
+  "name": "Escola Mun. Cantinho Feliz",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_0ce1f447bf45083c4893bd03e0579bd5 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "pencil",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cbb1d81bec6ef4c17fe26c6cd46f2a16 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_c0f1f0f267d85b249ea6e644aec91931 = $(`<div id="html_c0f1f0f267d85b249ea6e644aec91931" style="width: 100.0%; height: 100.0%;"><b>Escola Mun. Cantinho Feliz</b><br><b>End:</b> Rua Macunaíma, n° 392<br><b>Perfil:</b> Escola Municipal<br></div>`)[0];
+                popup_cbb1d81bec6ef4c17fe26c6cd46f2a16.setContent(html_c0f1f0f267d85b249ea6e644aec91931);
+            
+        
+
+        marker_6da56b9a3f21cc695586807e685599b3.bindPopup(popup_cbb1d81bec6ef4c17fe26c6cd46f2a16)
+        ;
+
+        
+    
+    
+                marker_6da56b9a3f21cc695586807e685599b3.setIcon(icon_0ce1f447bf45083c4893bd03e0579bd5);
+            
+    
+            var marker_5ce976d5b65d6d228ab438efdc58b941 = L.marker(
+                [2.801976, -60.685814],
+                {
+  "name": "Escola Mun. Pequeno Polegar",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_c8768cfe3669641a744343c90a4a8c80 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "pencil",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_cf8102271327b65173632aea917c500a = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_f06fe913cfca332b9297d6f5fa19a0f6 = $(`<div id="html_f06fe913cfca332b9297d6f5fa19a0f6" style="width: 100.0%; height: 100.0%;"><b>Escola Mun. Pequeno Polegar</b><br><b>End:</b> Av. General Sampaio, n° 262<br><b>Perfil:</b> Escola Municipal<br></div>`)[0];
+                popup_cf8102271327b65173632aea917c500a.setContent(html_f06fe913cfca332b9297d6f5fa19a0f6);
+            
+        
+
+        marker_5ce976d5b65d6d228ab438efdc58b941.bindPopup(popup_cf8102271327b65173632aea917c500a)
+        ;
+
+        
+    
+    
+                marker_5ce976d5b65d6d228ab438efdc58b941.setIcon(icon_c8768cfe3669641a744343c90a4a8c80);
+            
+    
+            var marker_fef8add1fcd0bec9b1b6462868cc46a3 = L.marker(
+                [2.798615, -60.685014],
+                {
+  "name": "Escola Mun. Cantinho Do C\u00e9u",
+}
+            ).addTo(feature_group_85c666ac22866759ebb4b51133ee4cc0);
+        
+    
+            var icon_253f4f8c117292b598aa1d762cd22ecd = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "cadetblue",
+  "iconColor": "white",
+  "icon": "pencil",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c90d6691f59a467be9efd3fe88d11149 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_27c37181073bf5428aa01a726488d74b = $(`<div id="html_27c37181073bf5428aa01a726488d74b" style="width: 100.0%; height: 100.0%;"><b>Escola Mun. Cantinho Do Céu</b><br><b>End:</b> Rua Cotingo, n° 48<br><b>Perfil:</b> Escola Municipal<br></div>`)[0];
+                popup_c90d6691f59a467be9efd3fe88d11149.setContent(html_27c37181073bf5428aa01a726488d74b);
+            
+        
+
+        marker_fef8add1fcd0bec9b1b6462868cc46a3.bindPopup(popup_c90d6691f59a467be9efd3fe88d11149)
+        ;
+
+        
+    
+    
+                marker_fef8add1fcd0bec9b1b6462868cc46a3.setIcon(icon_253f4f8c117292b598aa1d762cd22ecd);
+            
+    
+            feature_group_85c666ac22866759ebb4b51133ee4cc0.addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var marker_78731007f1b5c5821ad8f1b8f4f3775f = L.marker(
+                [2.799242, -60.688689],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_96f0a63d42e81e6d08b962bfc6b0f811 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eAbrigo Rondon 1\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_78731007f1b5c5821ad8f1b8f4f3775f.setIcon(div_icon_96f0a63d42e81e6d08b962bfc6b0f811);
+            
+    
+            var marker_10bfcb8841ad1ac2bc3e07248da0f3a9 = L.marker(
+                [2.802001, -60.690751],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_5883dd0e5de1fcdbfe0f18cc1ee49a89 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eAbrigo Pricum\u00e3\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_10bfcb8841ad1ac2bc3e07248da0f3a9.setIcon(div_icon_5883dd0e5de1fcdbfe0f18cc1ee49a89);
+            
+    
+            var marker_97ab5fef624e77a3d4cff4cc21ff5cba = L.marker(
+                [2.800641, -60.694004],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_9a9110a7c83916fe1822458690efdd31 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eAbrigo Rondon 5\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_97ab5fef624e77a3d4cff4cc21ff5cba.setIcon(div_icon_9a9110a7c83916fe1822458690efdd31);
+            
+    
+            var marker_d353f7a0a6495ec0d564cd25e35810ff = L.marker(
+                [2.798044, -60.690263],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_4ddde46175d28b1bfd7042eb2872e9f9 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eAbrigo Waraotuma\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_d353f7a0a6495ec0d564cd25e35810ff.setIcon(div_icon_4ddde46175d28b1bfd7042eb2872e9f9);
+            
+    
+            var marker_719832e39b7ef1319b92084c984356ac = L.marker(
+                [2.80179, -60.687697],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_bfe5be46b0dc966c7cb1edbc52914fd6 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eAbrigo Janokoida\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_719832e39b7ef1319b92084c984356ac.setIcon(div_icon_bfe5be46b0dc966c7cb1edbc52914fd6);
+            
+    
+            var marker_a5f5d235f5d113e6bb086d055ca2c532 = L.marker(
+                [2.798438, -60.689718],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_aeba06eed9ca40abbf4020e467453783 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003ePRA (Antigo Rondon 2)\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_a5f5d235f5d113e6bb086d055ca2c532.setIcon(div_icon_aeba06eed9ca40abbf4020e467453783);
+            
+    
+            var marker_2bc23f9453a11b7ad658fd760a77193e = L.marker(
+                [2.802648, -60.686652],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_2afdcf212f567741c9266812d17cc0e2 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eCCI\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_2bc23f9453a11b7ad658fd760a77193e.setIcon(div_icon_2afdcf212f567741c9266812d17cc0e2);
+            
+    
+            var marker_ba11179a6818c6a6fea5912ab46cba0d = L.marker(
+                [2.80224, -60.692419],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_66b517d821b426c6c8e597d0ea5a8e10 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003ePTRIG\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_ba11179a6818c6a6fea5912ab46cba0d.setIcon(div_icon_66b517d821b426c6c8e597d0ea5a8e10);
+            
+    
+            var marker_89cd70f3b41880d1cb9dfee2ab3f4ccf = L.marker(
+                [2.79762, -60.683189],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_7aebcd5c41d0bd01753b21f914d20574 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eUBS Vanderly Nascimento\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_89cd70f3b41880d1cb9dfee2ab3f4ccf.setIcon(div_icon_7aebcd5c41d0bd01753b21f914d20574);
+            
+    
+            var marker_e2a49453fff2856416fe85a39489f783 = L.marker(
+                [2.7999, -60.683583],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_92fd6f837f09c53df9bf0544127bdaa6 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eEscola Est. 13 de Setembro\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_e2a49453fff2856416fe85a39489f783.setIcon(div_icon_92fd6f837f09c53df9bf0544127bdaa6);
+            
+    
+            var marker_9e08793d1c26dedf12300926690e7ab2 = L.marker(
+                [2.803633, -60.68495],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_869227c8275ae4117ce78513eedc59af = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eEscola Maria das Dores\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_9e08793d1c26dedf12300926690e7ab2.setIcon(div_icon_869227c8275ae4117ce78513eedc59af);
+            
+    
+            var marker_a468141ddb4100e0e29d87000c730f3e = L.marker(
+                [2.797102, -60.683186],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_0dc678c765ad41e72f9d09e68ca96008 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eEscola Mun. Cantinho Feliz\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_a468141ddb4100e0e29d87000c730f3e.setIcon(div_icon_0dc678c765ad41e72f9d09e68ca96008);
+            
+    
+            var marker_e073e029292b700eeec967aa717f505d = L.marker(
+                [2.801976, -60.685814],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_c75d8da324354b2435d7574606274755 = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eEscola Mun. Pequeno Polegar\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_e073e029292b700eeec967aa717f505d.setIcon(div_icon_c75d8da324354b2435d7574606274755);
+            
+    
+            var marker_765ad7ba8c4d41e7b9c074c5d5079c61 = L.marker(
+                [2.798615, -60.685014],
+                {
+}
+            ).addTo(map_d25a4e5efdf93bacb13656790e0e7b0f);
+        
+    
+            var div_icon_4410bbbf008b5a73194abe7458bade9a = L.divIcon({
+  "html": "\u003cdiv style=\"font-family: Arial, sans-serif; font-weight: bold; color: black; \n                    font-size: 8pt; width: 150px; text-align: center; \n                    position: relative; top: -38px; left: -75px;\n                    text-shadow: 2px 2px 3px white, -2px -2px 3px white;\n                    pointer-events: none;\"\u003eEscola Mun. Cantinho Do C\u00e9u\u003c/div\u003e",
+  "className": "empty",
+});
+        
+    
+                marker_765ad7ba8c4d41e7b9c074c5d5079c61.setIcon(div_icon_4410bbbf008b5a73194abe7458bade9a);
+            
+    
+            var feature_group_85c666ac22866759ebb4b51133ee4cc0searchControl = new L.Control.Search({
+                layer: feature_group_85c666ac22866759ebb4b51133ee4cc0,
+                
+                propertyName: 'name',
+                
+                collapsed: false,
+                textPlaceholder: 'Buscar instituição...',
+                position:'topleft',
+            
+                initial: false,
+                
+                hideMarkerOnCollapse: true
+            
+                });
+                feature_group_85c666ac22866759ebb4b51133ee4cc0searchControl.on('search:locationfound', function(e) {
+                    feature_group_85c666ac22866759ebb4b51133ee4cc0.setStyle(function(feature){
+                        return feature.properties.style
+                    })
+                    
+                    if(e.layer._popup)
+                        e.layer.openPopup();
+                })
+                feature_group_85c666ac22866759ebb4b51133ee4cc0searchControl.on('search:collapsed', function(e) {
+                        feature_group_85c666ac22866759ebb4b51133ee4cc0.setStyle(function(feature){
+                            return feature.properties.style
+                    });
+                });
+            map_d25a4e5efdf93bacb13656790e0e7b0f.addControl( feature_group_85c666ac22866759ebb4b51133ee4cc0searchControl );
+
+        
+</script>
+</html>

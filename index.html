@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Territorial - 13 de Setembro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            width: 280px;
+            background-color: #fff;
+            border-right: 2px solid #000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            background-color: #eee; /* O cinza que você pediu */
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            border-bottom: 2px solid #000;
+            text-transform: uppercase;
+        }
+
+        .menu-section {
+            padding: 15px 10px 5px 15px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+            background: #fafafa;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-button {
+            padding: 12px 20px;
+            text-decoration: none;
+            color: #333;
+            font-size: 13px;
+            border-bottom: 1px solid #eee;
+            transition: 0.2s;
+            display: block;
+            font-weight: 500;
+        }
+
+        .nav-button:hover {
+            background-color: #eee;
+            padding-left: 25px;
+        }
+
+        .nav-button.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Área do Conteúdo (Onde os arquivos abrem) */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        iframe {
+            width: 100%;
+            flex: 1;
+            border: none;
+        }
+
+        .footer-info {
+            padding: 5px 15px;
+            background: #eee;
+            font-size: 11px;
+            border-top: 2px solid #000;
+            text-align: right;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="sidebar-header">
+        Território <br> 13 de Setembro
+    </div>
+
+    <div class="menu-section">Mapas Estratégicos</div>
+    <a href="Territorio_13_Setembro.html" target="view" class="nav-button">📍 Visão Geral Território</a>
+    <a href="Mapa_CRAS.html" target="view" class="nav-button">🏠 Rede CRAS</a>
+    <a href="Mapa_CREAS.html" target="view" class="nav-button">🛡️ Rede CREAS</a>
+    <a href="Mapa_RAPS.html" target="view" class="nav-button">🧠 Saúde Mental (RAPS)</a>
+    <a href="Mapa_Conselho Tutelar.html" target="view" class="nav-button">⚖️ Conselho Tutelar</a>
+    <a href="Mapa_Defensoria.html" target="view" class="nav-button">🏛️ Defensoria Pública</a>
+
+    <div class="menu-section">Gestão e PBF</div>
+    <a href="RMA_Paulo Xavier_2026.html" target="view" class="nav-button">📋 RMA (Registro Mensal)</a>
+    <a href="PBF.HTML" target="view" class="nav-button">📅 Calendário PBF 2026</a>
+
+    <div style="margin-top: auto; padding: 20px;">
+        <button onclick="window.print()" style="width: 100%; padding: 10px; cursor: pointer; font-weight: bold;">🖨️ Imprimir Tela</button>
+    </div>
+</div>
+
+<div class="content">
+    <iframe name="view" src="Territorio_13_Setembro.html"></iframe>
+    <div class="footer-info">
+        Painel de Monitoramento Territorial - 2026
+    </div>
+</div>
+
+<script>
+    // Script simples para marcar qual botão está ativo
+    const buttons = document.querySelectorAll('.nav-button');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            buttons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -2,65 +2,127 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Painel Territorial - 13 de Setembro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Gestão - CPMBV 2026</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #3498db;
-            --sidebar-width: 280px;
-        }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
-        
-        .sidebar { width: var(--sidebar-width); background: #fff; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0,0,0,0.05); }
-        .sidebar-header { background: var(--primary-color); padding: 20px; color: white; border-bottom: 4px solid var(--accent-color); }
-        
-        .menu-container { flex: 1; overflow-y: auto; padding: 10px 0; }
-        .menu-section { padding: 15px 20px 5px; font-size: 11px; font-weight: bold; color: #adb5bd; text-transform: uppercase; }
-        
-        .nav-button { padding: 12px 20px; text-decoration: none; color: var(--primary-color); display: flex; border-left: 4px solid transparent; }
-        .nav-button:hover { background: #f1f3f5; }
-        .nav-button.active { background: #e7f3ff; border-left-color: var(--accent-color); color: var(--accent-color); font-weight: 600; }
-
-        .content { flex: 1; display: flex; flex-direction: column; }
-        iframe { width: 100%; flex: 1; border: none; }
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card-link { transition: transform 0.2s; text-decoration: none; color: inherit; }
+        .card-link:hover { transform: translateY(-5px); }
+        .icon-box { font-size: 2rem; color: #0d6efd; margin-bottom: 1rem; }
+        .category-title { border-left: 4px solid #0d6efd; padding-left: 10px; margin-bottom: 20px; margin-top: 30px; }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="sidebar-header">
-        <h2 style="margin:0; font-size: 16px;">PAINEL TERRITORIAL</h2>
-        <span style="font-size:10px;">13 DE SETEMBRO</span>
+<div class="container py-5">
+    <header class="text-center mb-5">
+        <h1 class="display-5 fw-bold text-primary">Sistema de Apoio Técnico 2026</h1>
+        <p class="lead text-muted">Gestão de Dados, Mapas e Registros de Atendimento</p>
+    </header>
+
+    <h3 class="category-title">Mapeamento Territorial</h3>
+    <div class="row g-4">
+        <div class="col-md-4 col-sm-6">
+            <a href="Mapa_CRAS.html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-geo-alt-fill icon-box"></i>
+                    <h5 class="card-title">Mapa CRAS</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <a href="Mapa_CREAS.html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-geo-alt-fill icon-box"></i>
+                    <h5 class="card-title">Mapa CREAS</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <a href="Mapa_RAPS.html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-hospital icon-box"></i>
+                    <h5 class="card-title">Mapa RAPS</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <a href="Territorio_13_Setembro.html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-map icon-box"></i>
+                    <h5 class="card-title">13 de Setembro</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <a href="Mapa_Conselho Tutelar.html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-shield-check icon-box"></i>
+                    <h5 class="card-title">Conselho Tutelar</h5>
+                </div>
+            </a>
+        </div>
     </div>
 
-    <div class="menu-container">
-        <div class="menu-section">Mapas e Território</div>
-        <a href="Territorio_13_Setembro.html" target="view" class="nav-button">📍 Visão Geral</a>
-        <a href="Mapa_CRAS.html" target="view" class="nav-button">🏠 Rede CRAS</a>
-        <a href="Mapa_CREAS.html" target="view" class="nav-button">🛡️ Rede CREAS</a>
-        <a href="Mapa_RAPS.html" target="view" class="nav-button">🧠 Saúde Mental</a>
-
-        <div class="menu-section">Programas Sociais</div>
-        <a href="PBF.HTML" target="view" class="nav-button">📅 Bolsa Família</a>
-        <a href="CPMBV 2026.HTML" target="view" class="nav-button">💳 Cartão CPMBV</a>
-
-        <div class="menu-section">Gestão</div>
-        <a href="Registro de Atendimento (Planilha).html" target="view" class="nav-button">📝 Registro RMA</a>
+    <h3 class="category-title text-success" style="border-left-color: #198754;">Registros e Atendimentos</h3>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+            <a href="RMA_Paulo Xavier_2026.html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-file-earmark-person icon-box text-success"></i>
+                    <h5 class="card-title">RMA 2026</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <a href="Registro de Atendimento (Planilha).html" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-table icon-box text-success"></i>
+                    <h5 class="card-title">Planilha de Atendimento</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <a href="PBF.HTML" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-cash-stack icon-box text-success"></i>
+                    <h5 class="card-title">PBF (Bolsa Família)</h5>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <a href="CPMBV 2026.HTML" class="card card-link h-100 shadow-sm border-0">
+                <div class="card-body text-center">
+                    <i class="bi bi-archive icon-box text-success"></i>
+                    <h5 class="card-title">Arquivos CPMBV</h5>
+                </div>
+            </a>
+        </div>
     </div>
+
+    <h3 class="category-title text-secondary" style="border-left-color: #6c757d;">Recursos Adicionais</h3>
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group shadow-sm">
+                <a href="RMA - Geral - Limpo.xlsx" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-file-earmark-excel me-2 text-success"></i> Baixar Planilha RMA (Excel)</span>
+                    <span class="badge bg-primary rounded-pill">XLSX</span>
+                </a>
+                <a href="Mapa_Defensoria.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-building me-2 text-danger"></i> Mapa Defensoria Pública</span>
+                    <span class="badge bg-secondary rounded-pill">HTML</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5 text-center text-muted border-top pt-3">
+        <small>Atualizado em Março de 2026 | Gestão de Dados Sociais</small>
+    </footer>
 </div>
 
-<div class="content">
-    <iframe name="view" src="Territorio_13_Setembro.html"></iframe>
-</div>
-
-<script>
-    const buttons = document.querySelectorAll('.nav-button');
-    buttons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            buttons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

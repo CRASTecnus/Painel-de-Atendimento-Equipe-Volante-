@@ -2,183 +2,55 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Territorial - 13 de Setembro</title>
     <style>
         :root {
             --primary-color: #2c3e50;
             --accent-color: #3498db;
-            --bg-light: #f8f9fa;
-            --text-dark: #333;
             --sidebar-width: 280px;
         }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        .sidebar { width: var(--sidebar-width); background: #fff; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0,0,0,0.05); }
+        .sidebar-header { background: var(--primary-color); padding: 20px; color: white; border-bottom: 4px solid var(--accent-color); }
+        
+        .menu-container { flex: 1; overflow-y: auto; padding: 10px 0; }
+        .menu-section { padding: 15px 20px 5px; font-size: 11px; font-weight: bold; color: #adb5bd; text-transform: uppercase; }
+        
+        .nav-button { padding: 12px 20px; text-decoration: none; color: var(--primary-color); display: flex; border-left: 4px solid transparent; }
+        .nav-button:hover { background: #f1f3f5; }
+        .nav-button.active { background: #e7f3ff; border-left-color: var(--accent-color); color: var(--accent-color); font-weight: 600; }
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #e9ecef;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-            color: var(--text-dark);
-        }
-
-        /* CONFIGURAÇÃO PARA IMPRESSÃO */
-        @media print {
-            .sidebar, .footer-bar { display: none !important; }
-            .content { width: 100% !important; height: 100% !important; }
-            iframe { border: none !important; width: 100% !important; height: 100% !important; }
-        }
-
-        /* Menu Lateral */
-        .sidebar {
-            width: var(--sidebar-width);
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.05);
-            z-index: 10;
-        }
-
-        .sidebar-header {
-            background-color: var(--primary-color);
-            padding: 25px 20px;
-            color: white;
-            border-bottom: 4px solid var(--accent-color);
-        }
-
-        .sidebar-header h1 {
-            margin: 0;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .menu-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px 0;
-        }
-
-        .menu-section {
-            padding: 20px 20px 8px 20px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #adb5bd;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .nav-button {
-            padding: 12px 20px;
-            text-decoration: none;
-            color: var(--primary-color);
-            font-size: 14px;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            border-left: 4px solid transparent;
-            margin: 2px 0;
-        }
-
-        .nav-button:hover {
-            background-color: #f1f3f5;
-            color: var(--accent-color);
-            padding-left: 25px;
-        }
-
-        .nav-button.active {
-            background-color: #e7f3ff;
-            border-left-color: var(--accent-color);
-            color: var(--accent-color);
-            font-weight: 600;
-        }
-
-        /* Área do Conteúdo */
-        .content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        iframe {
-            width: 100%;
-            flex: 1;
-            border: none;
-            background-color: #fff;
-        }
-
-        .footer-bar {
-            padding: 10px 20px;
-            background: #fff;
-            font-size: 12px;
-            border-top: 1px solid #dee2e6;
-            color: #6c757d;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .print-area {
-            padding: 15px 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .btn-print {
-            width: 100%;
-            padding: 12px;
-            cursor: pointer;
-            background: var(--primary-color);
-            color: #fff;
-            border: none;
-            font-weight: 600;
-            border-radius: 6px;
-        }
-
-        .btn-print:hover { background: #1a252f; }
-        .menu-container::-webkit-scrollbar { width: 4px; }
-        .menu-container::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 10px; }
+        .content { flex: 1; display: flex; flex-direction: column; }
+        iframe { width: 100%; flex: 1; border: none; }
     </style>
 </head>
 <body>
 
 <div class="sidebar">
     <div class="sidebar-header">
-        <h1>Painel Territorial</h1>
-        <span style="font-size: 11px; opacity: 0.8;">13 DE SETEMBRO - BOA VISTA</span>
+        <h2 style="margin:0; font-size: 16px;">PAINEL TERRITORIAL</h2>
+        <span style="font-size:10px;">13 DE SETEMBRO</span>
     </div>
 
     <div class="menu-container">
-        <div class="menu-section">Território</div>
+        <div class="menu-section">Mapas e Território</div>
         <a href="Territorio_13_Setembro.html" target="view" class="nav-button">📍 Visão Geral</a>
         <a href="Mapa_CRAS.html" target="view" class="nav-button">🏠 Rede CRAS</a>
         <a href="Mapa_CREAS.html" target="view" class="nav-button">🛡️ Rede CREAS</a>
-        <a href="Mapa_RAPS.html" target="view" class="nav-button">🧠 Saúde Mental (RAPS)</a>
-        <a href="Mapa_Conselho Tutelar.html" target="view" class="nav-button">⚖️ Conselho Tutelar</a>
-        <a href="Mapa_Defensoria.html" target="view" class="nav-button">⚖️ Defensoria Pública</a>
+        <a href="Mapa_RAPS.html" target="view" class="nav-button">🧠 Saúde Mental</a>
 
-        <div class="menu-section">Programas</div>
-        <a href="CPMBV 2026.HTML" target="view" class="nav-button">💳 Cartão Social (CPMBV)</a>
-        <a href="PBF.HTML" target="view" class="nav-button">📅 Bolsa Família (PBF)</a>
+        <div class="menu-section">Programas Sociais</div>
+        <a href="PBF.HTML" target="view" class="nav-button">📅 Bolsa Família</a>
+        <a href="CPMBV 2026.HTML" target="view" class="nav-button">💳 Cartão CPMBV</a>
 
         <div class="menu-section">Gestão</div>
-        <a href="Registro de Atendimento (Planilha).html" target="view" class="nav-button">📝 Registro Mensal (RMA)</a>
-    </div>
-
-    <div class="print-area">
-        <button class="btn-print" onclick="window.frames['view'].print()">
-            🖨️ IMPRIMIR CONTEÚDO
-        </button>
+        <a href="Registro de Atendimento (Planilha).html" target="view" class="nav-button">📝 Registro RMA</a>
     </div>
 </div>
 
 <div class="content">
     <iframe name="view" src="Territorio_13_Setembro.html"></iframe>
-    <div class="footer-bar">
-        <span><strong>Gestor:</strong> Paulo Luã Oliveira Xavier</span>
-        <span>2026 • Gestão Territorial</span>
-    </div>
 </div>
 
 <script>
@@ -189,12 +61,6 @@
             this.classList.add('active');
         });
     });
-
-    window.onload = () => {
-        const firstBtn = document.querySelector('.nav-button');
-        if(firstBtn) firstBtn.classList.add('active');
-    };
 </script>
-
 </body>
 </html>

@@ -3,86 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Territorial - CPMBV 2026</title>
+    <title>Equipe Volante - Painel Territorial CPMBV</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <style>
         :root {
-            --sidebar-bg: #003366; /* Azul Institucional */
-            --sidebar-hover: #004080;
-            --accent-color: #ffd700; /* Destaque Amarelo/Ouro */
-            --bg-light: #f8f9fa;
+            --sidebar-bg: #1a3a5a; /* Azul Petróleo Escuro */
+            --sidebar-hover: #254d75;
+            --accent-color: #00d4ff; /* Azul Ciano Vibrante */
+            --bg-light: #f4f7f9;
         }
 
-        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-light); overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); overflow-x: hidden; }
 
-        /* Sidebar Style */
+        /* Sidebar */
         #sidebar {
             min-width: 280px;
             max-width: 280px;
             min-height: 100vh;
             background: var(--sidebar-bg);
             color: white;
-            transition: all 0.3s;
             position: fixed;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
         }
 
-        .sidebar-header { padding: 20px; background: rgba(0,0,0,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .sidebar-header h4 { font-size: 1.1rem; margin: 0; font-weight: 700; color: var(--accent-color); }
+        .sidebar-header { 
+            padding: 25px 20px; 
+            background: rgba(0,0,0,0.2); 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+        }
+        
+        .sidebar-header h4 { 
+            font-size: 1.2rem; 
+            margin: 0; 
+            font-weight: 800; 
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-        #sidebar ul.components { padding: 20px 0; }
-        #sidebar ul p { padding: 10px; font-size: 0.85rem; color: #aab7c4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0; }
+        #sidebar ul.components { padding: 15px 0; }
+        #sidebar ul p { 
+            padding: 15px 20px 5px 20px; 
+            font-size: 0.75rem; 
+            color: #8da2b5; 
+            text-transform: uppercase; 
+            font-weight: 700;
+        }
         
         #sidebar ul li a {
-            padding: 12px 20px;
-            display: block;
-            color: white;
-            text-decoration: none;
-            transition: 0.2s;
-            font-size: 0.95rem;
+            padding: 12px 25px;
             display: flex;
             align-items: center;
             gap: 12px;
+            color: #d1d9e0;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.9rem;
         }
 
-        #sidebar ul li a:hover { background: var(--sidebar-hover); color: var(--accent-color); }
-        #sidebar ul li.active > a { background: var(--sidebar-hover); border-left: 4px solid var(--accent-color); }
+        #sidebar ul li a:hover, #sidebar ul li.active > a {
+            background: var(--sidebar-hover);
+            color: var(--accent-color);
+            border-left: 4px solid var(--accent-color);
+        }
 
-        /* Main Content Style */
+        /* Content Area */
         #content {
             width: calc(100% - 280px);
             margin-left: 280px;
-            min-height: 100vh;
-            transition: all 0.3s;
             padding: 30px;
+            transition: all 0.3s;
         }
 
-        .map-preview-card {
+        /* Card de Prévia do Mapa */
+        .map-container {
             background: white;
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
             overflow: hidden;
-            margin-bottom: 25px;
+            border: 1px solid #e1e8ed;
         }
 
-        .map-header { background: #fff; padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .map-header {
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+        }
 
-        .btn-view-map {
-            background: var(--sidebar-bg);
-            color: white;
+        /* Iframe da Prévia */
+        .map-frame {
+            width: 100%;
+            height: 550px;
+            border: none;
+            background: #fdfdfd;
+        }
+
+        .badge-volante {
+            background: var(--accent-color);
+            color: #1a3a5a;
+            font-weight: 700;
+            padding: 5px 12px;
             border-radius: 6px;
-            padding: 8px 20px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.7rem;
         }
-        .btn-view-map:hover { background: var(--sidebar-hover); color: var(--accent-color); }
 
-        /* Responsividade */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             #sidebar { margin-left: -280px; }
-            #sidebar.active { margin-left: 0; }
             #content { width: 100%; margin-left: 0; }
         }
     </style>
@@ -92,112 +123,100 @@
     <div class="d-flex">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h4>SISTEMA TERRITORIAL</h4>
-                <small>CPMBV 2026 - Gestão</small>
+                <h4>EQUIPE VOLANTE</h4>
+                <small class="opacity-75">CPMBV 2026 - Gestão</small>
             </div>
 
             <ul class="list-unstyled components">
-                <p>Territórios</p>
+                <p>Monitoramento Territorial</p>
                 <li class="active">
-                    <a href="Territorio_13_Setembro.html"><i class="bi bi-map"></i> 13 de Setembro</a>
+                    <a href="Territorio_13_Setembro.html"><i class="bi bi-geo-fill"></i> 13 de Setembro</a>
                 </li>
-                
-                <p>Rede de Serviços</p>
-                <li><a href="Mapa_CRAS.html"><i class="bi bi-house"></i> Mapa CRAS</a></li>
-                <li><a href="Mapa_CREAS.html"><i class="bi bi-shield-check"></i> Mapa CREAS</a></li>
-                <li><a href="Mapa_RAPS.html"><i class="bi bi-heart-pulse"></i> Rede RAPS</a></li>
-                <li><a href="Mapa_Conselho Tutelar.html"><i class="bi bi-people"></i> Conselho Tutelar</a></li>
-                <li><a href="Mapa_Defensoria.html"><i class="bi bi-building"></i> Defensoria Pública</a></li>
+                <li><a href="Mapa_CRAS.html"><i class="bi bi-house-door"></i> Rede CRAS</a></li>
+                <li><a href="Mapa_CREAS.html"><i class="bi bi-shield-check"></i> Rede CREAS</a></li>
+                <li><a href="Mapa_RAPS.html"><i class="bi bi-hospital"></i> Rede RAPS</a></li>
 
-                <p>Instrumentais (RMA)</p>
-                <li><a href="RMA_Paulo Xavier_2026.html"><i class="bi bi-file-earmark-text"></i> RMA Paulo Xavier</a></li>
-                <li><a href="PBF.HTML"><i class="bi bi-currency-dollar"></i> Cadastro PBF</a></li>
-                <li><a href="Registro de Atendimento (Planilha).html"><i class="bi bi-table"></i> Planilha Base</a></li>
+                <p>Instrumentais Técnico</p>
+                <li><a href="RMA_Paulo Xavier_2026.html"><i class="bi bi-file-earmark-medical"></i> RMA Paulo Xavier</a></li>
+                <li><a href="PBF.HTML"><i class="bi bi-people"></i> Beneficiários PBF</a></li>
+                <li><a href="Registro de Atendimento (Planilha).html"><i class="bi bi-clipboard-data"></i> Planilha de Atendimento</a></li>
                 
-                <p>Arquivos</p>
-                <li><a href="RMA - Geral - Limpo.xlsx"><i class="bi bi-download"></i> Baixar Excel RMA</a></li>
-                <li><a href="CPMBV 2026.HTML"><i class="bi bi-folder"></i> Repositório CPMBV</a></li>
+                <p>Apoio Administrativo</p>
+                <li><a href="RMA - Geral - Limpo.xlsx"><i class="bi bi-file-earmark-excel"></i> Baixar Matriz RMA</a></li>
+                <li><a href="CPMBV 2026.HTML"><i class="bi bi-folder2-open"></i> Arquivos Gerais</a></li>
+                <li><a href="Mapa_Defensoria.html"><i class="bi bi-balance"></i> Defensoria Pública</a></li>
             </ul>
         </nav>
 
         <div id="content">
-            <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h2 class="fw-bold text-dark">Painel de Monitoramento</h2>
-                    <span class="text-muted"><i class="bi bi-calendar3"></i> Março 2026</span>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-0">Painel de Gestão Territorial</h2>
+                    <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item active">Equipe Volante</li>
+                        <li class="breadcrumb-item active" aria-current="page">Bairro 13 de Setembro</li>
+                      </ol>
+                    </nav>
                 </div>
-
-                <div class="map-preview-card">
-                    <div class="map-header">
-                        <div>
-                            <h5 class="mb-0 fw-bold">Destaque: Bairro 13 de Setembro</h5>
-                            <small class="text-muted">Visualização de Cobertura e Equipamentos</small>
-                        </div>
-                        <a href="Territorio_13_Setembro.html" class="btn-view-map">Abrir Mapa Tela Cheia</a>
-                    </div>
-                    <div style="height: 450px; background: #e9ecef; display: flex; align-items: center; justify-content: center; position: relative;">
-                        <div class="text-center">
-                            <i class="bi bi-geo-alt-fill text-danger" style="font-size: 3rem;"></i>
-                            <p class="mt-2 fw-bold">Mapa Territorial Interativo</p>
-                            <small class="d-block px-4">Esta área exibe os polígonos e pontos georreferenciados do bairro 13 de Setembro.</small>
-                        </div>
-                    </div>
+                <div class="text-end">
+                    <span class="badge-volante">CICLO MARÇO 2026</span>
                 </div>
-
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-primary">
-                                    <i class="bi bi-file-earmark-check fs-4"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">RMA 2026</h6>
-                                    <small class="text-muted">Paulo Xavier</small>
-                                </div>
-                            </div>
-                            <a href="RMA_Paulo Xavier_2026.html" class="stretched-link"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3 text-success">
-                                    <i class="bi bi-clipboard-data fs-4"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">PBF</h6>
-                                    <small class="text-muted">Dados Consolidados</small>
-                                </div>
-                            </div>
-                            <a href="PBF.HTML" class="stretched-link"></a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card border-0 shadow-sm p-3">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3 text-warning">
-                                    <i class="bi bi-archive fs-4"></i>
-                                </div>
-                                <div>
-                                    <h6 class="mb-0">Arquivos CPMBV</h6>
-                                    <small class="text-muted">Documentos Gerais</small>
-                                </div>
-                            </div>
-                            <a href="CPMBV 2026.HTML" class="stretched-link"></a>
-                        </div>
-                    </div>
-                </div>
-
-                <footer class="mt-5 pt-3 border-top text-muted">
-                    <small>Desenvolvido para Gestão de Dados Sociais - Boa Vista, RR.</small>
-                </footer>
             </div>
+
+            <div class="map-container mb-4">
+                <div class="map-header">
+                    <div>
+                        <i class="bi bi-layers-half text-primary me-2"></i>
+                        <span class="fw-bold text-dark">Prévia Interativa: Poligonal 13 de Setembro</span>
+                    </div>
+                    <div class="btn-group">
+                        <a href="Territorio_13_Setembro.html" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-fullscreen me-1"></i> Tela Cheia
+                        </a>
+                    </div>
+                </div>
+                <iframe src="Territorio_13_Setembro.html" class="map-frame" title="Mapa 13 de Setembro"></iframe>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm p-3">
+                        <small class="text-muted d-block mb-1">Última Atualização</small>
+                        <h6 class="fw-bold mb-0">RMA Paulo Xavier</h6>
+                        <a href="RMA_Paulo Xavier_2026.html" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm p-3 border-start border-4 border-info">
+                        <small class="text-muted d-block mb-1">Equipamento</small>
+                        <h6 class="fw-bold mb-0">Mapa CRAS</h6>
+                        <a href="Mapa_CRAS.html" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm p-3">
+                        <small class="text-muted d-block mb-1">Rede de Apoio</small>
+                        <h6 class="fw-bold mb-0">Conselho Tutelar</h6>
+                        <a href="Mapa_Conselho Tutelar.html" class="stretched-link"></a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-0 shadow-sm p-3 bg-white">
+                        <small class="text-muted d-block mb-1">Gestão</small>
+                        <h6 class="fw-bold mb-0">CPMBV 2026</h6>
+                        <a href="CPMBV 2026.HTML" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-5 text-center text-muted">
+                <hr>
+                <p><i class="bi bi-geo-alt"></i> Boa Vista, Roraima - 2026</p>
+            </footer>
         </div>
     </div>
 
-    <script>
-        // Caso queira adicionar um botão de menu no mobile futuramente
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

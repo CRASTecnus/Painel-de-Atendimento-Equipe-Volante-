@@ -3,293 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Territorial - 13 de Setembro | CPMBV 2026</title>
+    <title>Painel Territorial - CPMBV 2026</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <style>
         :root {
-            --bg-panel: #1e293b; /* Slate 800 */
-            --bg-body: #0f172a;  /* Slate 900 */
-            --text-main: #f1f5f9;
-            --text-muted: #94a3b8;
-            --accent: #38bdf8;   /* Sky 400 */
-            --accent-hover: #7dd3fc;
-            --card-cras: #10b981; /* Emerald 500 */
-            --card-creas: #f59e0b; /* Amber 500 */
-            --card-saude: #ef4444; /* Red 500 */
-            --card-doc: #8b5cf6;   /* Violet 500 */
+            --sidebar-bg: #003366; /* Azul Institucional */
+            --sidebar-hover: #004080;
+            --accent-color: #ffd700; /* Destaque Amarelo/Ouro */
+            --bg-light: #f8f9fa;
         }
 
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            letter-spacing: -0.01em;
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-light); overflow-x: hidden; }
+
+        /* Sidebar Style */
+        #sidebar {
+            min-width: 280px;
+            max-width: 280px;
+            min-height: 100vh;
+            background: var(--sidebar-bg);
+            color: white;
+            transition: all 0.3s;
+            position: fixed;
         }
 
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+        .sidebar-header { padding: 20px; background: rgba(0,0,0,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header h4 { font-size: 1.1rem; margin: 0; font-weight: 700; color: var(--accent-color); }
 
-        /* Header */
-        header {
-            border-bottom: 1px solid #334155;
-            padding-bottom: 1.5rem;
-            margin-bottom: 2.5rem;
-        }
-
-        h1.main-title {
-            font-size: 2.25rem;
-            font-weight: 800;
-            color: var(--text-main);
-        }
-
-        h1.main-title span {
-            color: var(--accent);
-        }
-
-        /* Card Destaque: Território */
-        .territory-hero {
-            background-color: var(--bg-panel);
-            border: 2px solid var(--accent);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: all 0.3s ease;
+        #sidebar ul.components { padding: 20px 0; }
+        #sidebar ul p { padding: 10px; font-size: 0.85rem; color: #aab7c4; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0; }
+        
+        #sidebar ul li a {
+            padding: 12px 20px;
+            display: block;
+            color: white;
             text-decoration: none;
+            transition: 0.2s;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            gap: 12px;
         }
 
-        .territory-hero:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.2);
-            border-color: var(--accent-hover);
+        #sidebar ul li a:hover { background: var(--sidebar-hover); color: var(--accent-color); }
+        #sidebar ul li.active > a { background: var(--sidebar-hover); border-left: 4px solid var(--accent-color); }
+
+        /* Main Content Style */
+        #content {
+            width: calc(100% - 280px);
+            margin-left: 280px;
+            min-height: 100vh;
+            transition: all 0.3s;
+            padding: 30px;
         }
 
-        .territory-icon {
-            font-size: 4rem;
-            color: var(--accent);
+        .map-preview-card {
+            background: white;
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 25px;
         }
 
-        .territory-info h2 {
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 0.25rem;
-        }
+        .map-header { background: #fff; padding: 15px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
 
-        .territory-info p {
-            color: var(--text-muted);
-            margin: 0;
-            font-size: 1.1rem;
-        }
-
-        /* Seções de Grade */
-        .section-title {
-            font-size: 1.25rem;
+        .btn-view-map {
+            background: var(--sidebar-bg);
+            color: white;
+            border-radius: 6px;
+            padding: 8px 20px;
+            text-decoration: none;
             font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-size: 0.9rem;
         }
+        .btn-view-map:hover { background: var(--sidebar-hover); color: var(--accent-color); }
 
-        /* Cards Gerais */
-        .stat-card {
-            background-color: var(--bg-panel);
-            border: 1px solid #334155;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            height: 100%;
-        }
-
-        .stat-card:hover {
-            background-color: #2d3748;
-            border-color: #475569;
-            transform: translateY(-2px);
-        }
-
-        .stat-icon {
-            font-size: 1.75rem;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem;
-            color: #fff;
-        }
-
-        .stat-label {
-            color: var(--text-main);
-            font-weight: 500;
-            font-size: 1rem;
-            margin: 0;
-        }
-
-        /* Cores dos Ícones */
-        .bg-cras { background-color: var(--card-cras); }
-        .bg-creas { background-color: var(--card-creas); }
-        .bg-saude { background-color: var(--card-saude); }
-        .bg-doc { background-color: var(--card-doc); }
-        .bg-download { background-color: #475569; }
-
-        /* Footer */
-        footer {
-            margin-top: 4rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #334155;
-            text-align: center;
-            color: var(--text-muted);
-        }
-
-        /* Ajustes Responsivos */
+        /* Responsividade */
         @media (max-width: 768px) {
-            .dashboard-container { padding: 1rem; }
-            .territory-hero { flex-direction: column; text-align: center; padding: 1.5rem; }
-            .territory-icon { font-size: 3rem; }
-            h1.main-title { font-size: 1.75rem; }
+            #sidebar { margin-left: -280px; }
+            #sidebar.active { margin-left: 0; }
+            #content { width: 100%; margin-left: 0; }
         }
     </style>
 </head>
 <body>
 
-<div class="dashboard-container">
-    <header class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-        <h1 class="main-title">Painel CPMBV <span>2026</span></h1>
-        <span class="badge bg-secondary px-3 py-2 rounded-pill">Status: Ativo</span>
-    </header>
+    <div class="d-flex">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4>SISTEMA TERRITORIAL</h4>
+                <small>CPMBV 2026 - Gestão</small>
+            </div>
 
-    <a href="Territorio_13_Setembro.html" class="territory-hero shadow-lg">
-        <div class="territory-icon">
-            <i class="bi bi-map-fill"></i>
-        </div>
-        <div class="territory-info">
-            <h2>Território: Bairro 13 de Setembro</h2>
-            <p>Visualização detalhada, limites e equipamentos sociais da poligonal.</p>
-        </div>
-        <div class="ms-auto text-end d-none d-md-block">
-            <i class="bi bi-chevron-right text-muted fs-3"></i>
-        </div>
-    </a>
+            <ul class="list-unstyled components">
+                <p>Territórios</p>
+                <li class="active">
+                    <a href="Territorio_13_Setembro.html"><i class="bi bi-map"></i> 13 de Setembro</a>
+                </li>
+                
+                <p>Rede de Serviços</p>
+                <li><a href="Mapa_CRAS.html"><i class="bi bi-house"></i> Mapa CRAS</a></li>
+                <li><a href="Mapa_CREAS.html"><i class="bi bi-shield-check"></i> Mapa CREAS</a></li>
+                <li><a href="Mapa_RAPS.html"><i class="bi bi-heart-pulse"></i> Rede RAPS</a></li>
+                <li><a href="Mapa_Conselho Tutelar.html"><i class="bi bi-people"></i> Conselho Tutelar</a></li>
+                <li><a href="Mapa_Defensoria.html"><i class="bi bi-building"></i> Defensoria Pública</a></li>
 
-    <div class="mb-5">
-        <div class="section-title">
-            <i class="bi bi-geo-alt"></i> Rede de Proteção Social e Saúde
-        </div>
-        <div class="row g-3">
-            <div class="col-6 col-md-4 col-lg-3">
-                <a href="Mapa_CRAS.html" class="stat-card">
-                    <div class="stat-icon bg-cras"><i class="bi bi-house-heart"></i></div>
-                    <p class="stat-label">Mapa CRAS</p>
-                </a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <a href="Mapa_CREAS.html" class="stat-card">
-                    <div class="stat-icon bg-creas"><i class="bi bi-shield-shaded"></i></div>
-                    <p class="stat-label">Mapa CREAS</p>
-                </a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <a href="Mapa_RAPS.html" class="stat-card">
-                    <div class="stat-icon bg-saude"><i class="bi bi-heart-pulse"></i></div>
-                    <p class="stat-label">Mapa RAPS</p>
-                </a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <a href="Mapa_Conselho Tutelar.html" class="stat-card">
-                    <div class="stat-icon bg-creas"><i class="bi bi-people"></i></div>
-                    <p class="stat-label">Conselho Tutelar</p>
-                </a>
-            </div>
-            <div class="col-6 col-md-4 col-lg-3">
-                <a href="Mapa_Defensoria.html" class="stat-card">
-                    <div class="stat-icon bg-saude"><i class="bi bi-building-check"></i></div>
-                    <p class="stat-label">Defensoria Pública</p>
-                </a>
+                <p>Instrumentais (RMA)</p>
+                <li><a href="RMA_Paulo Xavier_2026.html"><i class="bi bi-file-earmark-text"></i> RMA Paulo Xavier</a></li>
+                <li><a href="PBF.HTML"><i class="bi bi-currency-dollar"></i> Cadastro PBF</a></li>
+                <li><a href="Registro de Atendimento (Planilha).html"><i class="bi bi-table"></i> Planilha Base</a></li>
+                
+                <p>Arquivos</p>
+                <li><a href="RMA - Geral - Limpo.xlsx"><i class="bi bi-download"></i> Baixar Excel RMA</a></li>
+                <li><a href="CPMBV 2026.HTML"><i class="bi bi-folder"></i> Repositório CPMBV</a></li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold text-dark">Painel de Monitoramento</h2>
+                    <span class="text-muted"><i class="bi bi-calendar3"></i> Março 2026</span>
+                </div>
+
+                <div class="map-preview-card">
+                    <div class="map-header">
+                        <div>
+                            <h5 class="mb-0 fw-bold">Destaque: Bairro 13 de Setembro</h5>
+                            <small class="text-muted">Visualização de Cobertura e Equipamentos</small>
+                        </div>
+                        <a href="Territorio_13_Setembro.html" class="btn-view-map">Abrir Mapa Tela Cheia</a>
+                    </div>
+                    <div style="height: 450px; background: #e9ecef; display: flex; align-items: center; justify-content: center; position: relative;">
+                        <div class="text-center">
+                            <i class="bi bi-geo-alt-fill text-danger" style="font-size: 3rem;"></i>
+                            <p class="mt-2 fw-bold">Mapa Territorial Interativo</p>
+                            <small class="d-block px-4">Esta área exibe os polígonos e pontos georreferenciados do bairro 13 de Setembro.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 p-3 rounded-circle me-3 text-primary">
+                                    <i class="bi bi-file-earmark-check fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">RMA 2026</h6>
+                                    <small class="text-muted">Paulo Xavier</small>
+                                </div>
+                            </div>
+                            <a href="RMA_Paulo Xavier_2026.html" class="stretched-link"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-success bg-opacity-10 p-3 rounded-circle me-3 text-success">
+                                    <i class="bi bi-clipboard-data fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">PBF</h6>
+                                    <small class="text-muted">Dados Consolidados</small>
+                                </div>
+                            </div>
+                            <a href="PBF.HTML" class="stretched-link"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm p-3">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-warning bg-opacity-10 p-3 rounded-circle me-3 text-warning">
+                                    <i class="bi bi-archive fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">Arquivos CPMBV</h6>
+                                    <small class="text-muted">Documentos Gerais</small>
+                                </div>
+                            </div>
+                            <a href="CPMBV 2026.HTML" class="stretched-link"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="mt-5 pt-3 border-top text-muted">
+                    <small>Desenvolvido para Gestão de Dados Sociais - Boa Vista, RR.</small>
+                </footer>
             </div>
         </div>
     </div>
 
-    <div class="mb-5">
-        <div class="section-title">
-            <i class="bi bi-file-earmark-bar-graph"></i> Instrumentais e Relatórios
-        </div>
-        <div class="row g-3">
-            <div class="col-12 col-md-6">
-                <a href="RMA_Paulo Xavier_2026.html" class="stat-card">
-                    <div class="stat-icon bg-doc"><i class="bi bi-file-earmark-person"></i></div>
-                    <div class="d-flex flex-column">
-                        <p class="stat-label">RMA 2026 - Paulo Xavier</p>
-                        <small class="text-muted">Relatório Mensal de Atendimento</small>
-                    </div>
-                </a>
-            </div>
-            <div class="col-12 col-md-6">
-                <a href="Registro de Atendimento (Planilha).html" class="stat-card">
-                    <div class="stat-icon bg-doc"><i class="bi bi-table"></i></div>
-                    <div class="d-flex flex-column">
-                        <p class="stat-label">Planilha de Atendimento</p>
-                        <small class="text-muted">Registro base em HTML</small>
-                    </div>
-                </a>
-            </div>
-            <div class="col-6 col-md-4">
-                <a href="PBF.HTML" class="stat-card">
-                    <div class="stat-icon bg-doc"><i class="bi bi-cash-stack"></i></div>
-                    <p class="stat-label">PBF (Bolsa Família)</p>
-                </a>
-            </div>
-            <div class="col-6 col-md-4">
-                <a href="CPMBV 2026.HTML" class="stat-card">
-                    <div class="stat-icon bg-doc"><i class="bi bi-archive"></i></div>
-                    <p class="stat-label">Arquivos CPMBV</p>
-                </a>
-            </div>
-            <div class="col-6 col-md-4">
-                <a href="README.md" class="stat-card">
-                    <div class="stat-icon bg-download"><i class="bi bi-info-circle"></i></div>
-                    <p class="stat-label">Documentação (MD)</p>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <div class="section-title">
-            <i class="bi bi-download"></i> Arquivos para Download
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <a href="RMA - Geral - Limpo.xlsx" class="stat-card justify-content-start border-success">
-                    <div class="stat-icon bg-success"><i class="bi bi-file-earmark-excel"></i></div>
-                    <div class="d-flex flex-column">
-                        <p class="stat-label text-success">Baixar Planilha RMA Geral</p>
-                        <small class="text-muted">Formato Excel (.xlsx) - Matriz Limpa</small>
-                    </div>
-                    <i class="bi bi-cloud-download ms-auto fs-4 text-success"></i>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <p>&copy; 2026 Sistema de Gestão Territorial. Boa Vista - RR.</p>
-        <small>Interface otimizada para monitoramento de dados.</small>
-    </footer>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Caso queira adicionar um botão de menu no mobile futuramente
+    </script>
 </body>
 </html>

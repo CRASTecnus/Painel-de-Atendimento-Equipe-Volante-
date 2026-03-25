@@ -118,7 +118,9 @@
 <body>
 
 <div class="no-print">
-    <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR RMA (PÁGINA ÚNICA)</button>
+    <button class="btn-print" style="background-color: #28a745;" onclick="saveData()">💾 SALVAR DADOS</button>
+    <button class="btn-print" style="background-color: #dc3545;" onclick="clearData()">🗑️ APAGAR TUDO</button>
+    <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR RMA</button>
 </div>
 
 <div class="page-wrapper">
@@ -216,6 +218,40 @@ estarem, ou não, no mesmo grupo
 <input type="text" style="width: 60%; border-bottom: 1px solid #000;">
     </div>
 </div>
+<script>
+    // Salva os dados no navegador toda vez que o botão é clicado
+    function saveData() {
+        const inputs = document.querySelectorAll('input');
+        const data = {};
+        inputs.forEach((input, index) => {
+            data['field_' + index] = input.value;
+        });
+        localStorage.setItem('rma_backup', JSON.stringify(data));
+        alert('Dados salvos com sucesso!');
+    }
 
+    // Carrega os dados automaticamente quando você abre a página
+    window.onload = function() {
+        const savedData = localStorage.getItem('rma_backup');
+        if (savedData) {
+            const data = JSON.parse(savedData);
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach((input, index) => {
+                if (data['field_' + index] !== undefined) {
+                    input.value = data['field_' + index];
+                }
+            });
+        }
+    };
+
+    // Limpa todos os campos e a memória do navegador
+    function clearData() {
+        if (confirm('Deseja realmente apagar todos os campos?')) {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => input.value = '');
+            localStorage.removeItem('rma_backup');
+        }
+    }
+</script>
 </body>
 </html>

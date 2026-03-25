@@ -24,6 +24,14 @@
             color: var(--text-dark);
         }
 
+        /* AJUSTE PARA IMPRESSÃO: Esconde o menu e foca no conteúdo */
+        @media print {
+            .sidebar { display: none !important; }
+            .footer-bar { display: none !important; }
+            .content { width: 100% !important; height: 100% !important; }
+            iframe { border: none !important; }
+        }
+
         /* Menu Lateral */
         .sidebar {
             width: var(--sidebar-width);
@@ -122,7 +130,6 @@
             align-items: center;
         }
 
-        /* Botão Imprimir */
         .print-area {
             padding: 15px 20px;
             border-top: 1px solid #eee;
@@ -144,11 +151,7 @@
             gap: 8px;
         }
 
-        .btn-print:hover {
-            background: #1a252f;
-        }
-
-        /* Scrollbar customizada */
+        .btn-print:hover { background: #1a252f; }
         .menu-container::-webkit-scrollbar { width: 4px; }
         .menu-container::-webkit-scrollbar-thumb { background: #dee2e6; border-radius: 10px; }
     </style>
@@ -163,7 +166,7 @@
 
     <div class="menu-container">
         <div class="menu-section">Território</div>
-        <a href="Territorio_13_Setembro.html" target="view" class="nav-button">📍 Visão Geral</a>
+        <a href="Territorio_13_Setembro.html" target="view" class="nav-button active">📍 Visão Geral</a>
         <a href="Mapa_CRAS.html" target="view" class="nav-button">🏠 Rede CRAS</a>
         <a href="Mapa_CREAS.html" target="view" class="nav-button">🛡️ Rede CREAS</a>
         <a href="Mapa_RAPS.html" target="view" class="nav-button">🧠 Saúde Mental (RAPS)</a>
@@ -179,8 +182,8 @@
     </div>
 
     <div class="print-area">
-        <button class="btn-print" onclick="window.print()">
-            <span>🖨️</span> IMPRIMIR TELA
+        <button class="btn-print" onclick="window.frames['view'].print()">
+            <span>🖨️</span> IMPRIMIR CONTEÚDO
         </button>
     </div>
 </div>
@@ -201,8 +204,6 @@
             this.classList.add('active');
         });
     });
-    // Define o primeiro como ativo ao carregar
-    document.querySelector('.nav-button').classList.add('active');
 </script>
 
 </body>

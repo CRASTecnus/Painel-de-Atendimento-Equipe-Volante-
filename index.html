@@ -3,126 +3,293 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Gestão - CPMBV 2026</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <title>Painel Territorial - 13 de Setembro | CPMBV 2026</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <style>
-        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .card-link { transition: transform 0.2s; text-decoration: none; color: inherit; }
-        .card-link:hover { transform: translateY(-5px); }
-        .icon-box { font-size: 2rem; color: #0d6efd; margin-bottom: 1rem; }
-        .category-title { border-left: 4px solid #0d6efd; padding-left: 10px; margin-bottom: 20px; margin-top: 30px; }
+        :root {
+            --bg-panel: #1e293b; /* Slate 800 */
+            --bg-body: #0f172a;  /* Slate 900 */
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;   /* Sky 400 */
+            --accent-hover: #7dd3fc;
+            --card-cras: #10b981; /* Emerald 500 */
+            --card-creas: #f59e0b; /* Amber 500 */
+            --card-saude: #ef4444; /* Red 500 */
+            --card-doc: #8b5cf6;   /* Violet 500 */
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        h1.main-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        h1.main-title span {
+            color: var(--accent);
+        }
+
+        /* Card Destaque: Território */
+        .territory-hero {
+            background-color: var(--bg-panel);
+            border: 2px solid var(--accent);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .territory-hero:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.2);
+            border-color: var(--accent-hover);
+        }
+
+        .territory-icon {
+            font-size: 4rem;
+            color: var(--accent);
+        }
+
+        .territory-info h2 {
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.25rem;
+        }
+
+        .territory-info p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Seções de Grade */
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Cards Gerais */
+        .stat-card {
+            background-color: var(--bg-panel);
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            background-color: #2d3748;
+            border-color: #475569;
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 1.75rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            color: #fff;
+        }
+
+        .stat-label {
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* Cores dos Ícones */
+        .bg-cras { background-color: var(--card-cras); }
+        .bg-creas { background-color: var(--card-creas); }
+        .bg-saude { background-color: var(--card-saude); }
+        .bg-doc { background-color: var(--card-doc); }
+        .bg-download { background-color: #475569; }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #334155;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Ajustes Responsivos */
+        @media (max-width: 768px) {
+            .dashboard-container { padding: 1rem; }
+            .territory-hero { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .territory-icon { font-size: 3rem; }
+            h1.main-title { font-size: 1.75rem; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container py-5">
-    <header class="text-center mb-5">
-        <h1 class="display-5 fw-bold text-primary">Sistema de Apoio Técnico 2026</h1>
-        <p class="lead text-muted">Gestão de Dados, Mapas e Registros de Atendimento</p>
+<div class="dashboard-container">
+    <header class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <h1 class="main-title">Painel CPMBV <span>2026</span></h1>
+        <span class="badge bg-secondary px-3 py-2 rounded-pill">Status: Ativo</span>
     </header>
 
-    <h3 class="category-title">Mapeamento Territorial</h3>
-    <div class="row g-4">
-        <div class="col-md-4 col-sm-6">
-            <a href="Mapa_CRAS.html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-geo-alt-fill icon-box"></i>
-                    <h5 class="card-title">Mapa CRAS</h5>
-                </div>
-            </a>
+    <a href="Territorio_13_Setembro.html" class="territory-hero shadow-lg">
+        <div class="territory-icon">
+            <i class="bi bi-map-fill"></i>
         </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="Mapa_CREAS.html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-geo-alt-fill icon-box"></i>
-                    <h5 class="card-title">Mapa CREAS</h5>
-                </div>
-            </a>
+        <div class="territory-info">
+            <h2>Território: Bairro 13 de Setembro</h2>
+            <p>Visualização detalhada, limites e equipamentos sociais da poligonal.</p>
         </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="Mapa_RAPS.html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-hospital icon-box"></i>
-                    <h5 class="card-title">Mapa RAPS</h5>
-                </div>
-            </a>
+        <div class="ms-auto text-end d-none d-md-block">
+            <i class="bi bi-chevron-right text-muted fs-3"></i>
         </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="Territorio_13_Setembro.html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-map icon-box"></i>
-                    <h5 class="card-title">13 de Setembro</h5>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-            <a href="Mapa_Conselho Tutelar.html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-shield-check icon-box"></i>
-                    <h5 class="card-title">Conselho Tutelar</h5>
-                </div>
-            </a>
-        </div>
-    </div>
+    </a>
 
-    <h3 class="category-title text-success" style="border-left-color: #198754;">Registros e Atendimentos</h3>
-    <div class="row g-4">
-        <div class="col-md-6 col-lg-3">
-            <a href="RMA_Paulo Xavier_2026.html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-file-earmark-person icon-box text-success"></i>
-                    <h5 class="card-title">RMA 2026</h5>
-                </div>
-            </a>
+    <div class="mb-5">
+        <div class="section-title">
+            <i class="bi bi-geo-alt"></i> Rede de Proteção Social e Saúde
         </div>
-        <div class="col-md-6 col-lg-3">
-            <a href="Registro de Atendimento (Planilha).html" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-table icon-box text-success"></i>
-                    <h5 class="card-title">Planilha de Atendimento</h5>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-3">
-            <a href="PBF.HTML" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-cash-stack icon-box text-success"></i>
-                    <h5 class="card-title">PBF (Bolsa Família)</h5>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-3">
-            <a href="CPMBV 2026.HTML" class="card card-link h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <i class="bi bi-archive icon-box text-success"></i>
-                    <h5 class="card-title">Arquivos CPMBV</h5>
-                </div>
-            </a>
-        </div>
-    </div>
-
-    <h3 class="category-title text-secondary" style="border-left-color: #6c757d;">Recursos Adicionais</h3>
-    <div class="row">
-        <div class="col-12">
-            <div class="list-group shadow-sm">
-                <a href="RMA - Geral - Limpo.xlsx" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-file-earmark-excel me-2 text-success"></i> Baixar Planilha RMA (Excel)</span>
-                    <span class="badge bg-primary rounded-pill">XLSX</span>
+        <div class="row g-3">
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="Mapa_CRAS.html" class="stat-card">
+                    <div class="stat-icon bg-cras"><i class="bi bi-house-heart"></i></div>
+                    <p class="stat-label">Mapa CRAS</p>
                 </a>
-                <a href="Mapa_Defensoria.html" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                    <span><i class="bi bi-building me-2 text-danger"></i> Mapa Defensoria Pública</span>
-                    <span class="badge bg-secondary rounded-pill">HTML</span>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="Mapa_CREAS.html" class="stat-card">
+                    <div class="stat-icon bg-creas"><i class="bi bi-shield-shaded"></i></div>
+                    <p class="stat-label">Mapa CREAS</p>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="Mapa_RAPS.html" class="stat-card">
+                    <div class="stat-icon bg-saude"><i class="bi bi-heart-pulse"></i></div>
+                    <p class="stat-label">Mapa RAPS</p>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="Mapa_Conselho Tutelar.html" class="stat-card">
+                    <div class="stat-icon bg-creas"><i class="bi bi-people"></i></div>
+                    <p class="stat-label">Conselho Tutelar</p>
+                </a>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="Mapa_Defensoria.html" class="stat-card">
+                    <div class="stat-icon bg-saude"><i class="bi bi-building-check"></i></div>
+                    <p class="stat-label">Defensoria Pública</p>
                 </a>
             </div>
         </div>
     </div>
 
-    <footer class="mt-5 text-center text-muted border-top pt-3">
-        <small>Atualizado em Março de 2026 | Gestão de Dados Sociais</small>
+    <div class="mb-5">
+        <div class="section-title">
+            <i class="bi bi-file-earmark-bar-graph"></i> Instrumentais e Relatórios
+        </div>
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
+                <a href="RMA_Paulo Xavier_2026.html" class="stat-card">
+                    <div class="stat-icon bg-doc"><i class="bi bi-file-earmark-person"></i></div>
+                    <div class="d-flex flex-column">
+                        <p class="stat-label">RMA 2026 - Paulo Xavier</p>
+                        <small class="text-muted">Relatório Mensal de Atendimento</small>
+                    </div>
+                </a>
+            </div>
+            <div class="col-12 col-md-6">
+                <a href="Registro de Atendimento (Planilha).html" class="stat-card">
+                    <div class="stat-icon bg-doc"><i class="bi bi-table"></i></div>
+                    <div class="d-flex flex-column">
+                        <p class="stat-label">Planilha de Atendimento</p>
+                        <small class="text-muted">Registro base em HTML</small>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-md-4">
+                <a href="PBF.HTML" class="stat-card">
+                    <div class="stat-icon bg-doc"><i class="bi bi-cash-stack"></i></div>
+                    <p class="stat-label">PBF (Bolsa Família)</p>
+                </a>
+            </div>
+            <div class="col-6 col-md-4">
+                <a href="CPMBV 2026.HTML" class="stat-card">
+                    <div class="stat-icon bg-doc"><i class="bi bi-archive"></i></div>
+                    <p class="stat-label">Arquivos CPMBV</p>
+                </a>
+            </div>
+            <div class="col-6 col-md-4">
+                <a href="README.md" class="stat-card">
+                    <div class="stat-icon bg-download"><i class="bi bi-info-circle"></i></div>
+                    <p class="stat-label">Documentação (MD)</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="section-title">
+            <i class="bi bi-download"></i> Arquivos para Download
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a href="RMA - Geral - Limpo.xlsx" class="stat-card justify-content-start border-success">
+                    <div class="stat-icon bg-success"><i class="bi bi-file-earmark-excel"></i></div>
+                    <div class="d-flex flex-column">
+                        <p class="stat-label text-success">Baixar Planilha RMA Geral</p>
+                        <small class="text-muted">Formato Excel (.xlsx) - Matriz Limpa</small>
+                    </div>
+                    <i class="bi bi-cloud-download ms-auto fs-4 text-success"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Sistema de Gestão Territorial. Boa Vista - RR.</p>
+        <small>Interface otimizada para monitoramento de dados.</small>
     </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -12,6 +12,7 @@
             --accent-orange: #e67e22;
             --highlight-yellow: #fff3cd;
             --danger-red: #c0392b;
+            --success-green: #28a745;
         }
 
         body { font-family: 'Segoe UI', sans-serif; margin: 20px; background-color: var(--light-bg); color: #333; }
@@ -28,8 +29,9 @@
         button { padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .btn-search { background: var(--primary-blue); color: white; }
         .btn-3d { background: var(--accent-orange); color: white; }
-        .btn-print { background: #28a745; color: white; }
-        .btn-reset { background: var(--secondary-gray); color: white; }
+        .btn-print { background: var(--secondary-gray); color: white; }
+        .btn-reset { background: var(--danger-red); color: white; }
+        .btn-save { background: var(--success-green); color: white; }
 
         /* Layout Principal */
         #painel-gestao { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
@@ -41,7 +43,7 @@
 
         /* Registro e Histórico */
         .registro-container { margin-bottom: 20px; }
-        textarea { width: 100%; min-height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-family: inherit; resize: vertical; }
+        textarea { width: 100%; min-height: 150px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-family: inherit; resize: vertical; }
         
         .historico-container { border-top: 1px solid #eee; padding-top: 15px; }
         .historico-titulo { font-size: 0.9rem; font-weight: bold; color: var(--primary-blue); margin-bottom: 10px; }
@@ -74,15 +76,16 @@
         }
     </style>
 </head>
-<body>
+<body onload="carregarDados()">
 
     <div class="no-print">
         <div class="search-row">
             <input type="text" id="campoBusca" placeholder="Rua, número ou família para localizar...">
             <button class="btn-search" onclick="adicionarConsultado()">LOCALIZAR</button>
-            <button class="btn-3d" onclick="abrir3D()">📍 ABRIR GOOGLE MAPS (3D)</button>
+            <button class="btn-3d" onclick="abrir3D()">📍 MAPS 3D</button>
+            <button class="btn-save" onclick="salvarDados()">💾 SALVAR DADOS</button>
+            <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR</button>
             <button class="btn-reset" onclick="limparTudo()">LIMPAR TUDO</button>
-            <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR RELATÓRIO</button>
         </div>
     </div>
 
@@ -92,7 +95,7 @@
             
             <div class="registro-container">
                 <label style="font-size: 0.85rem; font-weight: bold;">NOTAS TÉCNICAS / PARECER:</label>
-                <textarea id="obsFamilias" placeholder="Registe aqui as observações sobre a família e território..."></textarea>
+                <textarea id="obsFamilias" placeholder="Registe aqui as observações sobre a família e território no Araceli..."></textarea>
             </div>
 
             <div class="historico-container">
@@ -101,13 +104,15 @@
             </div>
 
             <div class="footer-tecnico">
+                <strong>Psic. Paulo Luã O. Xavier</strong><br>
+                CRP-20/09816<br>
                 Equipe Volante - CRAS/Cristiana Vicente Nunes
             </div>
         </aside>
 
         <main class="mapa-container">
             <div class="header-mapa">Setor de Atuação: Professora Araceli Souto Maior</div>
-            <iframe id="mapaCentral" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15949.00000000000!2d-60.7!3d2.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8d930fe000000000%3A0x0!2sAraceli%20Souto%20Maior%2C%20Boa%20Vista%20-%20RR!5e0!3m2!1spt-BR!2sbr!4v1700000000000" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe id="mapaCentral" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15947.513514782344!2d-60.75113675!3d2.82283945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8d930fe36136a29f%3A0x67396a86c67d130d!2sAraceli%20Souto%20Maior%2C%20Boa%20Vista%20-%20RR!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </main>
     </section>
 
@@ -118,27 +123,30 @@
         function adicionarConsultado() {
             const endereco = document.getElementById('campoBusca').value;
             if (!endereco) return;
-
+            
             const query = encodeURIComponent(endereco + localidade);
-            mapa.src = `https://www.google.com/maps/embed/v1/place?key=SUA_CHAVE_API_AQUI&q=${query}`;
-            // Nota: Para uso sem API key em ambiente local/GitHub Pages, o formato 'output=embed' é mais comum:
-            mapa.src = `https://maps.google.com/maps?q=${query}&output=embed`;
+            mapa.src = `https://www.google.com/maps?q=${query}&output=embed`;
 
             const lista = document.getElementById('listaEnderecos');
+            const li = criarElementoEndereco(endereco);
+            lista.prepend(li);
+        }
+
+        function criarElementoEndereco(texto, destaque = false) {
             const li = document.createElement('li');
-            li.className = 'item-endereco';
+            li.className = destaque ? 'item-endereco item-destaque' : 'item-endereco';
             li.innerHTML = `
-                <span class="end-text" onclick="reverMapa('${endereco}')">${endereco}</span>
-                <button class="btn-action btn-star" onclick="toggleDestaque(this)">★</button>
+                <span class="end-text" onclick="reverMapa('${texto}')">${texto}</span>
+                <button class="btn-action btn-star ${destaque ? 'active' : ''}" onclick="toggleDestaque(this)">★</button>
                 <button class="btn-action btn-del" onclick="removerEndereco(this)">✖</button>
             `;
-            lista.prepend(li);
+            return li;
         }
 
         function reverMapa(end) {
             document.getElementById('campoBusca').value = end;
             const query = encodeURIComponent(end + localidade);
-            mapa.src = `https://maps.google.com/maps?q=${query}&output=embed`;
+            mapa.src = `https://www.google.com/maps?q=${query}&output=embed`;
         }
 
         function toggleDestaque(btn) {
@@ -152,15 +160,47 @@
 
         function abrir3D() {
             const end = document.getElementById('campoBusca').value || "Araceli Souto Maior, Boa Vista, RR";
-            window.open(`https://www.google.com/maps/search/${encodeURIComponent(end + localidade)}`, '_blank');
+            window.open(`https://www.google.com.br/maps/search/${encodeURIComponent(end + localidade)}`, '_blank');
+        }
+
+        // --- FUNÇÕES DE PERSISTÊNCIA ---
+
+        function salvarDados() {
+            const notas = document.getElementById('obsFamilias').value;
+            const enderecos = [];
+            document.querySelectorAll('#listaEnderecos li').forEach(li => {
+                enderecos.push({
+                    texto: li.querySelector('.end-text').innerText,
+                    destaque: li.classList.contains('item-destaque')
+                });
+            });
+
+            const dadosAtendimento = { notas, enderecos };
+            localStorage.setItem('atendimento_araceli', JSON.stringify(dadosAtendimento));
+            alert("Dados do Araceli salvos com sucesso!");
+        }
+
+        function carregarDados() {
+            const salvos = localStorage.getItem('atendimento_araceli');
+            if (salvos) {
+                const dados = JSON.parse(salvos);
+                document.getElementById('obsFamilias').value = dados.notas;
+                const lista = document.getElementById('listaEnderecos');
+                lista.innerHTML = "";
+                dados.enderecos.forEach(item => {
+                    const li = criarElementoEndereco(item.texto, item.destaque);
+                    lista.appendChild(li);
+                });
+            }
         }
 
         function limparTudo() {
-            if(confirm("Deseja limpar todos os dados do atendimento atual?")) {
+            if(confirm("Deseja apagar TUDO (inclusive o que foi salvo no navegador)?")) {
+                localStorage.removeItem('atendimento_araceli');
                 document.getElementById('campoBusca').value = "";
                 document.getElementById('obsFamilias').value = "";
                 document.getElementById('listaEnderecos').innerHTML = "";
-                mapa.src = "https://maps.google.com/maps?q=Araceli+Souto+Maior+Boa+Vista+RR&output=embed";
+                alert("Memória limpa.");
             }
         }
 

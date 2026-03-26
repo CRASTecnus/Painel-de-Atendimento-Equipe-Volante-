@@ -21,7 +21,7 @@
             margin: 0; 
             font-family: 'Inter', system-ui, sans-serif; 
             background-color: var(--bg-main);
-            overflow: hidden; /* Impede scroll na página principal para focar no iframe */
+            overflow: hidden;
         }
 
         /* Estrutura Sidebar */
@@ -107,7 +107,7 @@
         .info-titulo span { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; }
         .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.1rem; }
 
-        /* Container do Iframe (Onde os arquivos abrem) */
+        /* Container do Iframe */
         .iframe-viewer {
             flex-grow: 1;
             width: 100%;
@@ -121,7 +121,6 @@
             border: none;
         }
 
-        /* Botão Tela Cheia */
         .btn-fullscreen {
             background-color: var(--sidebar-bg);
             color: white;
@@ -138,7 +137,6 @@
             color: var(--sidebar-bg);
         }
 
-        /* Responsividade para Celulares */
         @media (max-width: 992px) {
             #sidebar { left: -280px; }
             #content { width: 100%; margin-left: 0; }
@@ -170,7 +168,7 @@
             <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Divisão Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Divisão CRAS Cristiana</a></li>
 
             <p>Bolsa Família</p>
-            <li><a onclick="navegar('PBF.HTML', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário Bolsa Família 2026</a></li>
+            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário Bolsa Família 2026</a></li>
             <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário da PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário da PMBV</a></li>
 
             <p>Instrumentais Técnico</p>
@@ -200,9 +198,6 @@
     </main>
 
     <script>
-        /**
-         * Função para trocar o arquivo no Iframe e atualizar a interface
-         */
         function navegar(url, titulo, elemento) {
             // 1. Altera o arquivo no frame central
             const frame = document.getElementById('painelFrame');
@@ -217,7 +212,11 @@
             // 4. Marca o item como ativo no menu lateral
             const menuItems = document.querySelectorAll('#mainMenu li');
             menuItems.forEach(item => item.classList.remove('active'));
-            elemento.parentElement.classList.add('active');
+            
+            // Caso o clique venha do <a>, pegamos o pai <li>
+            if(elemento) {
+                elemento.parentElement.classList.add('active');
+            }
         }
     </script>
 

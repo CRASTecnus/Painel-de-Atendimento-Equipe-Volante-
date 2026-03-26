@@ -17,7 +17,6 @@
 
         body { font-family: 'Segoe UI', sans-serif; margin: 20px; background-color: var(--light-bg); color: #333; }
 
-        /* Controles Superiores */
         .no-print { 
             background: white; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6; 
             margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
@@ -33,7 +32,6 @@
         .btn-reset { background: var(--danger-red); color: white; }
         .btn-save { background: var(--success-green); color: white; }
 
-        /* Layout Principal */
         #painel-gestao { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
 
         .sidebar { 
@@ -41,7 +39,6 @@
             border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* Registro e Histórico */
         .registro-container { margin-bottom: 20px; }
         textarea { width: 100%; min-height: 150px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-family: inherit; resize: vertical; }
         
@@ -60,11 +57,9 @@
         .btn-del { color: #ddd; transition: 0.2s; }
         .btn-del:hover { color: var(--danger-red); }
 
-        /* Visualização do Mapa */
         .mapa-container { flex: 2.5; min-width: 500px; border-radius: 8px; overflow: hidden; border: 1px solid #dee2e6; background: #fff; }
         .header-mapa { background: var(--primary-blue); color: white; padding: 12px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; }
 
-        /* Rodapé de Assinatura */
         .footer-tecnico { margin-top: 20px; font-size: 0.85rem; color: #333; border-top: 1px solid #eee; padding-top: 15px; line-height: 1.5; }
 
         @media print {
@@ -112,7 +107,7 @@
 
         <main class="mapa-container">
             <div class="header-mapa">Setor de Atuação: Professora Araceli Souto Maior</div>
-            <iframe id="mapaCentral" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15947.513514782344!2d-60.75113675!3d2.82283945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8d930fe36136a29f%3A0x67396a86c67d130d!2sAraceli%20Souto%20Maior%2C%20Boa%20Vista%20-%20RR!5e0!3m2!1spt-BR!2sbr!4v1710000000000!5m2!1spt-BR!2sbr" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe id="mapaCentral" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15947.456!2d-60.7!3d2.8!" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </main>
     </section>
 
@@ -163,7 +158,7 @@
             window.open(`https://www.google.com.br/maps/search/${encodeURIComponent(end + localidade)}`, '_blank');
         }
 
-        // --- FUNÇÕES DE PERSISTÊNCIA ---
+        // --- FUNÇÕES PARA SALVAR E CARREGAR ---
 
         function salvarDados() {
             const notas = document.getElementById('obsFamilias').value;
@@ -177,7 +172,7 @@
 
             const dadosAtendimento = { notas, enderecos };
             localStorage.setItem('atendimento_araceli', JSON.stringify(dadosAtendimento));
-            alert("Dados do Araceli salvos com sucesso!");
+            alert("Dados do Araceli guardados com sucesso!");
         }
 
         function carregarDados() {
@@ -187,15 +182,15 @@
                 document.getElementById('obsFamilias').value = dados.notas;
                 const lista = document.getElementById('listaEnderecos');
                 lista.innerHTML = "";
-                dados.enderecos.forEach(item => {
+                dados.enderecos.reverse().forEach(item => {
                     const li = criarElementoEndereco(item.texto, item.destaque);
-                    lista.appendChild(li);
+                    lista.prepend(li);
                 });
             }
         }
 
         function limparTudo() {
-            if(confirm("Deseja apagar TUDO (inclusive o que foi salvo no navegador)?")) {
+            if(confirm("Deseja apagar TUDO (incluindo o que foi guardado)?")) {
                 localStorage.removeItem('atendimento_araceli');
                 document.getElementById('campoBusca').value = "";
                 document.getElementById('obsFamilias').value = "";

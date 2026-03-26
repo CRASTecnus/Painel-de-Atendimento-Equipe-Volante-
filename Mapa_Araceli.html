@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Territorial - Araceli Souto Maior</title>
+    <style>
+        :root {
+            --primary-blue: #004a8d;
+            --secondary-gray: #6c757d;
+            --light-bg: #f4f7f6;
+            --accent-orange: #e67e22;
+            --highlight-yellow: #fff3cd;
+            --danger-red: #c0392b;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; margin: 20px; background-color: var(--light-bg); color: #333; }
+
+        /* Controles Superiores */
+        .no-print { 
+            background: white; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6; 
+            margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .search-row { display: flex; gap: 10px; flex-wrap: wrap; }
+        input[type="text"] { flex: 1; min-width: 250px; padding: 12px; border: 2px solid var(--primary-blue); border-radius: 4px; outline: none; }
+
+        button { padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .btn-search { background: var(--primary-blue); color: white; }
+        .btn-3d { background: var(--accent-orange); color: white; }
+        .btn-print { background: #28a745; color: white; }
+        .btn-reset { background: var(--secondary-gray); color: white; }
+
+        /* Layout Principal */
+        #painel-gestao { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start; }
+
+        .sidebar { 
+            flex: 1; min-width: 320px; background: white; border: 1px solid var(--primary-blue); 
+            border-radius: 8px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Registro e Histórico */
+        .registro-container { margin-bottom: 20px; }
+        textarea { width: 100%; min-height: 120px; padding: 10px; border: 1px solid #ccc; border-radius: 4px; margin-top: 8px; font-family: inherit; resize: vertical; }
+        
+        .historico-container { border-top: 1px solid #eee; padding-top: 15px; }
+        .historico-titulo { font-size: 0.9rem; font-weight: bold; color: var(--primary-blue); margin-bottom: 10px; }
+        .lista-enderecos { list-style: none; padding: 0; max-height: 250px; overflow-y: auto; }
+        
+        .item-endereco { display: flex; align-items: center; padding: 8px; border-bottom: 1px solid #eee; font-size: 0.85rem; }
+        .end-text { flex-grow: 1; cursor: pointer; }
+        .item-endereco:hover { background: #f0f4f8; }
+        .item-destaque { background: var(--highlight-yellow) !important; font-weight: bold; border-left: 4px solid var(--accent-orange); }
+
+        .btn-action { background: none; border: none; padding: 5px; cursor: pointer; font-size: 1rem; margin-left: 5px; }
+        .btn-star { color: #ccc; }
+        .btn-star.active { color: var(--accent-orange); }
+        .btn-del { color: #ddd; transition: 0.2s; }
+        .btn-del:hover { color: var(--danger-red); }
+
+        /* Visualização do Mapa */
+        .mapa-container { flex: 2.5; min-width: 500px; border-radius: 8px; overflow: hidden; border: 1px solid #dee2e6; background: #fff; }
+        .header-mapa { background: var(--primary-blue); color: white; padding: 12px; font-weight: bold; font-size: 0.85rem; text-transform: uppercase; }
+
+        /* Rodapé de Assinatura */
+        .footer-tecnico { margin-top: 20px; font-size: 0.85rem; color: #333; border-top: 1px solid #eee; padding-top: 15px; line-height: 1.5; }
+
+        @media print {
+            .no-print, .btn-action, .btn-del { display: none !important; }
+            #painel-gestao { display: block !important; }
+            .sidebar { width: 100%; border: 1px solid #000; margin-bottom: 20px; }
+            textarea { border: none; padding: 0; overflow: visible; height: auto; }
+            iframe { height: 500px !important; border: 1px solid #ccc !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="no-print">
+        <div class="search-row">
+            <input type="text" id="campoBusca" placeholder="Rua, número ou família para localizar...">
+            <button class="btn-search" onclick="adicionarConsultado()">LOCALIZAR</button>
+            <button class="btn-3d" onclick="abrir3D()">📍 ABRIR GOOGLE MAPS (3D)</button>
+            <button class="btn-reset" onclick="limparTudo()">LIMPAR TUDO</button>
+            <button class="btn-print" onclick="window.print()">🖨️ IMPRIMIR RELATÓRIO</button>
+        </div>
+    </div>
+
+    <section id="painel-gestao">
+        <aside class="sidebar">
+            <h2 style="color: var(--primary-blue); margin: 0 0 10px 0; font-size: 1.2rem; border-bottom: 2px solid var(--primary-blue);">MONITORAMENTO TERRITORIAL</h2>
+            
+            <div class="registro-container">
+                <label style="font-size: 0.85rem; font-weight: bold;">NOTAS TÉCNICAS / PARECER:</label>
+                <textarea id="obsFamilias" placeholder="Registe aqui as observações sobre a família e território..."></textarea>
+            </div>
+
+            <div class="historico-container">
+                <div class="historico-titulo">📍 ENDEREÇOS CONSULTADOS</div>
+                <ul id="listaEnderecos" class="lista-enderecos"></ul>
+            </div>
+
+            <div class="footer-tecnico">
+                Equipe Volante - CRAS/Cristiana Vicente Nunes
+            </div>
+        </aside>
+
+        <main class="mapa-container">
+            <div class="header-mapa">Setor de Atuação: Professora Araceli Souto Maior</div>
+            <iframe id="mapaCentral" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15949.00000000000!2d-60.7!3d2.8!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8d930fe000000000%3A0x0!2sAraceli%20Souto%20Maior%2C%20Boa%20Vista%20-%20RR!5e0!3m2!1spt-BR!2sbr!4v1700000000000" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </main>
+    </section>
+
+    <script>
+        const localidade = ", Araceli Souto Maior, Boa Vista, RR";
+        const mapa = document.getElementById('mapaCentral');
+
+        function adicionarConsultado() {
+            const endereco = document.getElementById('campoBusca').value;
+            if (!endereco) return;
+
+            const query = encodeURIComponent(endereco + localidade);
+            mapa.src = `https://www.google.com/maps/embed/v1/place?key=SUA_CHAVE_API_AQUI&q=${query}`;
+            // Nota: Para uso sem API key em ambiente local/GitHub Pages, o formato 'output=embed' é mais comum:
+            mapa.src = `https://maps.google.com/maps?q=${query}&output=embed`;
+
+            const lista = document.getElementById('listaEnderecos');
+            const li = document.createElement('li');
+            li.className = 'item-endereco';
+            li.innerHTML = `
+                <span class="end-text" onclick="reverMapa('${endereco}')">${endereco}</span>
+                <button class="btn-action btn-star" onclick="toggleDestaque(this)">★</button>
+                <button class="btn-action btn-del" onclick="removerEndereco(this)">✖</button>
+            `;
+            lista.prepend(li);
+        }
+
+        function reverMapa(end) {
+            document.getElementById('campoBusca').value = end;
+            const query = encodeURIComponent(end + localidade);
+            mapa.src = `https://maps.google.com/maps?q=${query}&output=embed`;
+        }
+
+        function toggleDestaque(btn) {
+            btn.parentElement.classList.toggle('item-destaque');
+            btn.classList.toggle('active');
+        }
+
+        function removerEndereco(btn) {
+            btn.parentElement.remove();
+        }
+
+        function abrir3D() {
+            const end = document.getElementById('campoBusca').value || "Araceli Souto Maior, Boa Vista, RR";
+            window.open(`https://www.google.com/maps/search/${encodeURIComponent(end + localidade)}`, '_blank');
+        }
+
+        function limparTudo() {
+            if(confirm("Deseja limpar todos os dados do atendimento atual?")) {
+                document.getElementById('campoBusca').value = "";
+                document.getElementById('obsFamilias').value = "";
+                document.getElementById('listaEnderecos').innerHTML = "";
+                mapa.src = "https://maps.google.com/maps?q=Araceli+Souto+Maior+Boa+Vista+RR&output=embed";
+            }
+        }
+
+        document.getElementById('campoBusca').addEventListener('keypress', (e) => { if(e.key === 'Enter') adicionarConsultado(); });
+    </script>
+</body>
+</html>

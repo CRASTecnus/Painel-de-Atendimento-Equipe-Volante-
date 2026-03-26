@@ -24,7 +24,6 @@
             overflow: hidden;
         }
 
-        /* Estrutura Sidebar */
         #sidebar {
             width: 280px;
             height: 100vh;
@@ -80,7 +79,6 @@
             border-left: 4px solid var(--accent-color);
         }
 
-        /* Área de Conteúdo Principal */
         #content {
             width: calc(100% - 280px);
             margin-left: 280px;
@@ -90,7 +88,6 @@
             transition: all 0.3s;
         }
 
-        /* Topbar do Painel */
         .main-header {
             height: var(--header-height);
             min-height: var(--header-height);
@@ -107,7 +104,6 @@
         .info-titulo span { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; }
         .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.1rem; }
 
-        /* Container do Iframe */
         .iframe-viewer {
             flex-grow: 1;
             width: 100%;
@@ -155,26 +151,28 @@
         <ul class="list-unstyled components" id="mainMenu">
             <p>Monitoramento Territorial</p>
             <li class="active">
-                <a onclick="navegar('Territorio_13_Setembro.html', '13 de Setembro', this)">
+                <a onclick="navegar('Territorio_13_Setembro.html', 'Território 13 de Setembro', this)">
                     <i class="bi bi-geo-alt"></i> 13 de Setembro
                 </a>
             </li>
-            <li><a onclick="navegar('Mapa_CRAS.html', 'Mapa do CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
-            <li><a onclick="navegar('Mapa_CREAS.html', 'Mapa do CREAS', this)"><i class="bi bi-shield-check"></i> Mapa do CREAS</a></li>
-            <li><a onclick="navegar('Mapa_RAPS.html', 'Mapa da RAPS', this)"><i class="bi bi-activity"></i> Mapa da RAPS</a></li>
-            <li><a onclick="navegar('Mapa_Defensoria.html', 'Mapa da Defensoria Pública', this)"><i class="bi bi-balance"></i> Mapa da Defensoria Pública</a></li>
+            <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
+            <li><a onclick="navegar('Mapa_CREAS.html', 'Rede CREAS', this)"><i class="bi bi-shield-check"></i> Mapa do CREAS</a></li>
+            <li><a onclick="navegar('Mapa_Conselho Tutelar.html', 'Conselho Tutelar', this)"><i class="bi bi-person-badge"></i> Conselho Tutelar</a></li>
+            <li><a onclick="navegar('Mapa_RAPS.html', 'Rede RAPS', this)"><i class="bi bi-activity"></i> Mapa da RAPS</a></li>
+            <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Defensoria Pública</a></li>
 
-            <p>Recursos Humanos</p>
-            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Divisão Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Divisão CRAS Cristiana</a></li>
+            <p>Gestão e Recursos Humanos</p>
+            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Divisão Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Equipe CRAS Cristiana</a></li>
 
-            <p>Bolsa Família</p>
-            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário Bolsa Família 2026</a></li>
-            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário da PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário da PMBV</a></li>
+            <p>Bolsa Família e Benefícios</p>
+            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário PBF (NIS)</a></li>
+            <li><a onclick="navegar('PBF.HTML', 'Info Bolsa Família', this)"><i class="bi bi-info-circle"></i> Info PBF Detalhado</a></li>
+            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário da PMBV</a></li>
 
-            <p>Instrumentais Técnico</p>
-            <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA (Folha MDS)', this)"><i class="bi bi-file-earmark-person"></i> RMA (Folha MDS)</a></li>
-            <li><a onclick="navegar('Registro de Atendimento (Planilha).html', 'RMA (Planilha)', this)"><i class="bi bi-table"></i> RMA (Planilha)</a></li>
-            <li><a href="RMA - Geral - Limpo.xlsx" target="_blank"><i class="bi bi-download"></i> RMA (Planilha Download)</a></li>
+            <p>Instrumentais Técnicos</p>
+            <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA (Folha MDS)', this)"><i class="bi bi-file-earmark-text"></i> RMA Paulo Xavier</a></li>
+            <li><a onclick="navegar('Registro de Atendimento (Planilha).html', 'Registro de Atendimento', this)"><i class="bi bi-table"></i> RMA (Planilha)</a></li>
+            <li><a href="RMA - Geral - Limpo.xlsx" target="_blank"><i class="bi bi-file-earmark-excel"></i> Baixar RMA Limpo (.xlsx)</a></li>
         </ul>
     </nav>
 
@@ -182,7 +180,7 @@
         <header class="main-header">
             <div class="info-titulo">
                 <span>Visualizando Agora:</span>
-                <h5 id="txtTitulo">13 de Setembro</h5>
+                <h5 id="txtTitulo">Território 13 de Setembro</h5>
             </div>
             
             <div>
@@ -199,27 +197,19 @@
 
     <script>
         function navegar(url, titulo, elemento) {
-            // 1. Altera o arquivo no frame central
             const frame = document.getElementById('painelFrame');
             frame.src = url;
-
-            // 2. Atualiza o título na barra superior
             document.getElementById('txtTitulo').innerText = titulo;
-
-            // 3. Atualiza o link de tela cheia para o arquivo atual
             document.getElementById('lnkFullScreen').href = url;
 
-            // 4. Marca o item como ativo no menu lateral
             const menuItems = document.querySelectorAll('#mainMenu li');
             menuItems.forEach(item => item.classList.remove('active'));
             
-            // Caso o clique venha do <a>, pegamos o pai <li>
             if(elemento) {
                 elemento.parentElement.classList.add('active');
             }
         }
     </script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

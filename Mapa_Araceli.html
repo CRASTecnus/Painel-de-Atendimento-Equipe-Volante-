@@ -75,7 +75,7 @@
 
     <div class="no-print">
         <div class="search-row">
-            <input type="text" id="campoBusca" placeholder="Rua, número ou família para localizar...">
+            <input type="text" id="campoBusca" placeholder="Rua, número ou família no Araceli...">
             <button class="btn-search" onclick="adicionarConsultado()">LOCALIZAR</button>
             <button class="btn-3d" onclick="abrir3D()">📍 MAPS 3D</button>
             <button class="btn-save" onclick="salvarDados()">💾 SALVAR DADOS</button>
@@ -90,7 +90,7 @@
             
             <div class="registro-container">
                 <label style="font-size: 0.85rem; font-weight: bold;">NOTAS TÉCNICAS / PARECER:</label>
-                <textarea id="obsFamilias" placeholder="Registe aqui as observações sobre a família e território no Araceli..."></textarea>
+                <textarea id="obsFamilias" placeholder="Registe aqui as observações sobre o atendimento no Araceli..."></textarea>
             </div>
 
             <div class="historico-container">
@@ -99,15 +99,17 @@
             </div>
 
             <div class="footer-tecnico">
-                <strong>Psic. Paulo Luã O. Xavier</strong><br>
-                CRP-20/09816<br>
-                Equipe Volante - CRAS/Cristiana Vicente Nunes
+                <strong>Equipe Técnica</strong><br>
+                Centro de Atendimento Social (CAS)
             </div>
         </aside>
 
         <main class="mapa-container">
-            <div class="header-mapa">Setor de Atuação: Professora Araceli Souto Maior</div>
-            <iframe id="mapaCentral" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15947.456!2d-60.7!3d2.8!" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <div class="header-mapa">Setor: Araceli Souto Maior</div>
+            <iframe id="mapaCentral" 
+                src="https://maps.google.com/maps?q=Araceli%20Souto%20Maior,%20Boa%20Vista,%20RR&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy">
+            </iframe>
         </main>
     </section>
 
@@ -119,8 +121,10 @@
             const endereco = document.getElementById('campoBusca').value;
             if (!endereco) return;
             
-            const query = encodeURIComponent(endereco + localidade);
-            mapa.src = `https://www.google.com/maps?q=${query}&output=embed`;
+            // Formato de URL mais estável para iframes
+            const urlBase = "https://maps.google.com/maps?q=";
+            const finalUrl = urlBase + encodeURIComponent(endereco + localidade) + "&t=&z=17&ie=UTF8&iwloc=&output=embed";
+            mapa.src = finalUrl;
 
             const lista = document.getElementById('listaEnderecos');
             const li = criarElementoEndereco(endereco);
@@ -140,8 +144,8 @@
 
         function reverMapa(end) {
             document.getElementById('campoBusca').value = end;
-            const query = encodeURIComponent(end + localidade);
-            mapa.src = `https://www.google.com/maps?q=${query}&output=embed`;
+            const urlBase = "https://maps.google.com/maps?q=";
+            mapa.src = urlBase + encodeURIComponent(end + localidade) + "&t=&z=17&ie=UTF8&iwloc=&output=embed";
         }
 
         function toggleDestaque(btn) {
@@ -158,8 +162,6 @@
             window.open(`https://www.google.com.br/maps/search/${encodeURIComponent(end + localidade)}`, '_blank');
         }
 
-        // --- FUNÇÕES PARA SALVAR E CARREGAR ---
-
         function salvarDados() {
             const notas = document.getElementById('obsFamilias').value;
             const enderecos = [];
@@ -170,9 +172,8 @@
                 });
             });
 
-            const dadosAtendimento = { notas, enderecos };
-            localStorage.setItem('atendimento_araceli', JSON.stringify(dadosAtendimento));
-            alert("Dados do Araceli guardados com sucesso!");
+            localStorage.setItem('atendimento_araceli', JSON.stringify({ notas, enderecos }));
+            alert("Dados do Araceli guardados!");
         }
 
         function carregarDados() {
@@ -190,12 +191,9 @@
         }
 
         function limparTudo() {
-            if(confirm("Deseja apagar TUDO (incluindo o que foi guardado)?")) {
+            if(confirm("Deseja apagar tudo?")) {
                 localStorage.removeItem('atendimento_araceli');
-                document.getElementById('campoBusca').value = "";
-                document.getElementById('obsFamilias').value = "";
-                document.getElementById('listaEnderecos').innerHTML = "";
-                alert("Memória limpa.");
+                location.reload();
             }
         }
 

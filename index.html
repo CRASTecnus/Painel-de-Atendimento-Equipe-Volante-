@@ -155,6 +155,11 @@
                     <i class="bi bi-geo-alt"></i> 13 de Setembro
                 </a>
             </li>
+            <li>
+                <a onclick="navegar('Mapa_Araceli.html', 'Território Araceli Souto Maior', this)">
+                    <i class="bi bi-map"></i> Araceli Souto Maior
+                </a>
+            </li>
             <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
             <li><a onclick="navegar('Mapa_CREAS.html', 'Rede CREAS', this)"><i class="bi bi-shield-check"></i> Mapa do CREAS</a></li>
             <li><a onclick="navegar('Mapa_Conselho Tutelar.html', 'Conselho Tutelar', this)"><i class="bi bi-person-badge"></i> Conselho Tutelar</a></li>
@@ -206,6 +211,7 @@
             menuItems.forEach(item => item.classList.remove('active'));
             
             if(elemento) {
+                // Se o elemento for o link <a>, acessamos o <li> pai
                 elemento.parentElement.classList.add('active');
             }
         }

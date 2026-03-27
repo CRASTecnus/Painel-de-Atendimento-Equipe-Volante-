@@ -116,7 +116,9 @@
     </style>
 
     <script>
-        if (localStorage.getItem('logado') !== 'true') {
+        // --- TRAVA DE SEGURANÇA (OPÇÃO 1: SESSÃO) ---
+        // Verifica se a chave 'logado' existe na sessão atual.
+        if (sessionStorage.getItem('logado') !== 'true') {
             window.location.href = "login.html";
         }
     </script>
@@ -213,7 +215,8 @@
         }
 
         function logout() {
-            localStorage.removeItem('logado');
+            // --- LIMPA A SESSÃO AO SAIR ---
+            sessionStorage.removeItem('logado');
             window.location.href = "login.html";
         }
     </script>

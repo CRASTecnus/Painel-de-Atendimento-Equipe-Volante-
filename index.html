@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Equipe Volante - Painel Territorial 2026</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --sidebar-bg: #0d2137; 
@@ -17,27 +20,22 @@
         }
 
         body, html { 
-            height: 100%; 
-            margin: 0; 
-            font-family: 'Inter', system-ui, sans-serif; 
+            height: 100%; margin: 0; 
+            font-family: 'Inter', sans-serif; 
             background-color: var(--bg-main);
             overflow: hidden;
         }
 
+        /* Menu Lateral */
         #sidebar {
-            width: 280px;
-            height: 100vh;
+            width: 280px; height: 100vh;
             background: var(--sidebar-bg);
-            color: white;
-            position: fixed;
-            left: 0;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s;
-            overflow-y: auto;
+            color: white; position: fixed;
+            left: 0; top: 0; z-index: 1000;
+            transition: all 0.3s; overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Ajuste para mobile */
         @media (max-width: 992px) {
             #sidebar { left: -280px; }
             #sidebar.show { left: 0; }
@@ -45,39 +43,27 @@
         }
 
         .sidebar-header { 
-            padding: 25px; 
-            background: rgba(0,0,0,0.2); 
+            padding: 25px; background: rgba(0,0,0,0.2); 
             border-bottom: 1px solid rgba(255,255,255,0.1); 
         }
         
         .sidebar-header h4 { 
-            font-size: 1.1rem; 
-            margin: 0; 
-            font-weight: 800; 
-            color: var(--accent-color); 
-            letter-spacing: 1px;
+            font-size: 1.1rem; margin: 0; font-weight: 800; 
+            color: var(--accent-color); letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         #sidebar ul p { 
-            padding: 20px 25px 5px 25px; 
-            font-size: 0.7rem; 
-            color: var(--section-title); 
-            text-transform: uppercase; 
-            font-weight: 700; 
-            margin-bottom: 0; 
+            padding: 20px 25px 5px 25px; font-size: 0.65rem; 
+            color: var(--section-title); text-transform: uppercase; 
+            font-weight: 700; margin-bottom: 0; 
         }
         
         #sidebar ul li a {
-            padding: 12px 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: #d1d9e0;
-            text-decoration: none;
-            transition: 0.2s;
-            font-size: 0.88rem;
-            cursor: pointer;
+            padding: 12px 25px; display: flex;
+            align-items: center; gap: 12px;
+            color: #d1d9e0; text-decoration: none;
+            transition: 0.2s; font-size: 0.88rem; cursor: pointer;
         }
 
         #sidebar ul li a:hover, #sidebar ul li.active > a {
@@ -86,58 +72,38 @@
             border-left: 4px solid var(--accent-color);
         }
 
+        /* Conteúdo Principal */
         #content {
-            width: calc(100% - 280px);
-            margin-left: 280px;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
+            width: calc(100% - 280px); margin-left: 280px;
+            height: 100vh; display: flex;
+            flex-direction: column; transition: all 0.3s;
         }
 
         .main-header {
-            height: var(--header-height);
-            min-height: var(--header-height);
-            padding: 0 30px;
-            background: white;
-            border-bottom: 1px solid #e1e8ed;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            height: var(--header-height); padding: 0 30px;
+            background: white; border-bottom: 1px solid #e1e8ed;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
 
-        .info-titulo { display: flex; flex-direction: column; }
-        .info-titulo span { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; font-weight: 700; }
-        .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.1rem; }
+        .info-titulo span { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
+        .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.05rem; }
 
-        .iframe-viewer {
-            flex-grow: 1;
-            width: 100%;
-            background: #fff;
-            position: relative;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        .iframe-viewer { flex-grow: 1; width: 100%; background: #fff; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; }
 
         .btn-fullscreen {
-            background-color: var(--sidebar-bg);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: 0.3s;
-            text-decoration: none;
+            background-color: var(--sidebar-bg); color: white;
+            border: none; padding: 8px 16px; border-radius: 6px;
+            font-weight: 600; font-size: 0.8rem;
+            transition: 0.3s; text-decoration: none;
         }
-        .btn-fullscreen:hover {
-            background-color: var(--accent-color);
-            color: var(--sidebar-bg);
+        .btn-fullscreen:hover { background-color: var(--accent-color); color: var(--sidebar-bg); }
+        
+        .status-badge {
+            font-size: 10px; padding: 4px 10px; border-radius: 20px;
+            background: #eefdf7; color: #10b981; font-weight: 800;
+            border: 1px solid #d1fae5;
         }
     </style>
 </head>
@@ -146,7 +112,7 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <h4>EQUIPE VOLANTE</h4>
-            <small class="opacity-50">SISTEMA TERRITORIAL</small>
+            <small class="opacity-50">CRAS CRISTIANA | 2026</small>
         </div>
 
         <ul class="list-unstyled components" id="mainMenu">
@@ -163,22 +129,19 @@
             </li>
             <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
             <li><a onclick="navegar('Mapa_CREAS.html', 'Rede CREAS', this)"><i class="bi bi-shield-check"></i> Mapa do CREAS</a></li>
-            <li><a onclick="navegar('Mapa_Conselho Tutelar.html', 'Conselho Tutelar', this)"><i class="bi bi-person-badge"></i> Conselho Tutelar</a></li>
             <li><a onclick="navegar('Mapa_RAPS.html', 'Rede RAPS', this)"><i class="bi bi-activity"></i> Mapa da RAPS</a></li>
-            <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Defensoria Pública</a></li>
+            <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Mapa Defensoria Pública</a></li>
 
-            <p>Gestão e Recursos Humanos</p>
-            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Divisão Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Equipe CRAS Cristiana</a></li>
+            <p>Gestão e Calendário</p>
+            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Pagamento Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário Pagamento Bolsa Família</a></li>
+            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário Prefeitura de Boa Vista</a></li>
+            <li><a onclick="navegar('PBF.HTML', 'Agenda de Condicionalidade Bolsa Família', this)"><i class="bi bi-info-circle"></i> Calendário Condicionalidade Bolsa Família</a></li>
 
-            <p>Bolsa Família e Benefícios</p>
-            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário PBF (NIS)</a></li>
-            <li><a onclick="navegar('PBF.HTML', 'Info Bolsa Família', this)"><i class="bi bi-info-circle"></i> Info PBF Detalhado</a></li>
-            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário da PMBV</a></li>
-
-            <p>Instrumentais Técnicos</p>
-            <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA (Folha MDS)', this)"><i class="bi bi-file-earmark-text"></i> RMA Paulo Xavier</a></li>
-            <li><a onclick="navegar('Registro de Atendimento (Planilha).html', 'Registro de Atendimento', this)"><i class="bi bi-table"></i> RMA (Planilha)</a></li>
-            <li><a href="RMA - Geral - Limpo.xlsx" target="_blank"><i class="bi bi-file-earmark-excel"></i> Baixar RMA Limpo (.xlsx)</a></li>
+            <p>Instrumentais e Equipe</p>
+            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Equipe Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Divisão Técnica</a></li>
+            <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA (Paulo Xavier)', this)"><i class="bi bi-file-earmark-text"></i> RMA (MDS)</a></li>
+            <li><a onclick="navegar('Registro de Atendimento (Planilha).html', 'Registro de Atendimento', this)"><i class="bi bi-table"></i> Registro (Planilha)</a></li>
+            <li><a href="RMA - Geral - Limpo.xlsx" target="_blank"><i class="bi bi-file-earmark-excel text-success"></i> Baixar RMA (.xlsx)</a></li>
         </ul>
     </nav>
 
@@ -189,20 +152,23 @@
                     <i class="bi bi-list fs-2"></i>
                 </button>
                 <div class="info-titulo">
-                    <span>Visualizando Agora:</span>
+                    <span>Visualizando:</span>
                     <h5 id="txtTitulo">Território 13 de Setembro</h5>
+                </div>
+                <div class="status-badge d-none d-md-block ms-2">
+                    <i class="bi bi-circle-fill me-1" style="font-size: 7px;"></i> SISTEMA ATIVO
                 </div>
             </div>
             
             <div>
-                <a id="lnkFullScreen" href="Territorio_13_Setembro.html" target="_blank" class="btn-fullscreen d-none d-sm-inline-block">
+                <a id="lnkFullScreen" href="Territorio_13_Setembro.html" target="_blank" class="btn-fullscreen">
                     <i class="bi bi-arrows-fullscreen me-2"></i>ABRIR EM TELA CHEIA
                 </a>
             </div>
         </header>
 
         <section class="iframe-viewer">
-            <iframe id="painelFrame" src="Territorio_13_Setembro.html" title="Visualizador de Arquivos"></iframe>
+            <iframe id="painelFrame" src="Territorio_13_Setembro.html" title="Visualizador"></iframe>
         </section>
     </main>
 
@@ -224,7 +190,7 @@
                 elemento.parentElement.classList.add('active');
             }
 
-            // Fecha a sidebar automaticamente no mobile após clicar
+            // Fecha sidebar no mobile automaticamente
             if (window.innerWidth <= 992) {
                 toggleSidebar();
             }

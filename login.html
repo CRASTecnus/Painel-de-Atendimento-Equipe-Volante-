@@ -167,13 +167,14 @@
             const user = document.getElementById('usuario').value;
             const pass = document.getElementById('senha').value;
 
-            // Login: cras | Senha: volante2026
+            // Credenciais da Equipe
             if(user === "cras" && pass === "volante2026") {
                 
-                // --- CRIA A PERMISSÃO DE ACESSO ---
-                localStorage.setItem('logado', 'true');
+                // --- CRIA A PERMISSÃO TEMPORÁRIA (SESSÃO) ---
+                // O sessionStorage expira quando a aba ou navegador é fechado.
+                sessionStorage.setItem('logado', 'true');
                 
-                // --- REDIRECIONA PARA O PAINEL ---
+                // Redireciona para o painel
                 window.location.href = "index.html"; 
                 
             } else {

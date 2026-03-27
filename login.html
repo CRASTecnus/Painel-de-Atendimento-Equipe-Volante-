@@ -167,11 +167,15 @@
             const user = document.getElementById('usuario').value;
             const pass = document.getElementById('senha').value;
 
-            // Lógica de acesso simples
-            // Substitua 'admin' e '1234' pelas credenciais desejadas
+            // Login: cras | Senha: volante2026
             if(user === "cras" && pass === "volante2026") {
-                // Redireciona para o arquivo do painel
+                
+                // --- CRIA A PERMISSÃO DE ACESSO ---
+                localStorage.setItem('logado', 'true');
+                
+                // --- REDIRECIONA PARA O PAINEL ---
                 window.location.href = "index.html"; 
+                
             } else {
                 alert("Usuário ou senha incorretos. Tente novamente.");
             }

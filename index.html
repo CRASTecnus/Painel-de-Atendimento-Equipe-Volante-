@@ -37,6 +37,13 @@
             overflow-y: auto;
         }
 
+        /* Ajuste para mobile */
+        @media (max-width: 992px) {
+            #sidebar { left: -280px; }
+            #sidebar.show { left: 0; }
+            #content { width: 100% !important; margin-left: 0 !important; }
+        }
+
         .sidebar-header { 
             padding: 25px; 
             background: rgba(0,0,0,0.2); 
@@ -132,12 +139,6 @@
             background-color: var(--accent-color);
             color: var(--sidebar-bg);
         }
-
-        @media (max-width: 992px) {
-            #sidebar { left: -280px; }
-            #content { width: 100%; margin-left: 0; }
-            .main-header { padding: 0 15px; }
-        }
     </style>
 </head>
 <body>
@@ -183,13 +184,18 @@
 
     <main id="content">
         <header class="main-header">
-            <div class="info-titulo">
-                <span>Visualizando Agora:</span>
-                <h5 id="txtTitulo">Território 13 de Setembro</h5>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn d-lg-none p-0 border-0" onclick="toggleSidebar()">
+                    <i class="bi bi-list fs-2"></i>
+                </button>
+                <div class="info-titulo">
+                    <span>Visualizando Agora:</span>
+                    <h5 id="txtTitulo">Território 13 de Setembro</h5>
+                </div>
             </div>
             
             <div>
-                <a id="lnkFullScreen" href="Territorio_13_Setembro.html" target="_blank" class="btn-fullscreen">
+                <a id="lnkFullScreen" href="Territorio_13_Setembro.html" target="_blank" class="btn-fullscreen d-none d-sm-inline-block">
                     <i class="bi bi-arrows-fullscreen me-2"></i>ABRIR EM TELA CHEIA
                 </a>
             </div>
@@ -201,6 +207,10 @@
     </main>
 
     <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('show');
+        }
+
         function navegar(url, titulo, elemento) {
             const frame = document.getElementById('painelFrame');
             frame.src = url;
@@ -211,8 +221,12 @@
             menuItems.forEach(item => item.classList.remove('active'));
             
             if(elemento) {
-                // Se o elemento for o link <a>, acessamos o <li> pai
                 elemento.parentElement.classList.add('active');
+            }
+
+            // Fecha a sidebar automaticamente no mobile após clicar
+            if (window.innerWidth <= 992) {
+                toggleSidebar();
             }
         }
     </script>

@@ -113,11 +113,86 @@
             background: #eefdf7; color: #10b981; font-weight: 800;
             border: 1px solid #d1fae5;
         }
+
+        /* --- ESTILOS DO BOTÃO ESFERO (FAB) --- */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .fab-main {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--sidebar-bg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .fab-main:hover { transform: scale(1.1) rotate(90deg); }
+
+        .fab-options {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .fab-options.show { display: flex; }
+
+        .fab-item {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--sidebar-bg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-decoration: none;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .fab-item:hover {
+            background: var(--sidebar-hover);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Tooltip Personalizado */
+        .fab-item::after {
+            content: attr(data-label);
+            position: absolute;
+            right: 65px;
+            background: var(--sidebar-bg);
+            color: var(--accent-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            border: 1px solid var(--accent-color);
+        }
+        .fab-item:hover::after { opacity: 1; }
     </style>
 
     <script>
-        // --- TRAVA DE SEGURANÇA (OPÇÃO 1: SESSÃO) ---
-        // Verifica se a chave 'logado' existe na sessão atual.
         if (sessionStorage.getItem('logado') !== 'true') {
             window.location.href = "login.html";
         }
@@ -189,6 +264,26 @@
         <section class="iframe-viewer">
             <iframe id="painelFrame" src="Territorio_13_Setembro.html" title="Visualizador"></iframe>
         </section>
+
+        <div class="fab-container">
+            <button class="fab-main" onclick="toggleFab()" title="Arquivos da Equipe">
+                <i class="bi bi-person-video2 fs-3"></i>
+            </button>
+            <div class="fab-options" id="fabOptions">
+                <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5?usp=drive_link" 
+                   target="_blank" class="fab-item" data-label="Pasta Keomara">
+                    <i class="bi bi-folder2-open"></i>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1MtK9Kz3mlxTwIESPp28YwiVtrNdI55Lt?usp=drive_link" 
+                   target="_blank" class="fab-item" data-label="Pasta Danilo">
+                    <i class="bi bi-folder2-open"></i>
+                </a>
+                <a href="https://drive.google.com/drive/folders/1nR7c8AsrhwWPyBYfmWkOmEIfyH349gXR?usp=drive_link" 
+                   target="_blank" class="fab-item" data-label="Pasta Paulo">
+                    <i class="bi bi-folder2-open"></i>
+                </a>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -215,9 +310,21 @@
         }
 
         function logout() {
-            // --- LIMPA A SESSÃO AO SAIR ---
             sessionStorage.removeItem('logado');
             window.location.href = "login.html";
+        }
+
+        // --- FUNÇÕES DO BOTÃO ESFERO ---
+        function toggleFab() {
+            const options = document.getElementById('fabOptions');
+            options.classList.toggle('show');
+        }
+
+        // Fecha se clicar fora
+        window.onclick = function(event) {
+            if (!event.target.closest('.fab-container')) {
+                document.getElementById('fabOptions').classList.remove('show');
+            }
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

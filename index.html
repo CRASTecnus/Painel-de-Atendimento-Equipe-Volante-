@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipe Volante - Painel Territorial </title>
+    <title>Equipe Volante - Painel Territorial</title>
     
+    <script>
+        if (sessionStorage.getItem('logado') !== 'true') {
+            window.location.replace("login.html");
+        }
+    </script>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -114,104 +120,25 @@
             border: 1px solid #d1fae5;
         }
 
-        /* --- MENU FLUTUANTE ESTILIZADO (PASTAS) --- */
-        .fab-wrapper {
-            position: fixed;
-            bottom: 35px;
-            right: 35px;
-            z-index: 9999;
-        }
-
+        /* FAB MENU FLUTUANTE */
+        .fab-wrapper { position: fixed; bottom: 35px; right: 35px; z-index: 9999; }
         .fab-main-btn {
-            width: 65px;
-            height: 65px;
+            width: 65px; height: 65px;
             background: linear-gradient(135deg, var(--accent-color), #00a8cc);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--sidebar-bg);
-            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
-            cursor: pointer;
-            border: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: var(--sidebar-bg); box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+            cursor: pointer; border: none; transition: all 0.4s;
         }
-
-        .fab-main-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5);
-        }
-
         .fab-list {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
+            position: absolute; bottom: 80px; right: 0; display: flex;
+            flex-direction: column; gap: 15px; opacity: 0; pointer-events: none;
+            transform: translateY(20px); transition: all 0.3s ease;
         }
-
-        .fab-list.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        .fab-link {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            justify-content: flex-end;
-        }
-
-        .fab-label {
-            background: white;
-            color: var(--sidebar-bg);
-            padding: 8px 15px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid #eee;
-            transition: 0.3s;
-        }
-
-        .fab-sub-btn {
-            width: 50px;
-            height: 50px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #444;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            transition: 0.3s;
-        }
-
-        .fab-link:hover .fab-sub-btn {
-            background: var(--sidebar-bg);
-            color: var(--accent-color);
-            transform: scale(1.1);
-        }
-
-        .fab-link:hover .fab-label {
-            background: var(--accent-color);
-            color: var(--sidebar-bg);
-        }
+        .fab-list.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .fab-link { display: flex; align-items: center; gap: 12px; text-decoration: none; justify-content: flex-end; }
+        .fab-label { background: white; color: var(--sidebar-bg); padding: 8px 15px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
+        .fab-sub-btn { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #444; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: 0.3s; }
     </style>
-
-    <script>
-        if (sessionStorage.getItem('logado') !== 'true') {
-            window.location.href = "login.html";
-        }
-    </script>
 </head>
 <body>
 
@@ -236,24 +163,17 @@
             <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
             <li><a onclick="navegar('Mapa_CREAS.html', 'Rede CREAS', this)"><i class="bi bi-shield-check"></i> Mapa do CREAS</a></li>
             <li><a onclick="navegar('Mapa_RAPS.html', 'Rede RAPS', this)"><i class="bi bi-activity"></i> Mapa da RAPS</a></li>
-            <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Mapa Defensoria Pública</a></li>
+            
+            <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Mapa Defensoria</a></li>
 
             <p>Portais Oficiais</p>
-            <li>
-                <a href="https://cadunico.dataprev.gov.br/portal/" target="_blank">
-                    <i class="bi bi-browser-safari"></i> Portal CadÚnico
-                </a>
-            </li>
-            <li>
-                <a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank">
-                    <i class="bi bi-shield-lock"></i> Sistema SIGPBF
-                </a>
-            </li>
+            <li><a href="https://cadunico.dataprev.gov.br/portal/" target="_blank"><i class="bi bi-browser-safari"></i> Portal CadÚnico</a></li>
+            <li><a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank"><i class="bi bi-shield-lock"></i> Sistema SIGPBF</a></li>
 
             <p>Gestão e Calendário</p>
-            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Pagamento Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário Pagamento Bolsa Família</a></li>
-            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário Prefeitura de Boa Vista</a></li>
-            <li><a onclick="navegar('PBF.HTML', 'Agenda de Condicionalidade Bolsa Família', this)"><i class="bi bi-info-circle"></i> Calendário Condicionalidade Bolsa Família</a></li>
+            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Pagamento Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário PBF</a></li>
+            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário PMBV 2026</a></li>
+            <li><a onclick="navegar('PBF.HTML', 'Agenda de Condicionalidade Bolsa Família', this)"><i class="bi bi-info-circle"></i> Condicionalidade PBF</a></li>
 
             <p>Instrumentais e Equipe</p>
             <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Equipe Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Divisão Técnica</a></li>
@@ -296,7 +216,6 @@
             <button class="fab-main-btn" onclick="toggleFab()" id="fabMain">
                 <i class="bi bi-folder-fill fs-3" id="fabIcon"></i>
             </button>
-            
             <div class="fab-list" id="fabList">
                 <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5?usp=drive_link" target="_blank" class="fab-link">
                     <span class="fab-label">Pasta Keomara</span>
@@ -338,8 +257,8 @@
         }
 
         function logout() {
-            sessionStorage.removeItem('logado');
-            window.location.href = "login.html";
+            sessionStorage.clear();
+            window.location.replace("login.html");
         }
 
         function toggleFab() {
@@ -354,11 +273,12 @@
             }
         }
 
+        // Fecha menus ao clicar fora
         window.onclick = function(event) {
             if (!event.target.closest('.fab-wrapper')) {
                 const list = document.getElementById('fabList');
                 const icon = document.getElementById('fabIcon');
-                if(list.classList.contains('active')) {
+                if(list && list.classList.contains('active')) {
                     list.classList.remove('active');
                     icon.classList.replace('bi-x-lg', 'bi-folder-fill');
                 }

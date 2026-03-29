@@ -13,16 +13,17 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --sidebar-bg: #0d2137; 
             --sidebar-hover: #16314d;
             --accent-color: #00d4ff; 
-            --section-title: #8da2b5;
-            --bg-main: #f0f4f8;
-            --header-height: 70px;
+            --section-title: #64748b;
+            --bg-main: #f8fafc;
+            --header-height: 75px;
+            --card-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
 
         body, html { 
@@ -32,14 +33,20 @@
             overflow: hidden;
         }
 
-        /* Menu Lateral */
+        /* Scrollbar Personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--sidebar-bg); }
+        ::-webkit-scrollbar-thumb { background: #2c3e50; border-radius: 10px; }
+
+        /* Menu Lateral Estilizado */
         #sidebar {
             width: 280px; height: 100vh;
-            background: var(--sidebar-bg);
+            background: linear-gradient(180deg, #0d2137 0%, #05111d 100%);
             color: white; position: fixed;
             left: 0; top: 0; z-index: 1000;
-            transition: all 0.3s; overflow-y: auto;
-            border-right: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.1);
         }
 
         @media (max-width: 992px) {
@@ -49,34 +56,44 @@
         }
 
         .sidebar-header { 
-            padding: 25px; background: rgba(0,0,0,0.2); 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            padding: 30px 25px; 
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
         }
         
         .sidebar-header h4 { 
-            font-size: 1.1rem; margin: 0; font-weight: 800; 
-            color: var(--accent-color); letter-spacing: 1px;
-            text-transform: uppercase;
+            font-size: 1.2rem; margin: 0; font-weight: 800; 
+            color: var(--accent-color); letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .sidebar-header small {
+            text-transform: uppercase; letter-spacing: 1px;
+            font-size: 0.65rem; color: #94a3b8; font-weight: 600;
         }
 
         #sidebar ul p { 
-            padding: 20px 25px 5px 25px; font-size: 0.65rem; 
+            padding: 25px 25px 10px 25px; font-size: 0.65rem; 
             color: var(--section-title); text-transform: uppercase; 
-            font-weight: 700; margin-bottom: 0; 
+            font-weight: 800; margin-bottom: 0; letter-spacing: 1px;
         }
         
         #sidebar ul li a {
-            padding: 12px 25px; display: flex;
-            align-items: center; gap: 12px;
-            color: #d1d9e0; text-decoration: none;
-            transition: 0.2s; font-size: 0.88rem; cursor: pointer;
+            padding: 14px 25px; display: flex;
+            align-items: center; gap: 14px;
+            color: #94a3b8; text-decoration: none;
+            transition: 0.3s; font-size: 0.85rem; font-weight: 500;
         }
 
+        #sidebar ul li a i { font-size: 1.1rem; transition: 0.3s; }
+
         #sidebar ul li a:hover, #sidebar ul li.active > a {
-            background: var(--sidebar-hover);
+            background: rgba(255,255,255,0.03);
             color: white;
             border-left: 4px solid var(--accent-color);
         }
+
+        #sidebar ul li a:hover i { color: var(--accent-color); }
 
         /* Conteúdo Principal */
         #content {
@@ -86,58 +103,82 @@
         }
 
         .main-header {
-            height: var(--header-height); padding: 0 30px;
-            background: white; border-bottom: 1px solid #e1e8ed;
+            height: var(--header-height); padding: 0 40px;
+            background: white; border-bottom: 1px solid #edf2f7;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            z-index: 99;
         }
 
-        .info-titulo span { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; }
-        .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.05rem; }
+        .info-titulo span { font-size: 0.6rem; color: #64748b; text-transform: uppercase; font-weight: 800; }
+        .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1.1rem; }
 
         .iframe-viewer { flex-grow: 1; width: 100%; background: #fff; position: relative; }
-        iframe { width: 100%; height: 100%; border: none; }
+        iframe { width: 100%; height: 100%; border: none; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Botões do Header */
+        .header-actions { display: flex; gap: 12px; }
 
         .btn-fullscreen {
-            background-color: var(--sidebar-bg); color: white;
-            border: none; padding: 8px 16px; border-radius: 6px;
-            font-weight: 600; font-size: 0.8rem;
+            background: #f1f5f9; color: #475569;
+            border: none; padding: 10px 20px; border-radius: 10px;
+            font-weight: 700; font-size: 0.75rem;
             transition: 0.3s; text-decoration: none;
             display: inline-flex; align-items: center;
         }
-        .btn-fullscreen:hover { background-color: var(--accent-color); color: var(--sidebar-bg); }
+        .btn-fullscreen:hover { background: var(--sidebar-bg); color: white; transform: translateY(-2px); }
 
         .btn-logout {
-            border: 1px solid #ff4d4d; color: #ff4d4d;
-            background: transparent; padding: 8px 16px; border-radius: 6px;
-            font-weight: 600; font-size: 0.8rem; transition: 0.3s;
+            background: #fff1f1; color: #ef4444;
+            border: 1px solid #fee2e2; padding: 10px 20px; border-radius: 10px;
+            font-weight: 700; font-size: 0.75rem; transition: 0.3s;
         }
-        .btn-logout:hover { background: #ff4d4d; color: white; }
+        .btn-logout:hover { background: #ef4444; color: white; transform: translateY(-2px); }
         
         .status-badge {
-            font-size: 10px; padding: 4px 10px; border-radius: 20px;
-            background: #eefdf7; color: #10b981; font-weight: 800;
-            border: 1px solid #d1fae5;
+            font-size: 9px; padding: 5px 12px; border-radius: 30px;
+            background: #ecfdf5; color: #059669; font-weight: 800;
+            border: 1px solid #d1fae5; letter-spacing: 0.5px;
         }
 
-        /* FAB MENU FLUTUANTE */
+        /* FAB MENU FLUTUANTE (Drives) */
         .fab-wrapper { position: fixed; bottom: 35px; right: 35px; z-index: 9999; }
         .fab-main-btn {
-            width: 65px; height: 65px;
-            background: linear-gradient(135deg, var(--accent-color), #00a8cc);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            color: var(--sidebar-bg); box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
-            cursor: pointer; border: none; transition: all 0.4s;
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--sidebar-bg) 0%, #1a3a5a 100%);
+            border-radius: 18px; display: flex; justify-content: center; align-items: center;
+            color: var(--accent-color); box-shadow: 0 10px 25px rgba(13, 33, 55, 0.3);
+            cursor: pointer; border: none; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .fab-main-btn:hover { transform: scale(1.1) rotate(5deg); }
+
         .fab-list {
             position: absolute; bottom: 80px; right: 0; display: flex;
             flex-direction: column; gap: 15px; opacity: 0; pointer-events: none;
-            transform: translateY(20px); transition: all 0.3s ease;
+            transform: translateY(30px); transition: 0.3s ease;
         }
         .fab-list.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        
         .fab-link { display: flex; align-items: center; gap: 12px; text-decoration: none; justify-content: flex-end; }
-        .fab-label { background: white; color: var(--sidebar-bg); padding: 8px 15px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 1px solid #eee; }
-        .fab-sub-btn { width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: #444; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: 0.3s; }
+        .fab-label { 
+            background: white; color: var(--sidebar-bg); padding: 8px 16px; 
+            border-radius: 10px; font-size: 0.8rem; font-weight: 700; 
+            box-shadow: var(--card-shadow); border: 1px solid #edf2f7;
+            white-space: nowrap;
+        }
+        .fab-sub-btn { 
+            width: 48px; height: 48px; background: white; border-radius: 14px; 
+            display: flex; justify-content: center; align-items: center; 
+            color: #444; box-shadow: var(--card-shadow); transition: 0.3s;
+            font-size: 1.2rem;
+        }
+        .fab-sub-btn:hover { background: var(--accent-color); color: var(--sidebar-bg); }
+
     </style>
 </head>
 <body>
@@ -145,39 +186,38 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <h4>EQUIPE VOLANTE</h4>
-            <small class="opacity-50">CRAS CRISTIANA</small>
+            <small>Monitoramento Cristiana</small>
         </div>
 
         <ul class="list-unstyled components" id="mainMenu">
             <p>Monitoramento Territorial</p>
             <li class="active">
                 <a onclick="navegar('Territorio_13_Setembro.html', 'Território 13 de Setembro', this)">
-                    <i class="bi bi-geo-alt-fill"></i> 13 de Setembro
+                    <i class="bi bi-geo-alt"></i> 13 de Setembro
                 </a>
             </li>
             <li>
                 <a onclick="navegar('Mapa_Araceli.html', 'Território Araceli Souto Maior', this)">
-                    <i class="bi bi-geo-alt-fill"></i> Araceli Souto Maior
+                    <i class="bi bi-geo-alt"></i> Araceli Souto Maior
                 </a>
             </li>
-            <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
+            <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house-door"></i> Mapa do CRAS</a></li>
             <li><a onclick="navegar('Mapa_CREAS.html', 'Rede CREAS', this)"><i class="bi bi-shield-check"></i> Mapa do CREAS</a></li>
-            <li><a onclick="navegar('Mapa_RAPS.html', 'Rede RAPS', this)"><i class="bi bi-activity"></i> Mapa da RAPS</a></li>
-            
+            <li><a onclick="navegar('Mapa_RAPS.html', 'Rede RAPS', this)"><i class="bi bi-heart-pulse"></i> Mapa da RAPS</a></li>
             <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Mapa Defensoria</a></li>
 
             <p>Portais Oficiais</p>
-            <li><a href="https://cadunico.dataprev.gov.br/portal/" target="_blank"><i class="bi bi-browser-safari"></i> Portal CadÚnico</a></li>
-            <li><a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank"><i class="bi bi-shield-lock"></i> Sistema SIGPBF</a></li>
+            <li><a href="https://cadunico.dataprev.gov.br/portal/" target="_blank"><i class="bi bi-globe"></i> Portal CadÚnico</a></li>
+            <li><a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank"><i class="bi bi-lock"></i> Sistema SIGPBF</a></li>
 
             <p>Gestão e Calendário</p>
-            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Pagamento Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário PBF</a></li>
-            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário PMBV 2026</a></li>
-            <li><a onclick="navegar('PBF.HTML', 'Agenda de Condicionalidade Bolsa Família', this)"><i class="bi bi-info-circle"></i> Condicionalidade PBF</a></li>
+            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar3"></i> Calendário PBF</a></li>
+            <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário PMBV</a></li>
+            <li><a onclick="navegar('PBF.HTML', 'Condicionalidade Bolsa Família', this)"><i class="bi bi-info-square"></i> Condicionalidade</a></li>
 
             <p>Instrumentais e Equipe</p>
-            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Equipe Técnica - CRAS Cristiana', this)"><i class="bi bi-people"></i> Divisão Técnica</a></li>
-            <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA (MDS)', this)"><i class="bi bi-file-earmark-text"></i> RMA (MDS)</a></li>
+            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Equipe Técnica', this)"><i class="bi bi-people"></i> Divisão Técnica</a></li>
+            <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA (MDS)', this)"><i class="bi bi-file-earmark-bar-graph"></i> RMA (MDS)</a></li>
             <li><a onclick="navegar('Registro de Atendimento (Planilha).html', 'Registro de Atendimento', this)"><i class="bi bi-table"></i> Registro (Planilha)</a></li>
             <li><a href="RMA - Geral - Limpo.xlsx" target="_blank"><i class="bi bi-file-earmark-excel text-success"></i> Baixar RMA (.xlsx)</a></li>
         </ul>
@@ -190,20 +230,20 @@
                     <i class="bi bi-list fs-2"></i>
                 </button>
                 <div class="info-titulo">
-                    <span>Visualizando:</span>
+                    <span>Módulo de Visualização</span>
                     <h5 id="txtTitulo">Território 13 de Setembro</h5>
                 </div>
-                <div class="status-badge d-none d-md-block ms-2">
-                    <i class="bi bi-circle-fill me-1" style="font-size: 7px;"></i> SISTEMA ATIVO
+                <div class="status-badge d-none d-md-block ms-3">
+                    <i class="bi bi-circle-fill me-2" style="font-size: 6px; vertical-align: middle;"></i>SISTEMA OPERACIONAL
                 </div>
             </div>
             
-            <div class="d-flex gap-2">
+            <div class="header-actions">
                 <a id="lnkFullScreen" href="Territorio_13_Setembro.html" target="_blank" class="btn-fullscreen">
-                    <i class="bi bi-arrows-fullscreen me-2"></i>TELA CHEIA
+                    <i class="bi bi-arrows-angle-expand me-2"></i>TELA CHEIA
                 </a>
                 <button onclick="logout()" class="btn-logout">
-                    <i class="bi bi-box-arrow-right me-2"></i>SAIR
+                    <i class="bi bi-power me-2"></i>SAIR
                 </button>
             </div>
         </header>
@@ -214,7 +254,7 @@
 
         <div class="fab-wrapper">
             <button class="fab-main-btn" onclick="toggleFab()" id="fabMain">
-                <i class="bi bi-folder-fill fs-3" id="fabIcon"></i>
+                <i class="bi bi-grid-fill fs-4" id="fabIcon"></i>
             </button>
             <div class="fab-list" id="fabList">
                 <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5?usp=drive_link" target="_blank" class="fab-link">
@@ -240,10 +280,18 @@
 
         function navegar(url, titulo, elemento) {
             const frame = document.getElementById('painelFrame');
-            frame.src = url;
-            document.getElementById('txtTitulo').innerText = titulo;
-            document.getElementById('lnkFullScreen').href = url;
+            
+            // Efeito de transição no iframe
+            frame.style.opacity = '0';
+            
+            setTimeout(() => {
+                frame.src = url;
+                document.getElementById('txtTitulo').innerText = titulo;
+                document.getElementById('lnkFullScreen').href = url;
+                frame.style.opacity = '1';
+            }, 200);
 
+            // Atualiza menu ativo
             const menuItems = document.querySelectorAll('#mainMenu li');
             menuItems.forEach(item => item.classList.remove('active'));
             
@@ -251,25 +299,32 @@
                 elemento.parentElement.classList.add('active');
             }
 
+            // Fecha sidebar no mobile após clique
             if (window.innerWidth <= 992) {
                 toggleSidebar();
             }
         }
 
         function logout() {
-            sessionStorage.clear();
-            window.location.replace("login.html");
+            if(confirm("Deseja realmente encerrar a sessão?")) {
+                sessionStorage.clear();
+                window.location.replace("login.html");
+            }
         }
 
         function toggleFab() {
             const list = document.getElementById('fabList');
             const icon = document.getElementById('fabIcon');
+            const btn = document.getElementById('fabMain');
+            
             list.classList.toggle('active');
             
             if(list.classList.contains('active')) {
-                icon.classList.replace('bi-folder-fill', 'bi-x-lg');
+                icon.classList.replace('bi-grid-fill', 'bi-x-lg');
+                btn.style.background = '#ef4444';
             } else {
-                icon.classList.replace('bi-x-lg', 'bi-folder-fill');
+                icon.classList.replace('bi-x-lg', 'bi-grid-fill');
+                btn.style.background = 'linear-gradient(135deg, var(--sidebar-bg) 0%, #1a3a5a 100%)';
             }
         }
 
@@ -277,11 +332,7 @@
         window.onclick = function(event) {
             if (!event.target.closest('.fab-wrapper')) {
                 const list = document.getElementById('fabList');
-                const icon = document.getElementById('fabIcon');
-                if(list && list.classList.contains('active')) {
-                    list.classList.remove('active');
-                    icon.classList.replace('bi-x-lg', 'bi-folder-fill');
-                }
+                if(list && list.classList.contains('active')) toggleFab();
             }
         }
     </script>

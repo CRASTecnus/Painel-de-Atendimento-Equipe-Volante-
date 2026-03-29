@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Equipe Volante</title>
     
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -17,109 +21,72 @@
         }
 
         body, html {
-            height: 100%;
-            margin: 0;
+            height: 100%; margin: 0;
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-            padding: 20px;
-        }
+        .login-container { width: 100%; max-width: 420px; padding: 20px; }
 
         .card-login {
-            background: white;
-            border-radius: 16px;
+            background: white; border-radius: 16px;
             box-shadow: 0 15px 35px rgba(13, 33, 55, 0.1);
-            border: none;
-            overflow: hidden;
+            border: none; overflow: hidden;
         }
 
         .card-header-custom {
             background-color: var(--sidebar-bg);
-            padding: 40px 30px;
-            text-align: center;
-            color: white;
+            padding: 40px 30px; text-align: center; color: white;
         }
 
         .card-header-custom h4 {
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--accent-color);
-            margin: 0;
-            text-transform: uppercase;
+            font-weight: 800; letter-spacing: 1px;
+            color: var(--accent-color); margin: 0; text-transform: uppercase;
         }
 
-        .card-header-custom p {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-top: 5px;
-            text-transform: uppercase;
-        }
+        .card-header-custom p { font-size: 0.8rem; opacity: 0.7; margin-top: 5px; text-transform: uppercase; }
 
-        .card-body {
-            padding: 40px 35px;
-        }
+        .card-body { padding: 40px 35px; }
 
         .form-label {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 0.75rem; font-weight: 700; color: #64748b;
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
 
-        .input-group-text {
-            background-color: #f8fafc;
-            border-right: none;
-            color: #94a3b8;
-        }
+        .input-group-text { background-color: #f8fafc; border-right: none; color: #94a3b8; }
 
         .form-control {
-            border-left: none;
-            padding: 12px;
-            font-size: 0.9rem;
+            border-left: none; padding: 12px; font-size: 0.9rem;
             background-color: #f8fafc;
         }
 
-        .form-control:focus {
-            box-shadow: none;
-            border-color: #dee2e6;
-            background-color: #fff;
-        }
+        .form-control:focus { box-shadow: none; border-color: #dee2e6; background-color: #fff; }
 
         .btn-login {
-            background-color: var(--sidebar-bg);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 700;
-            width: 100%;
-            margin-top: 10px;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background-color: var(--sidebar-bg); color: white;
+            border: none; padding: 14px; border-radius: 8px;
+            font-weight: 700; width: 100%; margin-top: 10px;
+            transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;
         }
 
         .btn-login:hover {
             background-color: var(--accent-color);
-            color: var(--sidebar-bg);
-            transform: translateY(-2px);
+            color: var(--sidebar-bg); transform: translateY(-2px);
         }
 
         .status-footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.7rem;
-            color: #94a3b8;
+            text-align: center; margin-top: 20px;
+            font-size: 0.7rem; color: #94a3b8;
         }
     </style>
+
+    <script>
+        // Trava de segurança: Se já estiver logado, vai direto pro painel
+        if (sessionStorage.getItem('logado') === 'true') {
+            window.location.replace("index.html");
+        }
+    </script>
 </head>
 <body>
 
@@ -136,7 +103,7 @@
                         <label class="form-label">Usuário</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-                            <input type="text" id="usuario" class="form-control" placeholder="Seu usuário" required>
+                            <input type="text" id="usuario" class="form-control" placeholder="Usuário" required autocomplete="off">
                         </div>
                     </div>
 
@@ -149,7 +116,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-login">
-                        Entrar no Sistema <i class="bi bi-arrow-right ms-2"></i>
+                        Acessar Sistema <i class="bi bi-arrow-right ms-2"></i>
                     </button>
                 </form>
             </div>
@@ -164,21 +131,21 @@
         document.getElementById('formLogin').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const user = document.getElementById('usuario').value;
+            const user = document.getElementById('usuario').value.trim();
             const pass = document.getElementById('senha').value;
 
             // Credenciais da Equipe
             if(user === "cras" && pass === "volante2026") {
                 
-                // --- CRIA A PERMISSÃO TEMPORÁRIA (SESSÃO) ---
-                // O sessionStorage expira quando a aba ou navegador é fechado.
+                // Cria a sessão temporária
                 sessionStorage.setItem('logado', 'true');
                 
-                // Redireciona para o painel
-                window.location.href = "index.html"; 
+                // Redireciona substituindo a página no histórico
+                window.location.replace("index.html"); 
                 
             } else {
-                alert("Usuário ou senha incorretos. Tente novamente.");
+                alert("Credenciais incorretas. Verifique o usuário e a senha.");
+                document.getElementById('senha').value = ""; // Limpa campo de senha
             }
         });
     </script>

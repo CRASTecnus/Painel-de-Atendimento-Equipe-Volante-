@@ -123,6 +123,13 @@
             <li><a onclick="navegar('https://login.caixa.gov.br/auth/realms/internet/protocol/openid-connect/auth?response_type=code&client_id=cli-web-bec&redirect_uri=https%3A%2F%2Fwww.beneficiossociais.caixa.gov.br%2Fsibec2%2FsisgrSibec&scope=openid', 'Sistema SIBEC (Caixa)', this)"><i class="bi bi-bank"></i> Sistema SIBEC</a></li>
             <li><a onclick="navegar('https://cadunico.dataprev.gov.br/portal/', 'Portal CadÚnico', this)"><i class="bi bi-search"></i> Portal CadÚnico</a></li>
 
+            <p>Assinatura e Dados (PMBV)</p>
+            <li><a onclick="navegar('https://bvcidadao.prefeitura.boavista.br/proton/login.asp', 'Próton - Assinar Relatórios', this)"><i class="bi bi-pen"></i> Assinar Relatórios</a></li>
+            <li><a onclick="navegar('https://portalcidadao.prefeitura.boavista.br/default.aspx', 'Portal do Cidadão BV', this)"><i class="bi bi-person-vcard"></i> Portal Cidadão</a></li>
+            <li><a onclick="navegar('http://sipweb.boavista.rr.gov.br:8080/sipweb/trabalhador/login/login.xhtml', 'SIPWEB Trabalhador', this)"><i class="bi bi-briefcase"></i> SIPWEB</a></li>
+            <li><a onclick="navegar('http://servicos.boavista.rr.gov.br/cedulac/', 'Cédula C', this)"><i class="bi bi-file-earmark-text"></i> Cédula C</a></li>
+            <li><a onclick="navegar('https://bt.pmbv.rr.gov.br/SMT73/open.do?sys=SMT', 'Sistema SMT', this)"><i class="bi bi-gear-wide-connected"></i> Sistema SMT</a></li>
+
             <p>Calendários e PBF</p>
             <li><a onclick="navegar('PBF.HTML', 'Calendário de Condicionalidades', this)"><i class="bi bi-info-circle"></i> Calendário Condicionalidades</a></li>
             <li><a onclick="navegar('PagamentoPBF.html', 'Calendário de Pagamentos PBF', this)"><i class="bi bi-calendar-event"></i> Calendário PBF</a></li>
@@ -189,7 +196,6 @@
         
         function toggleFab() { 
             document.getElementById('fabList').classList.toggle('active');
-            // Mantém o ícone do Drive visível ou troca para X ao abrir
             const icon = document.getElementById('fabIcon');
             if (icon.classList.contains('bi-google-drive')) {
                 icon.classList.replace('bi-google-drive', 'bi-x-lg');

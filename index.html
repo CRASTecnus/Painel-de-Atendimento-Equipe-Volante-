@@ -33,12 +33,10 @@
             overflow: hidden;
         }
 
-        /* Scrollbar Personalizada */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--sidebar-bg); }
         ::-webkit-scrollbar-thumb { background: #2c3e50; border-radius: 10px; }
 
-        /* Menu Lateral Estilizado */
         #sidebar {
             width: 280px; height: 100vh;
             background: linear-gradient(180deg, #0d2137 0%, #05111d 100%);
@@ -83,6 +81,7 @@
             align-items: center; gap: 14px;
             color: #94a3b8; text-decoration: none;
             transition: 0.3s; font-size: 0.85rem; font-weight: 500;
+            cursor: pointer;
         }
 
         #sidebar ul li a i { font-size: 1.1rem; transition: 0.3s; }
@@ -95,7 +94,6 @@
 
         #sidebar ul li a:hover i { color: var(--accent-color); }
 
-        /* Conteúdo Principal */
         #content {
             width: calc(100% - 280px); margin-left: 280px;
             height: 100vh; display: flex;
@@ -116,12 +114,8 @@
         .iframe-viewer { flex-grow: 1; width: 100%; background: #fff; position: relative; }
         iframe { width: 100%; height: 100%; border: none; animation: fadeIn 0.5s ease; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Botões do Header */
         .header-actions { display: flex; gap: 12px; }
 
         .btn-fullscreen {
@@ -146,7 +140,6 @@
             border: 1px solid #d1fae5; letter-spacing: 0.5px;
         }
 
-        /* FAB MENU FLUTUANTE (Drives) */
         .fab-wrapper { position: fixed; bottom: 35px; right: 35px; z-index: 9999; }
         .fab-main-btn {
             width: 60px; height: 60px;
@@ -208,7 +201,9 @@
 
             <p>Portais Oficiais</p>
             <li><a href="https://cadunico.dataprev.gov.br/portal/" target="_blank"><i class="bi bi-globe"></i> Portal CadÚnico</a></li>
-            <li><a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank"><i class="bi bi-lock"></i> Sistema SIGPBF</a></li>
+            <li><a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank"><i class="bi bi-shield-lock"></i> Sistema SIGPBF</a></li>
+            <li><a href="https://cidadesocial1.ae3tecnologia.com.br/login" target="_blank"><i class="bi bi-people-fill"></i> Cidade Social</a></li>
+            <li><a href="https://login.caixa.gov.br/auth/realms/internet/protocol/openid-connect/auth?response_type=code&client_id=cli-web-bec&redirect_uri=https%3A%2F%2Fwww.beneficiossociais.caixa.gov.br%2Fsibec2%2FsisgrSibec&scope=openid" target="_blank"><i class="bi bi-bank"></i> Sistema SIBEC (Caixa)</a></li>
 
             <p>Gestão e Calendário</p>
             <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Bolsa Família 2026', this)"><i class="bi bi-calendar3"></i> Calendário PBF</a></li>
@@ -280,8 +275,6 @@
 
         function navegar(url, titulo, elemento) {
             const frame = document.getElementById('painelFrame');
-            
-            // Efeito de transição no iframe
             frame.style.opacity = '0';
             
             setTimeout(() => {
@@ -291,7 +284,6 @@
                 frame.style.opacity = '1';
             }, 200);
 
-            // Atualiza menu ativo
             const menuItems = document.querySelectorAll('#mainMenu li');
             menuItems.forEach(item => item.classList.remove('active'));
             
@@ -299,7 +291,6 @@
                 elemento.parentElement.classList.add('active');
             }
 
-            // Fecha sidebar no mobile após clique
             if (window.innerWidth <= 992) {
                 toggleSidebar();
             }
@@ -328,7 +319,6 @@
             }
         }
 
-        // Fecha menus ao clicar fora
         window.onclick = function(event) {
             if (!event.target.closest('.fab-wrapper')) {
                 const list = document.getElementById('fabList');

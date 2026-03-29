@@ -73,16 +73,15 @@
         .info-titulo span { font-size: 0.6rem; color: #64748b; text-transform: uppercase; font-weight: 800; }
         .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1rem; }
 
-        /* Quadro de Visualização Central */
         .iframe-viewer { flex-grow: 1; width: 100%; background: #fff; }
-        iframe { width: 100%; height: 100%; border: none; transition: 0.3s; }
+        iframe { width: 100%; height: 100%; border: none; }
 
         .btn-logout {
             background: #fff1f1; color: #ef4444; border: 1px solid #fee2e2;
             padding: 8px 18px; border-radius: 10px; font-weight: 700; font-size: 0.75rem;
         }
 
-        /* FAB Menu (Atalhos Drive) */
+        /* FAB Menu (Atalhos Google Drive) */
         .fab-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
         .fab-main-btn { width: 55px; height: 55px; background: var(--sidebar-bg); border-radius: 15px; display: flex; justify-content: center; align-items: center; color: var(--accent-color); border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .fab-list { position: absolute; bottom: 70px; right: 0; display: none; flex-direction: column; gap: 10px; }
@@ -110,7 +109,6 @@
             <p>Monitoramento Territorial</p>
             <li class="active"><a onclick="navegar('Territorio_13_Setembro.html', 'Território 13 de Setembro', this)"><i class="bi bi-geo-alt"></i> 13 de Setembro</a></li>
             <li><a onclick="navegar('Mapa_Araceli.html', 'Araceli Souto Maior', this)"><i class="bi bi-geo-alt-fill"></i> Araceli Souto Maior</a></li>
-            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Divisão Técnica Territorial', this)"><i class="bi bi-people"></i> Divisão de Equipes</a></li>
 
             <p>Rede Socioassistencial</p>
             <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house-door"></i> Mapa CRAS</a></li>
@@ -119,18 +117,19 @@
             <li><a onclick="navegar('Mapa_Conselho Tutelar.html', 'Conselhos Tutelares', this)"><i class="bi bi-person-badge"></i> Conselhos Tutelares</a></li>
             <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Defensoria Pública</a></li>
 
-            <p>Portais e Sistemas (Acesso Central)</p>
+            <p>Portais e Sistemas (Centro)</p>
             <li><a onclick="navegar('https://cidadesocial1.ae3tecnologia.com.br/login', 'Portal Cidade Social', this)"><i class="bi bi-laptop"></i> Cidade Social</a></li>
             <li><a onclick="navegar('https://www.mds.gov.br/mds-sigpbf-web/index.jsp', 'Sistema SIGPBF', this)"><i class="bi bi-shield-lock"></i> Sistema SIGPBF</a></li>
             <li><a onclick="navegar('https://login.caixa.gov.br/auth/realms/internet/protocol/openid-connect/auth?response_type=code&client_id=cli-web-bec&redirect_uri=https%3A%2F%2Fwww.beneficiossociais.caixa.gov.br%2Fsibec2%2FsisgrSibec&scope=openid', 'Sistema SIBEC (Caixa)', this)"><i class="bi bi-bank"></i> Sistema SIBEC</a></li>
             <li><a onclick="navegar('https://cadunico.dataprev.gov.br/portal/', 'Portal CadÚnico', this)"><i class="bi bi-search"></i> Portal CadÚnico</a></li>
 
             <p>Calendários e PBF</p>
-            <li><a onclick="navegar('PBF.HTML', 'Condicionalidades Bolsa Família', this)"><i class="bi bi-info-circle"></i> Regras PBF</a></li>
+            <li><a onclick="navegar('PBF.HTML', 'Calendário de Condicionalidades', this)"><i class="bi bi-info-circle"></i> Calendário Condicionalidades</a></li>
             <li><a onclick="navegar('PagamentoPBF.html', 'Calendário de Pagamentos PBF', this)"><i class="bi bi-calendar-event"></i> Calendário PBF</a></li>
             <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV 2026', this)"><i class="bi bi-calendar3"></i> Calendário PMBV</a></li>
 
             <p>Gestão e RMA</p>
+            <li><a onclick="navegar('Divisão Territorial – Equipe Técnica - CRAS Cristiana.html', 'Divisão Técnica Territorial', this)"><i class="bi bi-people"></i> Divisão de Equipes</a></li>
             <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RMA Mensal (MDS)', this)"><i class="bi bi-file-earmark-bar-graph"></i> RMA Paulo Xavier</a></li>
             <li><a onclick="navegar('Registro de Atendimento (Planilha).html', 'Registro de Atendimentos', this)"><i class="bi bi-table"></i> Registro (Planilha)</a></li>
             <li><a href="RMA - Geral - Limpo.xlsx" target="_blank"><i class="bi bi-file-earmark-excel text-success"></i> Baixar RMA (.xlsx)</a></li>
@@ -154,7 +153,7 @@
         </section>
 
         <div class="fab-wrapper">
-            <button class="fab-main-btn" onclick="toggleFab()"><i class="bi bi-grid-fill fs-4" id="fabIcon"></i></button>
+            <button class="fab-main-btn" onclick="toggleFab()"><i class="bi bi-google-drive fs-4" id="fabIcon"></i></button>
             <div class="fab-list" id="fabList">
                 <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5" target="_blank" class="fab-link">
                     <span class="fab-label">Pasta Keomara</span>
@@ -173,20 +172,16 @@
     </main>
 
     <script>
-        // Função principal para carregar os conteúdos no centro
         function navegar(url, titulo, elemento) {
-            const frame = document.getElementById('painelFrame');
-            frame.src = url;
+            document.getElementById('painelFrame').src = url;
             document.getElementById('txtTitulo').innerText = titulo;
             
-            // Gerenciamento de classes ativas no menu
             document.querySelectorAll('#mainMenu li').forEach(li => li.classList.remove('active'));
             if(elemento) {
                 if(elemento.tagName === 'A') elemento.parentElement.classList.add('active');
                 else elemento.classList.add('active');
             }
 
-            // Fecha menu lateral em dispositivos móveis
             if (window.innerWidth <= 992) toggleSidebar();
         }
 
@@ -194,12 +189,17 @@
         
         function toggleFab() { 
             document.getElementById('fabList').classList.toggle('active');
+            // Mantém o ícone do Drive visível ou troca para X ao abrir
             const icon = document.getElementById('fabIcon');
-            icon.classList.toggle('bi-grid-fill'); icon.classList.toggle('bi-x-lg');
+            if (icon.classList.contains('bi-google-drive')) {
+                icon.classList.replace('bi-google-drive', 'bi-x-lg');
+            } else {
+                icon.classList.replace('bi-x-lg', 'bi-google-drive');
+            }
         }
 
         function logout() {
-            if(confirm("Deseja encerrar o sistema de monitoramento?")) {
+            if(confirm("Deseja encerrar o sistema?")) {
                 sessionStorage.clear();
                 window.location.replace("login.html");
             }

@@ -21,6 +21,7 @@
             --accent-color: #00d4ff; 
             --bg-main: #f8fafc;
             --header-height: 75px;
+            --footer-height: 60px;
         }
 
         body, html { 
@@ -38,6 +39,7 @@
             left: 0; top: 0; z-index: 1000;
             transition: all 0.3s;
             overflow-y: auto;
+            padding-bottom: 20px;
         }
 
         .sidebar-header { padding: 30px 25px; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; }
@@ -73,16 +75,37 @@
         .info-titulo span { font-size: 0.6rem; color: #64748b; text-transform: uppercase; font-weight: 800; }
         .info-titulo h5 { margin: 0; font-weight: 700; color: #1e293b; font-size: 1rem; }
 
-        .iframe-viewer { flex-grow: 1; width: 100%; background: #fff; }
+        .iframe-viewer { 
+            flex-grow: 1; 
+            width: 100%; 
+            background: #fff; 
+            height: calc(100vh - var(--header-height) - var(--footer-height));
+        }
         iframe { width: 100%; height: 100%; border: none; }
+
+        /* Rodapé Informativo */
+        .main-footer {
+            height: var(--footer-height);
+            background: white;
+            border-top: 1px solid #edf2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .footer-item { display: flex; align-items: center; gap: 8px; }
+        .footer-item i { color: var(--sidebar-bg); font-size: 1rem; }
+        .footer-item strong { color: #1e293b; text-transform: uppercase; }
 
         .btn-logout {
             background: #fff1f1; color: #ef4444; border: 1px solid #fee2e2;
             padding: 8px 18px; border-radius: 10px; font-weight: 700; font-size: 0.75rem;
         }
 
-        /* FAB Menu (Atalhos Google Drive) */
-        .fab-wrapper { position: fixed; bottom: 30px; right: 30px; z-index: 9999; }
+        /* FAB Menu */
+        .fab-wrapper { position: fixed; bottom: 80px; right: 30px; z-index: 9999; }
         .fab-main-btn { width: 55px; height: 55px; background: var(--sidebar-bg); border-radius: 15px; display: flex; justify-content: center; align-items: center; color: var(--accent-color); border: none; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .fab-list { position: absolute; bottom: 70px; right: 0; display: none; flex-direction: column; gap: 10px; }
         .fab-list.active { display: flex; }
@@ -94,6 +117,8 @@
             #sidebar { left: -280px; }
             #sidebar.show { left: 0; }
             #content { width: 100% !important; margin-left: 0 !important; }
+            .main-footer { flex-direction: column; height: auto; padding: 15px; gap: 5px; text-align: center; }
+            .iframe-viewer { height: auto; }
         }
     </style>
 </head>
@@ -132,7 +157,7 @@
 
             <p>Calendários e PBF</p>
             <li><a onclick="navegar('PBF.HTML', 'Calendário de Condicionalidades', this)"><i class="bi bi-info-circle"></i> Calendário Condicionalidades</a></li>
-            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário de Pagamentos PBF', this)"><i class="bi bi-calendar-event"></i> Calendário PBF</a></li>
+            <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Pagamento PBF', this)"><i class="bi bi-calendar-event"></i> Calendário Pagamento PBF</a></li>
             <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV 2026', this)"><i class="bi bi-calendar3"></i> Calendário PMBV</a></li>
 
             <p>Gestão e RMA</p>
@@ -158,6 +183,17 @@
         <section class="iframe-viewer">
             <iframe id="painelFrame" src="Territorio_13_Setembro.html"></iframe>
         </section>
+
+        <footer class="main-footer">
+            <div class="footer-item">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span><strong>CRAS CRISTIANA VICENTE NUNES:</strong> Rua Santo Agostinho n°193 – Centenário</span>
+            </div>
+            <div class="footer-item">
+                <i class="bi bi-telephone-fill"></i>
+                <span><strong>Contato:</strong> (95) 98402-6617</span>
+            </div>
+        </footer>
 
         <div class="fab-wrapper">
             <button class="fab-main-btn" onclick="toggleFab()"><i class="bi bi-google-drive fs-4" id="fabIcon"></i></button>

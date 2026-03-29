@@ -114,44 +114,75 @@
             border: 1px solid #d1fae5;
         }
 
-        /* --- ESTILOS DO BOTÃO ESFERO (FAB) --- */
-        .fab-container {
+        /* --- NOVO MENU FLUTUANTE ESTILIZADO (PASTAS) --- */
+        .fab-wrapper {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 35px;
+            right: 35px;
             z-index: 9999;
-            display: flex;
-            flex-direction: column-reverse;
-            align-items: center;
-            gap: 15px;
         }
 
-        .fab-main {
-            width: 60px;
-            height: 60px;
-            background: var(--accent-color);
+        .fab-main-btn {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--accent-color), #00a8cc);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: var(--sidebar-bg);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
             cursor: pointer;
-            transition: 0.3s;
             border: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
 
-        .fab-main:hover { transform: scale(1.1) rotate(90deg); }
+        .fab-main-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5);
+        }
 
-        .fab-options {
-            display: none;
+        .fab-list {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
         }
 
-        .fab-options.show { display: flex; }
+        .fab-list.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
 
-        .fab-item {
+        .fab-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            justify-content: flex-end;
+        }
+
+        .fab-label {
+            background: white;
+            color: var(--sidebar-bg);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+            transition: 0.3s;
+        }
+
+        .fab-sub-btn {
             width: 50px;
             height: 50px;
             background: white;
@@ -159,37 +190,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            color: var(--sidebar-bg);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            text-decoration: none;
+            color: #444;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             transition: 0.3s;
-            position: relative;
         }
 
-        .fab-item:hover {
-            background: var(--sidebar-hover);
-            color: white;
-            transform: translateY(-5px);
-        }
-
-        /* Tooltip Personalizado */
-        .fab-item::after {
-            content: attr(data-label);
-            position: absolute;
-            right: 65px;
+        .fab-link:hover .fab-sub-btn {
             background: var(--sidebar-bg);
             color: var(--accent-color);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-            border: 1px solid var(--accent-color);
+            transform: scale(1.1);
         }
-        .fab-item:hover::after { opacity: 1; }
+
+        .fab-link:hover .fab-label {
+            background: var(--accent-color);
+            color: var(--sidebar-bg);
+        }
     </style>
 
     <script>
@@ -210,12 +225,12 @@
             <p>Monitoramento Territorial</p>
             <li class="active">
                 <a onclick="navegar('Territorio_13_Setembro.html', 'Território 13 de Setembro', this)">
-                    <i class="bi bi-geo-alt"></i> 13 de Setembro
+                    <i class="bi bi-geo-alt-fill"></i> 13 de Setembro
                 </a>
             </li>
             <li>
                 <a onclick="navegar('Mapa_Araceli.html', 'Território Araceli Souto Maior', this)">
-                    <i class="bi bi-map"></i> Araceli Souto Maior
+                    <i class="bi bi-geo-alt-fill"></i> Araceli Souto Maior
                 </a>
             </li>
             <li><a onclick="navegar('Mapa_CRAS.html', 'Rede CRAS', this)"><i class="bi bi-house"></i> Mapa do CRAS</a></li>
@@ -265,22 +280,23 @@
             <iframe id="painelFrame" src="Territorio_13_Setembro.html" title="Visualizador"></iframe>
         </section>
 
-        <div class="fab-container">
-            <button class="fab-main" onclick="toggleFab()" title="Arquivos da Equipe">
-                <i class="bi bi-person-video2 fs-3"></i>
+        <div class="fab-wrapper">
+            <button class="fab-main-btn" onclick="toggleFab()" id="fabMain">
+                <i class="bi bi-folder-fill fs-3" id="fabIcon"></i>
             </button>
-            <div class="fab-options" id="fabOptions">
-                <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5?usp=drive_link" 
-                   target="_blank" class="fab-item" data-label="Pasta Keomara">
-                    <i class="bi bi-folder2-open"></i>
+            
+            <div class="fab-list" id="fabList">
+                <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5?usp=drive_link" target="_blank" class="fab-link">
+                    <span class="fab-label">Pasta Keomara</span>
+                    <div class="fab-sub-btn"><i class="bi bi-google-drive"></i></div>
                 </a>
-                <a href="https://drive.google.com/drive/folders/1MtK9Kz3mlxTwIESPp28YwiVtrNdI55Lt?usp=drive_link" 
-                   target="_blank" class="fab-item" data-label="Pasta Danilo">
-                    <i class="bi bi-folder2-open"></i>
+                <a href="https://drive.google.com/drive/folders/1MtK9Kz3mlxTwIESPp28YwiVtrNdI55Lt?usp=drive_link" target="_blank" class="fab-link">
+                    <span class="fab-label">Pasta Danilo</span>
+                    <div class="fab-sub-btn"><i class="bi bi-google-drive"></i></div>
                 </a>
-                <a href="https://drive.google.com/drive/folders/1nR7c8AsrhwWPyBYfmWkOmEIfyH349gXR?usp=drive_link" 
-                   target="_blank" class="fab-item" data-label="Pasta Paulo">
-                    <i class="bi bi-folder2-open"></i>
+                <a href="https://drive.google.com/drive/folders/1nR7c8AsrhwWPyBYfmWkOmEIfyH349gXR?usp=drive_link" target="_blank" class="fab-link">
+                    <span class="fab-label">Pasta Paulo</span>
+                    <div class="fab-sub-btn"><i class="bi bi-google-drive"></i></div>
                 </a>
             </div>
         </div>
@@ -314,16 +330,26 @@
             window.location.href = "login.html";
         }
 
-        // --- FUNÇÕES DO BOTÃO ESFERO ---
+        // Funções do Menu de Pastas
         function toggleFab() {
-            const options = document.getElementById('fabOptions');
-            options.classList.toggle('show');
+            const list = document.getElementById('fabList');
+            const icon = document.getElementById('fabIcon');
+            list.classList.toggle('active');
+            
+            if(list.classList.contains('active')) {
+                icon.classList.replace('bi-folder-fill', 'bi-x-lg');
+            } else {
+                icon.classList.replace('bi-x-lg', 'bi-folder-fill');
+            }
         }
 
-        // Fecha se clicar fora
+        // Fecha se clicar fora do menu
         window.onclick = function(event) {
-            if (!event.target.closest('.fab-container')) {
-                document.getElementById('fabOptions').classList.remove('show');
+            if (!event.target.closest('.fab-wrapper')) {
+                const list = document.getElementById('fabList');
+                const icon = document.getElementById('fabIcon');
+                list.classList.remove('active');
+                icon.classList.replace('bi-x-lg', 'bi-folder-fill');
             }
         }
     </script>

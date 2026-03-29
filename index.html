@@ -114,7 +114,7 @@
             border: 1px solid #d1fae5;
         }
 
-        /* --- NOVO MENU FLUTUANTE ESTILIZADO (PASTAS) --- */
+        /* --- MENU FLUTUANTE ESTILIZADO (PASTAS) --- */
         .fab-wrapper {
             position: fixed;
             bottom: 35px;
@@ -238,6 +238,18 @@
             <li><a onclick="navegar('Mapa_RAPS.html', 'Rede RAPS', this)"><i class="bi bi-activity"></i> Mapa da RAPS</a></li>
             <li><a onclick="navegar('Mapa_Defensoria.html', 'Defensoria Pública', this)"><i class="bi bi-balance"></i> Mapa Defensoria Pública</a></li>
 
+            <p>Portais Oficiais</p>
+            <li>
+                <a href="https://cadunico.dataprev.gov.br/portal/" target="_blank">
+                    <i class="bi bi-browser-safari"></i> Portal CadÚnico
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mds.gov.br/mds-sigpbf-web/index.jsp" target="_blank">
+                    <i class="bi bi-shield-lock"></i> Sistema SIGPBF
+                </a>
+            </li>
+
             <p>Gestão e Calendário</p>
             <li><a onclick="navegar('PagamentoPBF.html', 'Calendário Pagamento Bolsa Família 2026', this)"><i class="bi bi-calendar-event"></i> Calendário Pagamento Bolsa Família</a></li>
             <li><a onclick="navegar('CPMBV 2026.HTML', 'Calendário PMBV', this)"><i class="bi bi-calendar-check"></i> Calendário Prefeitura de Boa Vista</a></li>
@@ -330,7 +342,6 @@
             window.location.href = "login.html";
         }
 
-        // Funções do Menu de Pastas
         function toggleFab() {
             const list = document.getElementById('fabList');
             const icon = document.getElementById('fabIcon');
@@ -343,13 +354,14 @@
             }
         }
 
-        // Fecha se clicar fora do menu
         window.onclick = function(event) {
             if (!event.target.closest('.fab-wrapper')) {
                 const list = document.getElementById('fabList');
                 const icon = document.getElementById('fabIcon');
-                list.classList.remove('active');
-                icon.classList.replace('bi-x-lg', 'bi-folder-fill');
+                if(list.classList.contains('active')) {
+                    list.classList.remove('active');
+                    icon.classList.replace('bi-x-lg', 'bi-folder-fill');
+                }
             }
         }
     </script>

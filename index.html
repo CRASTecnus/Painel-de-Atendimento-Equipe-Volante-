@@ -154,18 +154,19 @@
             <li><a onclick="navegar('Mapa_Conselho Tutelar.html', 'CONSELHOS TUTELARES', this)"><i class="bi bi-person-badge"></i> Conselhos Tutelares</a></li>
             <li><a onclick="navegar('Mapa_Defensoria.html', 'DEFENSORIA PÚBLICA', this)"><i class="bi bi-bank"></i> Defensoria Pública</a></li>
 
-            <p>Sistemas Municipais (PMBV)</p>
+            <p>Sistemas Municipais e Gestão</p>
+            <li><a onclick="navegar('https://cidadesocial1.ae3tecnologia.com.br/login', 'CIDADE SOCIAL', this)"><i class="bi bi-building-check"></i> Cidade Social</a></li>
             <li><a onclick="navegar('CPMBV 2026.HTML', 'PAINEL PMBV', this)"><i class="bi bi-kanban"></i> Painel PMBV 2026</a></li>
             <li><a onclick="navegar('http://sipweb.boavista.rr.gov.br:8080/sipweb/trabalhador/login/login.xhtml', 'SIPWEB', this)"><i class="bi bi-layers"></i> SIPWEB</a></li>
             <li><a onclick="navegar('https://bt.pmbv.rr.gov.br/SMT73/open.do?sys=SMT', 'SISTEMA SMT', this)"><i class="bi bi-activity"></i> Sistema SMT</a></li>
             <li><a onclick="navegar('http://servicos.boavista.rr.gov.br/cedulac/', 'CÉDULA C', this)"><i class="bi bi-file-binary"></i> Cédula C</a></li>
-            <li><a onclick="navegar('https://portalcidadao.prefeitura.boavista.br/default.aspx', 'PORTAL DO CIDADÃO', this)"><i class="bi bi-box-arrow-in-right"></i> Portal Cidadão</a></li>
 
             <p>Sistemas Federais (MDS/CEF)</p>
+            <li><a onclick="navegar('https://www.beneficiossociais.caixa.gov.br/sibec2/sisgrSibec', 'SISTEMA SIBEC', this)"><i class="bi bi-bank2"></i> SIBEC (Caixa)</a></li>
+            <li><a onclick="navegar('https://carteiraidoso.cidadania.gov.br/', 'CARTEIRA DO IDOSO', this)"><i class="bi bi-person-vcard"></i> Carteira do Idoso</a></li>
             <li><a onclick="navegar('PBF.HTML', 'PAINEL PBF', this)"><i class="bi bi-wallet2"></i> Painel PBF 2026</a></li>
             <li><a onclick="navegar('PagamentoPBF.html', 'CONSULTA PAGAMENTOS', this)"><i class="bi bi-cash-stack"></i> Pagamento PBF</a></li>
             <li><a onclick="navegar('https://cadunico.dataprev.gov.br/portal/', 'PORTAL CADÚNICO', this)"><i class="bi bi-database-lock"></i> Portal CadÚnico</a></li>
-            <li><a onclick="navegar('https://www.mds.gov.br/mds-sigpbf-web/carregarTelaLogin.jsf', 'SIGPBF', this)"><i class="bi bi-terminal-fill"></i> SIGPBF</a></li>
 
             <p>Gestão e RMA</p>
             <li><a onclick="navegar('RMA_Paulo Xavier_2026.html', 'RELATÓRIO RMA', this)"><i class="bi bi-bar-chart-steps"></i> RMA (MDS)</a></li>
@@ -205,19 +206,19 @@
             <button class="fab-main-btn" onclick="toggleFab()"><i class="bi bi-hdd-network-fill fs-5"></i></button>
             <div class="fab-list" id="fabList">
                 <a href="https://drive.google.com/drive/folders/1MtK9Kz3mlxTwIESPp28YwiVtrNdI55Lt?usp=drive_link" target="_blank" class="fab-link">
-                    <span class="fab-label">Danilo</span>
+                    <span class="fab-label">Nuvem: Danilo</span>
                     <div class="fab-sub-btn"><i class="bi bi-person-check"></i></div>
                 </a>
                 <a href="https://drive.google.com/drive/folders/1VeGWP1MnhrQ7KDeaEZ7e55s3gBB1byD5?usp=drive_link" target="_blank" class="fab-link">
-                    <span class="fab-label">Keomara</span>
+                    <span class="fab-label">Nuvem: Keomara</span>
                     <div class="fab-sub-btn"><i class="bi bi-person-heart"></i></div>
                 </a>
                 <a href="https://drive.google.com/drive/folders/1Gnyc9nj00HstxcBeYHYvF7Pd7b_6q3Y5" target="_blank" class="fab-link">
-                    <span class="fab-label">Geral Equipe</span>
+                    <span class="fab-label">Nuvem: Geral Equipe</span>
                     <div class="fab-sub-btn"><i class="bi bi-folder"></i></div>
                 </a>
                 <a href="https://drive.google.com/drive/folders/1nR7c8AsrhwWPyBYfmWkOmEIfyH349gXR" target="_blank" class="fab-link">
-                    <span class="fab-label">Paulo Xavier</span>
+                    <span class="fab-label">Nuvem: Paulo Xavier</span>
                     <div class="fab-sub-btn"><i class="bi bi-person-workspace"></i></div>
                 </a>
             </div>
@@ -238,7 +239,9 @@
                 'boavista.rr.gov.br', 
                 'cedulac', 
                 'SMT',
-                'sipweb'
+                'sipweb',
+                'cidadania.gov.br',
+                'cidadesocial1.ae3tecnologia'
             ];
             
             const deveAbrirFora = abrirFora.some(dominio => url.includes(dominio));

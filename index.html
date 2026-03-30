@@ -231,13 +231,31 @@
 
     <script>
         function navegar(url, titulo, elemento) {
-            document.getElementById('painelFrame').src = url;
-            document.getElementById('txtTitulo').innerText = titulo;
-            
-            document.querySelectorAll('#mainMenu li').forEach(li => li.classList.remove('active'));
-            if(elemento) {
-                if(elemento.tagName === 'A') elemento.parentElement.classList.add('active');
-                else elemento.classList.add('active');
+            // Lista de domínios que bloqueiam Cookies/Frame e DEVEM abrir em nova aba
+            const abrirExterno = [
+                'mds.gov.br',
+                'caixa.gov.br',
+                'dataprev.gov.br',
+                'cidadania.gov.br',
+                'boavista.rr.gov.br',
+                'prefeitura.boavista.br'
+            ];
+
+            const deveAbrirFora = abrirExterno.some(dominio => url.includes(dominio));
+
+            if (deveAbrirFora) {
+                // Abre em nova aba e avisa o usuário (opcional)
+                window.open(url, '_blank');
+            } else {
+                // Comportamento normal para mapas e arquivos locais
+                document.getElementById('painelFrame').src = url;
+                document.getElementById('txtTitulo').innerText = titulo;
+                
+                document.querySelectorAll('#mainMenu li').forEach(li => li.classList.remove('active'));
+                if(elemento) {
+                    if(elemento.tagName === 'A') elemento.parentElement.classList.add('active');
+                    else elemento.classList.add('active');
+                }
             }
 
             if (window.innerWidth <= 992) toggleSidebar();

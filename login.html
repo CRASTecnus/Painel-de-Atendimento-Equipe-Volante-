@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Equipe Volante</title>
+    <title>Login | Volante OS</title>
     
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -11,129 +11,133 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --sidebar-bg: #0d2137; 
-            --accent-color: #00d4ff; 
-            --bg-main: #f0f4f8;
-            --glass-bg: rgba(255, 255, 255, 0.95);
+            --primary-dark: #060b13;
+            --sidebar-bg: #0a111e;
+            --accent-glow: #00d4ff;
+            --text-muted: #94a3b8;
         }
 
         body, html {
             height: 100%; margin: 0;
-            font-family: 'Inter', sans-serif;
-            /* Fundo Animado */
-            background: linear-gradient(-45deg, #0d2137, #16314d, #001220, #0d2137);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at center, #0d172a 0%, #060b13 100%);
             display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Efeito de partículas/fundo dinâmico sutil */
+        body::before {
+            content: ""; position: absolute; width: 100%; height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.pattern");
+            opacity: 0.1; z-index: -1;
         }
 
-        .login-container { width: 100%; max-width: 440px; padding: 25px; position: relative; }
+        .login-container { width: 100%; max-width: 400px; padding: 20px; z-index: 1; }
 
         .card-login {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(10, 17, 30, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 28px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 212, 255, 0.05);
+            border: 1px solid rgba(0, 212, 255, 0.1);
             overflow: hidden;
-            animation: fadeInScale 0.6s ease-out;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .card-header-custom {
-            background-color: var(--sidebar-bg);
-            padding: 45px 30px; text-align: center; color: white;
-            position: relative;
+            padding: 40px 30px 20px; text-align: center;
         }
 
-        /* Ícone de Escudo no Topo */
         .shield-icon {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
+            font-size: 3rem;
+            color: var(--accent-glow);
+            margin-bottom: 10px;
             display: inline-block;
-            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.5));
+            filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.6));
         }
 
         .card-header-custom h4 {
-            font-weight: 800; letter-spacing: 2px;
+            font-weight: 800; letter-spacing: 3px;
             color: white; margin: 0; text-transform: uppercase;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
         }
 
         .card-header-custom p { 
-            font-size: 0.75rem; opacity: 0.8; margin-top: 8px; 
-            text-transform: uppercase; letter-spacing: 1px;
-            font-weight: 400;
+            font-size: 0.65rem; color: var(--accent-glow); margin-top: 5px; 
+            text-transform: uppercase; letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .card-body { padding: 45px 40px; }
+        .card-body { padding: 30px 40px 50px; }
 
         .form-label {
-            font-size: 0.7rem; font-weight: 800; color: #475569;
-            text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
+            font-size: 0.6rem; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
         }
 
         .input-group {
-            border-radius: 12px; overflow: hidden;
-            transition: 0.3s; border: 2px solid #e2e8f0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .input-group:focus-within {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.1);
+            border-color: var(--accent-glow);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            background: rgba(0, 212, 255, 0.05);
         }
 
         .input-group-text { 
-            background-color: white; border: none; color: #94a3b8; 
-            padding-left: 15px;
+            background: transparent; border: none; color: var(--accent-glow); 
+            padding-left: 15px; font-size: 1.1rem;
         }
 
         .form-control {
-            border: none; padding: 14px 12px; font-size: 0.95rem;
-            background-color: white; font-weight: 500;
+            border: none; padding: 14px 12px; font-size: 0.9rem;
+            background: transparent; color: white;
+            font-weight: 400;
         }
 
-        .form-control:focus { box-shadow: none; background-color: white; }
+        .form-control::placeholder { color: rgba(255, 255, 255, 0.2); }
+        .form-control:focus { box-shadow: none; background: transparent; color: white; }
 
         .btn-login {
-            background: linear-gradient(135deg, var(--sidebar-bg) 0%, #1a3a5a 100%);
-            color: white; border: none; padding: 16px; border-radius: 12px;
-            font-weight: 700; width: 100%; margin-top: 15px;
-            transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 1.5px;
-            box-shadow: 0 10px 20px rgba(13, 33, 55, 0.2);
+            background: var(--accent-glow);
+            color: var(--primary-dark); border: none; padding: 15px; border-radius: 12px;
+            font-weight: 800; width: 100%; margin-top: 10px;
+            transition: 0.4s; text-transform: uppercase; letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+            font-size: 0.85rem;
         }
 
         .btn-login:hover {
-            background: var(--accent-color);
-            color: var(--sidebar-bg);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(0, 212, 255, 0.3);
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(0, 212, 255, 0.5);
+            background: #fff;
         }
-
-        .btn-login:active { transform: translateY(-1px); }
 
         .status-footer {
             text-align: center; margin-top: 25px;
-            font-size: 0.75rem; color: rgba(255, 255, 255, 0.6);
-            font-weight: 500;
+            font-size: 0.6rem; color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 1px;
         }
 
-        .accent-dot { color: var(--accent-color); }
+        .accent-dot { color: var(--accent-glow); animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
     </style>
 
     <script>
@@ -148,39 +152,39 @@
         <div class="card card-login">
             <div class="card-header-custom">
                 <div class="shield-icon">
-                    <i class="bi bi-shield-lock"></i>
+                    <i class="bi bi-fingerprint"></i>
                 </div>
-                <h4>Equipe Volante<span class="accent-dot">.</span></h4>
-                <p>Monitoramento Territorial - Cristiana</p>
+                <h4>VOLANTE <span style="font-weight: 300;">OS</span></h4>
+                <p>Authentication Required</p>
             </div>
             
             <div class="card-body">
                 <form id="formLogin">
                     <div class="mb-4">
-                        <label class="form-label">Identificação</label>
+                        <label class="form-label">User ID</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" id="usuario" class="form-control" placeholder="Usuário" required autocomplete="off">
+                            <input type="text" id="usuario" class="form-control" placeholder="Identify yourself..." required autocomplete="off">
                         </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label">Chave de Acesso</label>
+                        <label class="form-label">Access Key</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-key"></i></span>
                             <input type="password" id="senha" class="form-control" placeholder="••••••••" required>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-login">
-                        Autenticar <i class="bi bi-chevron-right ms-2"></i>
+                    <button type="submit" class="btn btn-login" id="btnSubmit">
+                        <span id="btnText">Execute Login</span> <i class="bi bi-arrow-right ms-2"></i>
                     </button>
                 </form>
             </div>
         </div>
         
         <div class="status-footer">
-            <i class="bi bi-lock-fill me-2"></i>Ambiente Seguro & Monitorado
+            <span class="accent-dot">●</span> SECURE CONNECTION ESTABLISHED
         </div>
     </div>
 
@@ -188,27 +192,29 @@
         document.getElementById('formLogin').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const btn = e.submitter;
-            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Validando...';
-            btn.style.opacity = '0.8';
+            const btn = document.getElementById('btnSubmit');
+            const btnText = document.getElementById('btnText');
+            
+            btnText.innerHTML = 'VERIFYING...';
             btn.disabled = true;
+            btn.style.opacity = '0.7';
 
             const user = document.getElementById('usuario').value.trim();
             const pass = document.getElementById('senha').value;
 
-            // Simulação de delay para experiência de sistema real
+            // Simulação de delay para autenticação de sistema
             setTimeout(() => {
                 if(user === "cras" && pass === "volante2026") {
                     sessionStorage.setItem('logado', 'true');
                     window.location.replace("index.html"); 
                 } else {
-                    alert("Acesso negado: Credenciais inválidas.");
-                    btn.innerHTML = 'Autenticar <i class="bi bi-chevron-right ms-2"></i>';
-                    btn.style.opacity = '1';
+                    alert("ACCESS DENIED: Critical credentials mismatch.");
+                    btnText.innerHTML = 'EXECUTE LOGIN';
                     btn.disabled = false;
+                    btn.style.opacity = '1';
                     document.getElementById('senha').value = "";
                 }
-            }, 800);
+            }, 1200);
         });
     </script>
 

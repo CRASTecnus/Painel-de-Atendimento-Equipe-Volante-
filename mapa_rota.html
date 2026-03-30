@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento Territorial - 30+ Pontos</title>
+    <style>
+        :root {
+            --primary-blue: #004a8d;
+            --light-bg: #f4f7f6;
+            --success-green: #27ae60;
+            --accent-orange: #e67e22;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; margin: 20px; background-color: var(--light-bg); color: #333; }
+
+        .no-print { 
+            background: white; padding: 20px; border-radius: 8px; border: 1px solid #dee2e6; 
+            margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .search-row { display: flex; gap: 10px; align-items: flex-end; }
+        
+        label { font-size: 0.7rem; font-weight: bold; color: var(--primary-blue); text-transform: uppercase; display: block; margin-bottom: 5px; }
+        input[type="text"] { padding: 10px; border: 2px solid #ddd; border-radius: 4px; outline: none; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
+        #bairroFoco { border: 2px solid var(--accent-orange); background: #fffcf9; }
+
+        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; justify-content: center; }
+        .btn-add { background: var(--primary-blue); color: white; }
+        .btn-optimize { background: #6f42c1; color: white; width: 100%; margin-top: 15px; padding: 12px; }
+        .btn-pdf { background: #c0392b; color: white; width: 100%; margin-top: 8px; }
+        .btn-gps { background: #2980b9; color: white; width: 100%; margin-top: 8px; }
+
+        #painel-gestao { display: flex; flex-wrap: wrap; gap: 20px; }
+        .sidebar { flex: 1; min-width: 380px; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 20px; }
+        
+        .scroll-area { max-height: 500px; overflow-y: auto; border: 1px solid #eee; border-radius: 4px; background: #fafafa; margin-top: 10px; }
+        .route-item { 
+            display: flex; align-items: center; background: white; padding: 8px; 
+            margin-bottom: 4px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem;
+        }
+        .item-num { background: var(--primary-blue); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-right: 10px; flex-shrink: 0; }
+
+        /* Estilo do Título do Mapa */
+        .mapa-label-topo { text-align: center; font-weight: bold; color: var(--primary-blue); font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 5px; }
+
+        .mapa-container { flex: 2.5; min-width: 500px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; background: white; padding: 10px; }
+        .header-mapa { background: #eee; color: #333; padding: 8px; font-weight: bold; font-size: 0.8rem; display: flex; justify-content: space-between; border-radius: 4px; margin-bottom: 10px; }
+
+        @media print {
+            .no-print, .sidebar, .header-mapa, .btn-remove { display: none !important; }
+            .print-only { display: block !important; }
+            .route-item { border: none; border-bottom: 1px solid #eee; font-size: 1.1rem; padding: 12px 0; }
+        }
+        .print-only { display: none; }
+    </style>
+</head>
+<body onload="carregarDados()">
+
+    <div class="print-only" style="padding: 30px;">
+        <h2 style="color:#004a8d; border-bottom: 2px solid #004a8d;">Roteiro de Visitas: <span id="pdfBairroTitulo"></span></h2>
+        <p><strong>Ponto de Partida:</strong> <span id="pdfPartida"></span></p>
+        <div id="pdfLista"></div>
+    </div>
+
+    <div class="no-print">
+        <div class="config-grid">
+            <div>
+                <label>📍 Ponto de Partida (Base):</label>
+                <input type="text" id="pontoPartida" placeholder="Ex: CRAS Cristiana Vicente">
+            </div>
+            <div>
+                <label>🏘️ Bairro de Destino (Foco):</label>
+                <input type="text" id="bairroFoco" placeholder="Ex: Araceli" onchange="atualizarInterface()">
+            </div>
+        </div>
+        
+        <div class="search-row">
+            <div style="flex: 2;">
+                <label>➕ Rua e Número:</label>
+                <input type="text" id="campoBusca" placeholder="Ex: Rua Macunaima, 100" onkeypress="if(event.key==='Enter') adicionarPonto()">
+            </div>
+            <button class="btn-add" onclick="adicionarPonto()">🔍 ADICIONAR PONTO</button>
+            <button onclick="salvarDados()">💾 SALVAR TUDO</button>
+            <button onclick="limparTudo()" style="background:#7f8c8d; color:white;">🗑️ LIMPAR</button>
+        </div>
+    </div>
+
+    <section id="painel-gestao">
+        <aside class="sidebar no-print">
+            <h3 style="margin:0; color: var(--primary-blue); font-size: 0.9rem;">📍 SEQUÊNCIA DE VISITAS (<span id="count">0</span>)</h3>
+            <div id="listaRota" class="scroll-area"></div>
+
+            <div id="controles" style="display:none;">
+                <button class="btn-optimize" onclick="otimizarRota()">⚡ OTIMIZAR ORDEM DAS RUA</button>
+                <button class="btn-gps" onclick="abrirGoogleMaps()">🚀 ENVIAR PARA O GPS (CELULAR)</button>
+                <button class="btn-pdf" onclick="gerarPDF()">📄 GERAR RELATÓRIO PDF</button>
+            </div>
+        </aside>
+
+        <main class="mapa-container">
+            <div class="mapa-label-topo">MAPA DE ROTAS</div>
+            <div class="header-mapa">
+                <span id="labelMapa">BOA VISTA, RR</span>
+            </div>
+            <iframe id="mapaCentral" src="about:blank" width="100%" height="600" style="border:0;"></iframe>
+        </main>
+    </section>
+
+    <script>
+        let rotaAtiva = [];
+
+        function getBairro() { return document.getElementById('bairroFoco').value || ""; }
+
+        function formatarEndereco(rua) {
+            const bairro = getBairro();
+            return `${rua}${bairro ? ', ' + bairro : ''}, Boa Vista, RR`;
+        }
+
+        function adicionarPonto() {
+            const rua = document.getElementById('campoBusca').value;
+            if (!rua) return;
+            rotaAtiva.push(rua);
+            document.getElementById('campoBusca').value = "";
+            atualizarInterface();
+            carregarNoIframe(rua);
+        }
+
+        function atualizarInterface() {
+            const container = document.getElementById('listaRota');
+            const bairro = getBairro();
+            document.getElementById('labelMapa').innerText = "BAIRRO: " + (bairro.toUpperCase() || "BOA VISTA");
+            document.getElementById('count').innerText = rotaAtiva.length;
+            
+            if (rotaAtiva.length === 0) {
+                container.innerHTML = `<p style="padding:20px; color:#999; text-align:center;">Lista vazia.</p>`;
+                document.getElementById('controles').style.display = "none";
+                return;
+            }
+
+            document.getElementById('controles').style.display = "block";
+            container.innerHTML = "";
+            
+            // Renderiza a lista completa, não importa quantos pontos existam
+            rotaAtiva.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'route-item';
+                div.innerHTML = `
+                    <div class="item-num">${index + 1}</div>
+                    <span style="flex-grow:1; cursor:pointer;" onclick="carregarNoIframe('${item}')">${item}</span>
+                    <button onclick="removerItem(${index})" style="background:none; border:none; color:red; cursor:pointer; font-weight:bold;">✕</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function removerItem(i) { rotaAtiva.splice(i, 1); atualizarInterface(); }
+
+        async function otimizarRota() {
+            const partida = document.getElementById('pontoPartida').value;
+            if (!partida) return alert("Defina o Ponto de Partida!");
+            if (rotaAtiva.length < 2) return alert("Adicione pelo menos 2 ruas para otimizar.");
+            
+            const btn = document.querySelector('.btn-optimize');
+            btn.innerText = "⌛ OTIMIZANDO " + rotaAtiva.length + " PONTOS...";
+            
+            try {
+                const listaFull = [partida, ...rotaAtiva];
+                const coords = await Promise.all(listaFull.map(async (end) => {
+                    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formatarEndereco(end))}`);
+                    const d = await r.json();
+                    return d[0] ? { nome: end, lat: parseFloat(d[0].lat), lon: parseFloat(d[0].lon) } : null;
+                }));
+
+                let pontos = coords.filter(p => p !== null);
+                let ordenado = [];
+                let atual = pontos.shift(); // Base é o ponto zero
+
+                while (pontos.length > 0) {
+                    let proxIdx = 0;
+                    let menorD = Math.hypot(pontos[0].lat - atual.lat, pontos[0].lon - atual.lon);
+                    for (let i = 1; i < pontos.length; i++) {
+                        let d = Math.hypot(pontos[i].lat - atual.lat, pontos[i].lon - atual.lon);
+                        if (d < menorD) { menorD = d; proxIdx = i; }
+                    }
+                    atual = pontos.splice(proxIdx, 1)[0];
+                    ordenado.push(atual.nome);
+                }
+                
+                // ATUALIZA A LISTA GLOBAL E A INTERFACE
+                rotaAtiva = ordenado;
+                atualizarInterface();
+                desenharRotaMapa(partida);
+            } catch (e) { alert("Erro ao calcular rota."); }
+            finally { btn.innerText = "⚡ OTIMIZAR ORDEM DAS RUA"; }
+        }
+
+        function desenharRotaMapa(partida) {
+            const qOrigem = encodeURIComponent(formatarEndereco(partida));
+            // O mapa vai focar na base e no último ponto para mostrar o traçado
+            const qDestino = encodeURIComponent(formatarEndereco(rotaAtiva[rotaAtiva.length - 1]));
+            let url = `https://maps.google.com/maps?q=${qOrigem}&output=embed`;
+            
+            // Para o mapa incorporado, mostramos a origem e os destinos principais
+            if (rotaAtiva.length > 0) {
+                const destinoFinal = encodeURIComponent(formatarEndereco(rotaAtiva[rotaAtiva.length -1]));
+                url = `https://maps.google.com/maps?saddr=${qOrigem}&daddr=${destinoFinal}&output=embed`;
+            }
+            document.getElementById('mapaCentral').src = url;
+        }
+
+        function carregarNoIframe(rua) {
+            const q = encodeURIComponent(formatarEndereco(rua));
+            document.getElementById('mapaCentral').src = `https://maps.google.com/maps?q=${q}&t=&z=17&ie=UTF8&iwloc=&output=embed`;
+        }
+
+        function gerarPDF() {
+            document.getElementById('pdfBairroTitulo').innerText = getBairro().toUpperCase() || "GERAL";
+            document.getElementById('pdfPartida').innerText = document.getElementById('pontoPartida').value || "Não informada";
+            document.getElementById('pdfLista').innerHTML = rotaAtiva.map((item, i) => `<div class="route-item"><b>${i+1}.</b> ${item} (${getBairro()})</div>`).join('');
+            window.print();
+        }
+
+        function abrirGoogleMaps() {
+            const partida = document.getElementById('pontoPartida').value;
+            // O Google Maps permite cerca de 10 destinos. Vamos enviar os 10 primeiros da sua lista otimizada.
+            let url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(formatarEndereco(partida))}&destination=${encodeURIComponent(formatarEndereco(rotaAtiva[rotaAtiva.length - 1]))}`;
+            if (rotaAtiva.length > 1) {
+                const paradas = rotaAtiva.slice(0, 8).map(p => encodeURIComponent(formatarEndereco(p))).join('|');
+                url += `&waypoints=${paradas}`;
+            }
+            window.open(url + "&travelmode=driving", '_blank');
+        }
+
+        function salvarDados() {
+            localStorage.setItem('mapa_30_pontos_foco', JSON.stringify({ partida: document.getElementById('pontoPartida').value, bairro: getBairro(), rota: rotaAtiva }));
+            alert("Sua lista de " + rotaAtiva.length + " pontos foi salva!");
+        }
+
+        function carregarDados() {
+            const s = localStorage.getItem('mapa_30_pontos_foco');
+            if (s) {
+                const d = JSON.parse(s);
+                document.getElementById('pontoPartida').value = d.partida || "";
+                document.getElementById('bairroFoco').value = d.bairro || "";
+                rotaAtiva = d.rota || [];
+                atualizarInterface();
+            }
+        }
+
+        function limparTudo() { if(confirm("Deseja apagar todos os pontos?")) { localStorage.clear(); location.reload(); } }
+    </script>
+</body>
+</html>

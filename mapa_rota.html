@@ -3,31 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logística Boa Vista - Otimizador de Rotas</title>
+    <title>Logística Otimizada - Boa Vista</title>
     <style>
         :root {
             --primary: #004a8d;
             --secondary: #6f42c1;
             --success: #27ae60;
-            --danger: #e74c3c;
-            --bg: #f4f7f6;
+            --bg: #f4f7f9;
         }
 
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 20px; color: #333; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); margin: 20px; color: #333; }
         
         .card { 
             background: white; padding: 20px; border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; 
         }
 
-        .header-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .inputs-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         
         label { display: block; font-weight: bold; font-size: 11px; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
         input { 
-            width: 100%; padding: 12px; border: 2px solid #edf2f7; border-radius: 8px; 
-            box-sizing: border-box; font-size: 14px; transition: 0.3s;
+            width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; 
+            box-sizing: border-box; font-size: 14px; outline: none;
         }
-        input:focus { border-color: var(--primary); outline: none; background: #fff; }
+        input:focus { border-color: var(--primary); }
 
         .btn { 
             padding: 12px; border: none; border-radius: 8px; cursor: pointer; 
@@ -36,112 +35,102 @@
         }
         .btn-add { background: var(--primary); width: 100%; margin-top: 10px; }
         .btn-opt { background: var(--secondary); width: 100%; font-size: 16px; margin: 15px 0; }
-        .btn-maps { background: var(--success); margin-bottom: 10px; width: 100%; }
-        .btn-clear { background: var(--danger); font-size: 12px; padding: 5px 10px; }
+        .btn-maps { background: var(--success); margin-bottom: 10px; width: 100%; font-size: 13px; }
 
-        .main-layout { display: grid; grid-template-columns: 380px 1fr; gap: 20px; }
+        .layout-principal { display: grid; grid-template-columns: 380px 1fr; gap: 20px; }
         
         #listaStatus { 
-            max-height: 450px; overflow-y: auto; border: 1px solid #eee; 
-            border-radius: 8px; background: #fafafa; 
+            max-height: 480px; overflow-y: auto; border: 1px solid #edf2f7; 
+            border-radius: 8px; background: #f8fafc; 
         }
 
         .route-item { 
-            display: flex; align-items: center; padding: 10px; 
-            border-bottom: 1px solid #eee; font-size: 13px; background: white;
+            display: flex; align-items: center; padding: 12px; 
+            border-bottom: 1px solid #edf2f7; font-size: 13px; 
+            background: white; cursor: pointer; transition: 0.2s;
         }
+        .route-item:hover { background: #f1f5f9; }
+        
         .num-bola { 
-            background: var(--primary); color: white; width: 22px; height: 22px; 
+            background: var(--primary); color: white; width: 24px; height: 24px; 
             border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            font-size: 10px; margin-right: 12px; flex-shrink: 0; 
+            font-size: 11px; margin-right: 12px; flex-shrink: 0; 
         }
 
-        .loading-overlay { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(255,255,255,0.9); z-index: 1000; 
-            flex-direction: column; align-items: center; justify-content: center; 
+        .loader { 
+            display: none; text-align: center; padding: 20px; 
+            color: var(--secondary); font-weight: bold; 
         }
 
-        @media (max-width: 800px) { .main-layout { grid-template-columns: 1fr; } }
+        @media (max-width: 900px) { .layout-principal { grid-template-columns: 1fr; } }
         @media print { .no-print { display: none; } }
     </style>
 </head>
 <body>
 
-    <div id="loader" class="loading-overlay">
-        <div style="border: 4px solid #f3f3f3; border-top: 4px solid var(--secondary); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;"></div>
-        <h3 style="color: var(--secondary); margin-top: 15px;">Otimizando sua rota...</h3>
-        <p id="statusTxt">Calculando geolocalização em Boa Vista</p>
-    </div>
-
     <div class="card no-print">
-        <div class="header-grid">
+        <div class="inputs-topo">
             <div>
-                <label>📍 Ponto de Partida (Sua Base):</label>
-                <input type="text" id="partida" placeholder="Ex: Av. Ville Roy, 123">
+                <label>📍 Ponto de Partida (Base):</label>
+                <input type="text" id="partida" placeholder="Ex: Av. Capitão Júlio Bezerra, 100">
             </div>
             <div>
-                <label>🏘️ Bairro das Visitas (Foco):</label>
-                <input type="text" id="bairro" placeholder="Ex: Caranã">
+                <label>🏘️ Bairro Alvo (Filtro):</label>
+                <input type="text" id="bairro" placeholder="Ex: Centro">
             </div>
         </div>
         <div>
             <label>🏠 Novo Endereço (Rua e Número):</label>
-            <input type="text" id="novaRua" placeholder="Digite e aperte Enter" onkeypress="if(event.key==='Enter') adicionarPonto()">
+            <input type="text" id="novaRua" placeholder="Ex: Rua João de Alencar, 500" onkeypress="if(event.key==='Enter') adicionarPonto()">
             <button class="btn btn-add" onclick="adicionarPonto()">➕ ADICIONAR À LISTA</button>
         </div>
     </div>
 
-    <div class="main-layout">
+    <div class="layout-principal">
         <aside class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="margin: 0; color: var(--primary);">Roteiro (<span id="contador">0</span>/30)</h3>
-                <button class="btn btn-clear no-print" onclick="limparTudo()">LIMPAR</button>
-            </div>
+            <h3 style="margin-top: 0; color: var(--primary);">Sequência de Visitas (<span id="contador">0</span>/30)</h3>
             
-            <div id="listaStatus" style="margin-top: 15px;">
-                <p style="text-align: center; color: #999; padding: 20px;">Nenhum ponto adicionado.</p>
+            <div id="listaStatus">
+                <p style="text-align: center; color: #a0aec0; padding: 20px;">Lista vazia.</p>
             </div>
 
-            <div id="areaAcoes" style="display: none;">
-                <button class="btn btn-opt no-print" onclick="otimizarPorDistancia()">⚡ ORGANIZAR POR DISTÂNCIA</button>
-                <div id="botoesGoogleMaps"></div>
-                <button class="btn" style="background: #555; width: 100%;" onclick="window.print()">📄 GERAR RELATÓRIO PDF</button>
+            <div id="areaAcoes" style="display: none; margin-top: 20px;">
+                <button class="btn btn-opt" onclick="otimizarRota()">⚡ OTIMIZAR POR PROXIMIDADE</button>
+                <div id="loader" class="loader">Buscando coordenadas...</div>
+                <div id="linksMaps"></div>
+                <button class="btn" style="background: #4a5568; width: 100%;" onclick="window.print()">📄 IMPRIMIR ROTEIRO</button>
             </div>
         </aside>
 
         <main class="card" style="padding: 10px;">
-            <label style="padding: 10px;">Visualização Prévia:</label>
-            <iframe id="mapaFrame" src="about:blank" width="100%" height="550" style="border:0; border-radius: 8px;"></iframe>
+            <label style="padding: 10px; display: block;">Prévia do Local Selecionado:</label>
+            <iframe id="mapaFrame" src="about:blank" width="100%" height="550" style="border:0; border-radius: 8px; background: #e2e8f0;"></iframe>
         </main>
     </div>
 
     <script>
-        let listaPontos = [];
+        let pontos = [];
 
         function adicionarPonto() {
             const input = document.getElementById('novaRua');
             const valor = input.value.trim();
-            
-            if (valor && listaPontos.length < 30) {
-                listaPontos.push(valor);
+            if (valor && pontos.length < 30) {
+                pontos.push(valor);
                 input.value = '';
-                atualizarInterface();
-                document.getElementById('novaRua').focus();
-            } else if (listaPontos.length >= 30) {
-                alert("O limite para esta rota é de 30 paradas.");
+                atualizarUI();
+                focarNoMapa(valor);
             }
         }
 
-        function atualizarInterface() {
+        function atualizarUI() {
             const container = document.getElementById('listaStatus');
             const contador = document.getElementById('contador');
             const areaAcoes = document.getElementById('areaAcoes');
             
-            contador.innerText = listaPontos.length;
+            contador.innerText = pontos.length;
             
-            if (listaPontos.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Nenhum ponto adicionado.</p>';
+            if (pontos.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #a0aec0; padding: 20px;">Lista vazia.</p>';
                 areaAcoes.style.display = 'none';
                 return;
             }
@@ -149,87 +138,83 @@
             areaAcoes.style.display = 'block';
             container.innerHTML = '';
             
-            listaPontos.forEach((rua, index) => {
-                container.innerHTML += `
-                    <div class="route-item">
-                        <div class="num-bola">${index + 1}</div>
-                        <div style="flex-grow: 1;">${rua}</div>
-                        <button onclick="removerPonto(${index})" style="background:none; border:none; color:var(--danger); cursor:pointer; font-weight:bold;">✕</button>
-                    </div>
-                `;
+            pontos.forEach((rua, i) => {
+                const item = document.createElement('div');
+                item.className = 'route-item';
+                item.innerHTML = `<div class="num-bola">${i + 1}</div><div style="flex:1">${rua}</div><button onclick="remover(${i})" style="background:none; border:none; color:#e53e3e; cursor:pointer; font-weight:bold; padding:5px;">✕</button>`;
+                item.onclick = (e) => {
+                    if(e.target.tagName !== 'BUTTON') focarNoMapa(rua);
+                };
+                container.appendChild(item);
             });
         }
 
-        function removerPonto(i) {
-            listaPontos.splice(i, 1);
-            atualizarInterface();
-            document.getElementById('botoesGoogleMaps').innerHTML = '';
+        function remover(i) {
+            pontos.splice(i, 1);
+            atualizarUI();
+            document.getElementById('linksMaps').innerHTML = '';
         }
 
-        async function otimizarPorDistancia() {
+        function focarNoMapa(rua) {
+            const bairro = document.getElementById('bairro').value;
+            const enderecoFull = `${rua}, ${bairro}, Boa Vista, RR`;
+            const url = `https://www.google.com/maps?q=${encodeURIComponent(enderecoFull)}&output=embed`;
+            document.getElementById('mapaFrame').src = url;
+        }
+
+        async function otimizarRota() {
             const base = document.getElementById('partida').value;
             const bairro = document.getElementById('bairro').value;
+            if (!base) return alert("Informe o Ponto de Partida!");
 
-            if (!base) return alert("Por favor, informe o Ponto de Partida!");
-            if (listaPontos.length < 2) return alert("Adicione ao menos 2 pontos para otimizar.");
-
-            document.getElementById('loader').style.display = 'flex';
+            document.getElementById('loader').style.display = 'block';
             
             try {
-                const todosEnderecos = [base, ...listaPontos];
+                const listaFull = [base, ...pontos];
                 const coordenadas = [];
 
-                // 1. Converter endereços em Lat/Log (Geocoding)
-                for (let i = 0; i < todosEnderecos.length; i++) {
-                    const query = `${todosEnderecos[i]}, ${bairro}, Boa Vista, RR, Brasil`;
-                    document.getElementById('statusTxt').innerText = `Localizando: ${todosEnderecos[i]}`;
-                    
+                // Busca Latitude e Longitude
+                for (let local of listaFull) {
+                    const query = `${local}, ${bairro}, Boa Vista, RR`;
                     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
                     const data = await res.json();
-
+                    
                     if (data[0]) {
                         coordenadas.push({
-                            nome: todosEnderecos[i],
+                            nome: local,
                             lat: parseFloat(data[0].lat),
                             lon: parseFloat(data[0].lon)
                         });
                     }
-                    // Delay para respeitar limite da API gratuita
-                    await new Promise(r => setTimeout(r, 600));
+                    await new Promise(r => setTimeout(r, 600)); // Delay p/ evitar bloqueio
                 }
 
-                if (coordenadas.length < 2) throw new Error("Não foi possível validar os endereços no mapa.");
+                if (coordenadas.length < 2) throw new Error("Não foi possível geolocalizar os endereços.");
 
-                // 2. Algoritmo Vizinho Mais Próximo (TSP Heuristic)
-                let rotaFinal = [];
-                let disponiveis = [...coordenadas];
-                let atual = disponiveis.shift(); // Remove a base para começar dela
+                // Algoritmo de Vizinho Mais Próximo
+                let ordenados = [];
+                let restantes = [...coordenadas];
+                let atual = restantes.shift(); // Começa pela base
 
-                while (disponiveis.length > 0) {
-                    let indiceMaisProximo = 0;
-                    let menorDistancia = Infinity;
+                while (restantes.length > 0) {
+                    let closestIdx = 0;
+                    let minDist = Infinity;
 
-                    for (let i = 0; i < disponiveis.length; i++) {
-                        const d = Math.sqrt(
-                            Math.pow(disponiveis[i].lat - atual.lat, 2) + 
-                            Math.pow(disponiveis[i].lon - atual.lon, 2)
-                        );
-                        if (d < menorDistancia) {
-                            menorDistancia = d;
-                            indiceMaisProximo = i;
+                    for (let i = 0; i < restantes.length; i++) {
+                        const d = Math.hypot(restantes[i].lat - atual.lat, restantes[i].lon - atual.lon);
+                        if (d < minDist) {
+                            minDist = d;
+                            closestIdx = i;
                         }
                     }
-                    atual = disponiveis.splice(indiceMaisProximo, 1)[0];
-                    rotaFinal.push(atual.nome);
+                    atual = restantes.splice(closestIdx, 1)[0];
+                    ordenados.push(atual.nome);
                 }
 
-                listaPontos = rotaFinal;
-                atualizarInterface();
-                gerarLinksMaps(base, bairro);
-                
-                // Atualiza iframe com o primeiro trecho
-                const dFinal = listaPontos[0];
-                document.getElementById('mapaFrame').src = `http://googleusercontent.com/maps.google.com/4{encodeURIComponent(base)}&daddr=${encodeURIComponent(dFinal)}&output=embed`;
+                pontos = ordenados;
+                atualizarUI();
+                gerarBotoesMaps(base, bairro);
+                alert("Rota organizada: do mais próximo para o mais distante!");
 
             } catch (err) {
                 alert("Erro: " + err.message);
@@ -238,50 +223,30 @@
             }
         }
 
-        function gerarLinksMaps(base, bairro) {
-            const areaLinks = document.getElementById('botoesGoogleMaps');
-            areaLinks.innerHTML = '<label style="margin-top:10px">Enviar para o Celular:</label>';
+        function gerarBotoesMaps(base, bairro) {
+            const container = document.getElementById('linksMaps');
+            container.innerHTML = '<label style="margin:15px 0 5px; display:block">Abrir no GPS (por trechos):</label>';
             
-            // Google permite 9 waypoints intermediários + 1 destino = 10 paradas por link
-            const paradasPorLink = 9;
-            let inicioTrecho = base;
+            const paradasMax = 9; // Limite do Google Maps para waypoints
+            let inicio = base;
 
-            for (let i = 0; i < listaPontos.length; i += paradasPorLink) {
-                const trecho = listaPontos.slice(i, i + paradasPorLink);
-                const destinoTrecho = trecho[trecho.length - 1];
+            for (let i = 0; i < pontos.length; i += paradasMax) {
+                const trecho = pontos.slice(i, i + paradasMax);
+                const destino = trecho[trecho.length - 1];
                 const intermediarios = trecho.slice(0, -1);
 
-                const waypointsStr = intermediarios
-                    .map(p => encodeURIComponent(p + ', ' + bairro + ', Boa Vista, RR'))
-                    .join('|');
-
-                const url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(inicioTrecho + ', ' + bairro + ', Boa Vista, RR')}&destination=${encodeURIComponent(destinoTrecho + ', ' + bairro + ', Boa Vista, RR')}&waypoints=${waypointsStr}&travelmode=driving`;
+                const waypoints = intermediarios.map(p => encodeURIComponent(p + ', ' + bairro + ', Boa Vista, RR')).join('|');
+                const url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(inicio + ', ' + bairro + ', Boa Vista, RR')}&destination=${encodeURIComponent(destino + ', ' + bairro + ', Boa Vista, RR')}&waypoints=${waypoints}&travelmode=driving`;
                 
                 const btn = document.createElement('button');
                 btn.className = 'btn btn-maps';
-                btn.innerHTML = `🚀 ABRIR TRECHO ${Math.floor(i/paradasPorLink) + 1} (${i+1} ao ${Math.min(i+paradasPorLink, listaPontos.length)})`;
+                btn.innerHTML = `🚗 TRECHO ${Math.floor(i/paradasMax) + 1} (${i+1} ao ${Math.min(i+paradasMax, pontos.length)})`;
                 btn.onclick = () => window.open(url, '_blank');
-                
-                areaLinks.appendChild(btn);
-                
-                // O próximo link começa onde este terminou
-                inicioTrecho = destinoTrecho;
+                container.appendChild(btn);
+
+                inicio = destino; // O próximo trecho começa onde o anterior parou
             }
         }
-
-        function limparTudo() {
-            if(confirm("Deseja apagar toda a lista?")) {
-                listaPontos = [];
-                atualizarInterface();
-                document.getElementById('botoesGoogleMaps').innerHTML = '';
-                document.getElementById('mapaFrame').src = 'about:blank';
-            }
-        }
-
-        // Estilo da animação
-        const style = document.createElement('style');
-        style.innerHTML = `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>

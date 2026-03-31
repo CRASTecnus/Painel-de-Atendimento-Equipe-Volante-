@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Volante OS</title>
+    <title>Login | Equipe Volante</title>
     
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -29,7 +29,6 @@
             overflow: hidden;
         }
 
-        /* Efeito de partículas/fundo dinâmico sutil */
         body::before {
             content: ""; position: absolute; width: 100%; height: 100%;
             background-image: url("https://www.transparenttextures.com/patterns/carbon-fibre.pattern");
@@ -154,22 +153,22 @@
                 <div class="shield-icon">
                     <i class="bi bi-fingerprint"></i>
                 </div>
-                <h4>VOLANTE <span style="font-weight: 300;">OS</span></h4>
-                <p>Authentication Required</p>
+                <h4>EQUIPE <span style="font-weight: 300;">VOLANTE</span></h4>
+                <p>Autenticação Necessária</p>
             </div>
             
             <div class="card-body">
                 <form id="formLogin">
                     <div class="mb-4">
-                        <label class="form-label">User ID</label>
+                        <label class="form-label">ID de Usuário</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input type="text" id="usuario" class="form-control" placeholder="Identify yourself..." required autocomplete="off">
+                            <input type="text" id="usuario" class="form-control" placeholder="Identifique-se..." required autocomplete="off">
                         </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label">Access Key</label>
+                        <label class="form-label">Chave de Acesso</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-key"></i></span>
                             <input type="password" id="senha" class="form-control" placeholder="••••••••" required>
@@ -177,14 +176,14 @@
                     </div>
 
                     <button type="submit" class="btn btn-login" id="btnSubmit">
-                        <span id="btnText">Execute Login</span> <i class="bi bi-arrow-right ms-2"></i>
+                        <span id="btnText">Iniciar Sessão</span> <i class="bi bi-arrow-right ms-2"></i>
                     </button>
                 </form>
             </div>
         </div>
         
         <div class="status-footer">
-            <span class="accent-dot">●</span> SECURE CONNECTION ESTABLISHED
+            <span class="accent-dot">●</span> CONEXÃO SEGURA ESTABELECIDA
         </div>
     </div>
 
@@ -195,7 +194,7 @@
             const btn = document.getElementById('btnSubmit');
             const btnText = document.getElementById('btnText');
             
-            btnText.innerHTML = 'VERIFYING...';
+            btnText.innerHTML = 'VERIFICANDO...';
             btn.disabled = true;
             btn.style.opacity = '0.7';
 
@@ -208,8 +207,8 @@
                     sessionStorage.setItem('logado', 'true');
                     window.location.replace("index.html"); 
                 } else {
-                    alert("ACCESS DENIED: Critical credentials mismatch.");
-                    btnText.innerHTML = 'EXECUTE LOGIN';
+                    alert("ACESSO NEGADO: As credenciais não conferem.");
+                    btnText.innerHTML = 'INICIAR SESSÃO';
                     btn.disabled = false;
                     btn.style.opacity = '1';
                     document.getElementById('senha').value = "";

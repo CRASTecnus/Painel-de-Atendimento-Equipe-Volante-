@@ -26,7 +26,8 @@
         input[type="text"] { padding: 10px; border: 2px solid #ddd; border-radius: 4px; outline: none; font-size: 0.9rem; width: 100%; box-sizing: border-box; }
         #bairroFoco { border: 2px solid var(--accent-orange); background: #fffcf9; }
 
-        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; justify-content: center; }
+        button { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; justify-content: center; transition: 0.3s; }
+        button:hover { opacity: 0.8; }
         .btn-add { background: var(--primary-blue); color: white; }
         .btn-optimize { background: #6f42c1; color: white; width: 100%; margin-top: 15px; padding: 12px; }
         .btn-pdf { background: #c0392b; color: white; width: 100%; margin-top: 8px; }
@@ -42,14 +43,13 @@
         }
         .item-num { background: var(--primary-blue); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-right: 10px; flex-shrink: 0; }
 
-        /* Estilo do Título do Mapa */
         .mapa-label-topo { text-align: center; font-weight: bold; color: var(--primary-blue); font-size: 1.2rem; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 5px; }
 
         .mapa-container { flex: 2.5; min-width: 500px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; background: white; padding: 10px; }
         .header-mapa { background: #eee; color: #333; padding: 8px; font-weight: bold; font-size: 0.8rem; display: flex; justify-content: space-between; border-radius: 4px; margin-bottom: 10px; }
 
         @media print {
-            .no-print, .sidebar, .header-mapa, .btn-remove { display: none !important; }
+            .no-print, .sidebar, .header-mapa, .btn-remove, .mapa-container { display: none !important; }
             .print-only { display: block !important; }
             .route-item { border: none; border-bottom: 1px solid #eee; font-size: 1.1rem; padding: 12px 0; }
         }
@@ -81,26 +81,26 @@
                 <label>➕ Rua e Número:</label>
                 <input type="text" id="campoBusca" placeholder="Ex: Rua Macunaima, 100" onkeypress="if(event.key==='Enter') adicionarPonto()">
             </div>
-            <button class="btn-add" onclick="adicionarPonto()">🔍 ADICIONAR PONTO</button>
-            <button onclick="salvarDados()">💾 SALVAR TUDO</button>
+            <button class="btn-add" onclick="adicionarPonto()">🔍 ADICIONAR</button>
+            <button onclick="salvarDados()">💾 SALVAR</button>
             <button onclick="limparTudo()" style="background:#7f8c8d; color:white;">🗑️ LIMPAR</button>
         </div>
     </div>
 
     <section id="painel-gestao">
         <aside class="sidebar no-print">
-            <h3 style="margin:0; color: var(--primary-blue); font-size: 0.9rem;">📍 SEQUÊNCIA DE VISITAS (<span id="count">0</span>)</h3>
+            <h3 style="margin:0; color: var(--primary-blue); font-size: 0.9rem;">📍 SEQUÊNCIA (<span id="count">0</span>/30)</h3>
             <div id="listaRota" class="scroll-area"></div>
 
             <div id="controles" style="display:none;">
-                <button class="btn-optimize" onclick="otimizarRota()">⚡ OTIMIZAR ORDEM DAS RUA</button>
-                <button class="btn-gps" onclick="abrirGoogleMaps()">🚀 ENVIAR PARA O GPS (CELULAR)</button>
+                <button class="btn-optimize" onclick="otimizarRota()">⚡ OTIMIZAR POR DISTÂNCIA</button>
+                <button class="btn-gps" onclick="abrirGoogleMaps()">🚀 EXPORTAR PARA GOOGLE MAPS</button>
                 <button class="btn-pdf" onclick="gerarPDF()">📄 GERAR RELATÓRIO PDF</button>
             </div>
         </aside>
 
         <main class="mapa-container">
-            <div class="mapa-label-topo">MAPA DE ROTAS</div>
+            <div class="mapa-label-topo">VISUALIZAÇÃO</div>
             <div class="header-mapa">
                 <span id="labelMapa">BOA VISTA, RR</span>
             </div>
@@ -121,6 +121,7 @@
         function adicionarPonto() {
             const rua = document.getElementById('campoBusca').value;
             if (!rua) return;
+            if (rotaAtiva.length >= 30) return alert("Limite de 30 pontos atingido!");
             rotaAtiva.push(rua);
             document.getElementById('campoBusca').value = "";
             atualizarInterface();
@@ -134,7 +135,7 @@
             document.getElementById('count').innerText = rotaAtiva.length;
             
             if (rotaAtiva.length === 0) {
-                container.innerHTML = `<p style="padding:20px; color:#999; text-align:center;">Lista vazia.</p>`;
+                container.innerHTML = `<p style="padding:20px; color:#999; text-align:center;">Nenhum ponto adicionado.</p>`;
                 document.getElementById('controles').style.display = "none";
                 return;
             }
@@ -142,7 +143,6 @@
             document.getElementById('controles').style.display = "block";
             container.innerHTML = "";
             
-            // Renderiza a lista completa, não importa quantos pontos existam
             rotaAtiva.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'route-item';
@@ -163,56 +163,80 @@
             if (rotaAtiva.length < 2) return alert("Adicione pelo menos 2 ruas para otimizar.");
             
             const btn = document.querySelector('.btn-optimize');
-            btn.innerText = "⌛ OTIMIZANDO " + rotaAtiva.length + " PONTOS...";
+            const textoOriginal = btn.innerText;
+            btn.innerText = "⌛ MAPEANDO COORDENADAS...";
+            btn.disabled = true;
             
             try {
                 const listaFull = [partida, ...rotaAtiva];
-                const coords = await Promise.all(listaFull.map(async (end) => {
-                    const r = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formatarEndereco(end))}`);
-                    const d = await r.json();
-                    return d[0] ? { nome: end, lat: parseFloat(d[0].lat), lon: parseFloat(d[0].lon) } : null;
-                }));
+                const coords = [];
 
-                let pontos = coords.filter(p => p !== null);
+                // Nominatim requer delay entre requests para não banir o IP
+                for(let end of listaFull) {
+                    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(formatarEndereco(end))}`);
+                    const d = await res.json();
+                    if(d[0]) coords.push({ nome: end, lat: parseFloat(d[0].lat), lon: parseFloat(d[0].lon) });
+                    await new Promise(r => setTimeout(r, 400)); // Delay de 400ms
+                }
+
+                if (coords.length < 2) throw new Error("Não foi possível localizar os endereços no mapa.");
+
                 let ordenado = [];
-                let atual = pontos.shift(); // Base é o ponto zero
+                let pontosRestantes = [...coords];
+                let atual = pontosRestantes.shift(); // Começa pela Base
 
-                while (pontos.length > 0) {
+                while (pontosRestantes.length > 0) {
                     let proxIdx = 0;
-                    let menorD = Math.hypot(pontos[0].lat - atual.lat, pontos[0].lon - atual.lon);
-                    for (let i = 1; i < pontos.length; i++) {
-                        let d = Math.hypot(pontos[i].lat - atual.lat, pontos[i].lon - atual.lon);
-                        if (d < menorD) { menorD = d; proxIdx = i; }
+                    let menorD = Infinity;
+
+                    for (let i = 0; i < pontosRestantes.length; i++) {
+                        let d = Math.sqrt(Math.pow(pontosRestantes[i].lat - atual.lat, 2) + Math.pow(pontosRestantes[i].lon - atual.lon, 2));
+                        if (d < menorD) {
+                            menorD = d;
+                            proxIdx = i;
+                        }
                     }
-                    atual = pontos.splice(proxIdx, 1)[0];
+                    atual = pontosRestantes.splice(proxIdx, 1)[0];
                     ordenado.push(atual.nome);
                 }
                 
-                // ATUALIZA A LISTA GLOBAL E A INTERFACE
                 rotaAtiva = ordenado;
                 atualizarInterface();
-                desenharRotaMapa(partida);
-            } catch (e) { alert("Erro ao calcular rota."); }
-            finally { btn.innerText = "⚡ OTIMIZAR ORDEM DAS RUA"; }
-        }
-
-        function desenharRotaMapa(partida) {
-            const qOrigem = encodeURIComponent(formatarEndereco(partida));
-            // O mapa vai focar na base e no último ponto para mostrar o traçado
-            const qDestino = encodeURIComponent(formatarEndereco(rotaAtiva[rotaAtiva.length - 1]));
-            let url = `https://maps.google.com/maps?q=${qOrigem}&output=embed`;
-            
-            // Para o mapa incorporado, mostramos a origem e os destinos principais
-            if (rotaAtiva.length > 0) {
-                const destinoFinal = encodeURIComponent(formatarEndereco(rotaAtiva[rotaAtiva.length -1]));
-                url = `https://maps.google.com/maps?saddr=${qOrigem}&daddr=${destinoFinal}&output=embed`;
+                alert("Rota otimizada por proximidade com sucesso!");
+            } catch (e) { 
+                alert("Erro ao calcular rota: " + e.message); 
+            } finally { 
+                btn.innerText = textoOriginal; 
+                btn.disabled = false;
             }
-            document.getElementById('mapaCentral').src = url;
         }
 
         function carregarNoIframe(rua) {
             const q = encodeURIComponent(formatarEndereco(rua));
-            document.getElementById('mapaCentral').src = `https://maps.google.com/maps?q=${q}&t=&z=17&ie=UTF8&iwloc=&output=embed`;
+            document.getElementById('mapaCentral').src = `https://maps.google.com/maps?q=${q}&t=&z=16&ie=UTF8&iwloc=&output=embed`;
+        }
+
+        function abrirGoogleMaps() {
+            const partida = document.getElementById('pontoPartida').value;
+            if (!partida || rotaAtiva.length === 0) return alert("Dados insuficientes.");
+
+            // Como o Google Maps limita paradas, vamos focar nos primeiros 9 pontos + destino final
+            // Para rotas maiores que 10, o ideal é usar o Google My Maps ou enviar em partes.
+            const destinoFinal = rotaAtiva[rotaAtiva.length - 1];
+            const waypoints = rotaAtiva.slice(0, -1).slice(0, 8); // Máximo de waypoints permitidos em URL simples
+
+            let url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(formatarEndereco(partida))}&destination=${encodeURIComponent(formatarEndereco(destinoFinal))}`;
+            
+            if (waypoints.length > 0) {
+                const listaWaypoints = waypoints.map(p => encodeURIComponent(formatarEndereco(p))).join('|');
+                url += `&waypoints=${listaWaypoints}`;
+            }
+            
+            window.open(url + "&travelmode=driving", '_blank');
+            
+            if(rotaAtiva.length > 9) {
+                alert("Nota: O Google Maps suporta apenas 10 paradas por link. Enviamos os primeiros pontos da sua lista otimizada.");
+            }
         }
 
         function gerarPDF() {
@@ -222,20 +246,9 @@
             window.print();
         }
 
-        function abrirGoogleMaps() {
-            const partida = document.getElementById('pontoPartida').value;
-            // O Google Maps permite cerca de 10 destinos. Vamos enviar os 10 primeiros da sua lista otimizada.
-            let url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(formatarEndereco(partida))}&destination=${encodeURIComponent(formatarEndereco(rotaAtiva[rotaAtiva.length - 1]))}`;
-            if (rotaAtiva.length > 1) {
-                const paradas = rotaAtiva.slice(0, 8).map(p => encodeURIComponent(formatarEndereco(p))).join('|');
-                url += `&waypoints=${paradas}`;
-            }
-            window.open(url + "&travelmode=driving", '_blank');
-        }
-
         function salvarDados() {
             localStorage.setItem('mapa_30_pontos_foco', JSON.stringify({ partida: document.getElementById('pontoPartida').value, bairro: getBairro(), rota: rotaAtiva }));
-            alert("Sua lista de " + rotaAtiva.length + " pontos foi salva!");
+            alert("Dados salvos no navegador!");
         }
 
         function carregarDados() {

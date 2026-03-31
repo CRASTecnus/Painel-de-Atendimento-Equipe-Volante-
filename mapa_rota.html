@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logística Otimizada - Boa Vista</title>
+    <title>Logística Boa Vista - 13 de Setembro & Araceli</title>
     <style>
         :root {
             --primary: #004a8d;
@@ -22,7 +22,7 @@
         .inputs-topo { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         
         label { display: block; font-weight: bold; font-size: 11px; color: var(--primary); margin-bottom: 5px; text-transform: uppercase; }
-        input { 
+        input, select { 
             width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; 
             box-sizing: border-box; font-size: 14px; outline: none;
         }
@@ -75,41 +75,65 @@
                 <input type="text" id="partida" placeholder="Ex: Av. Capitão Júlio Bezerra, 100">
             </div>
             <div>
-                <label>🏘️ Bairro Alvo (Filtro):</label>
-                <input type="text" id="bairro" placeholder="Ex: Centro">
+                <label>🏘️ Selecione o Bairro:</label>
+                <select id="bairro" onchange="carregarSugestoes()">
+                    <option value="">Selecione...</option>
+                    <option value="13 de Setembro">13 de Setembro</option>
+                    <option value="Professora Araceli Souto Maior">Professora Araceli</option>
+                </select>
             </div>
         </div>
         <div>
-            <label>🏠 Novo Endereço (Rua e Número):</label>
-            <input type="text" id="novaRua" placeholder="Ex: Rua João de Alencar, 500" onkeypress="if(event.key==='Enter') adicionarPonto()">
+            <label>🏠 Digite a Rua (Sugestões Ativas):</label>
+            <input type="text" id="novaRua" list="listaRuas" placeholder="Comece a digitar o nome da rua..." onkeypress="if(event.key==='Enter') adicionarPonto()">
+            <datalist id="listaRuas"></datalist>
             <button class="btn btn-add" onclick="adicionarPonto()">➕ ADICIONAR À LISTA</button>
         </div>
     </div>
 
     <div class="layout-principal">
         <aside class="card">
-            <h3 style="margin-top: 0; color: var(--primary);">Sequência de Visitas (<span id="contador">0</span>/30)</h3>
+            <h3 style="margin-top: 0; color: var(--primary);">Roteiro de Entrega (<span id="contador">0</span>/30)</h3>
             
             <div id="listaStatus">
-                <p style="text-align: center; color: #a0aec0; padding: 20px;">Lista vazia.</p>
+                <p style="text-align: center; color: #a0aec0; padding: 20px;">Adicione endereços para começar.</p>
             </div>
 
             <div id="areaAcoes" style="display: none; margin-top: 20px;">
                 <button class="btn btn-opt" onclick="otimizarRota()">⚡ OTIMIZAR POR PROXIMIDADE</button>
-                <div id="loader" class="loader">Buscando coordenadas...</div>
+                <div id="loader" class="loader">Processando rota...</div>
                 <div id="linksMaps"></div>
                 <button class="btn" style="background: #4a5568; width: 100%;" onclick="window.print()">📄 IMPRIMIR ROTEIRO</button>
             </div>
         </aside>
 
         <main class="card" style="padding: 10px;">
-            <label style="padding: 10px; display: block;">Prévia do Local Selecionado:</label>
+            <label style="padding: 10px; display: block;">Visualização do Mapa:</label>
             <iframe id="mapaFrame" src="about:blank" width="100%" height="550" style="border:0; border-radius: 8px; background: #e2e8f0;"></iframe>
         </main>
     </div>
 
     <script>
+        const baseRuas = {
+            "13 de Setembro": ["Rua 13 de Setembro", "Rua Acaraí", "Rua Antônio Cabral", "Rua Apiaú", "Rua Beira Rio", "Rua Bem Querer", "Rua Brigadeiro Oliveira", "Rua Caracaranã", "Rua Chagas Peixoto", "Rua Coronel Monteiro Baena", "Rua Cícero Vieira", "Rua Comandante Essen Pinheiro", "Rua Cotingo", "Rua Central", "Rua Gustavo Mesquita", "Rua Joaquim Ferreira Lima", "Rua Jósimo dos Santos", "Rua Jurinéia", "Rua Liberato", "Rua Madre Rosa", "Rua Madre Silvestre", "Rua Macunaíma", "Rua Maracá", "Rua Mundico Thomas", "Rua Olavo Bilac", "Rua Padre Agostinho", "Rua Pedra Pintada", "Rua Pedro Álvares Cabral", "Rua Quelçoene", "Rua Raul Pereira", "Rua Rogério Mota", "Rua Ribeiro Campos", "Rua Rio Branco", "Rua Santa Maria", "Rua Uaicá", "Rua Santa Rosa", "Rua São Martinho", "Rua Salustino Liberato", "Rua Suapi", "Rua dos Tangarás", "Rua Tenente Batista", "Rua Tepequem", "Rua Uailã", "Rua Uassari", "Rua Uiramutã", "Rua dos Buritis", "Avenida Brasil", "Avenida Caracaraí", "Avenida Eldorado", "Avenida General Sampaio", "Avenida Monte Castelo", "Avenida das Guianas", "Avenida Ville Roy"],
+            "Professora Araceli Souto Maior": ["Avenida Rio Branco", "Avenida Rio Mucajaí", "Avenida Brasil", "Rua Rio Alalaú", "Rua Rio Anauá", "Rua Rio Cotingo", "Rua Rio Uraricuera", "Rua Rio Ereu", "Rua Rio Apiaú", "Rua Rio Amajari", "Rua Rio Maú", "Rua Rio Surumu", "Rua Rio Jatapu", "Rua Rio Ajarani", "Rua Rio Uailan", "Rua Rio Quinô", "Rua Rio Tacutu", "Rua Betel", "Rua Santo Antônio do Abonari", "Rua Calebe", "Rua Eufrates", "Rua Gideão", "Rua Marte", "Rua Mercúrio", "Rua Saturno", "Rua Eclipse", "Rua Raio de Lua", "Rua Encontro dos Astros", "Rua Cruzeiro do Sul", "Rua Estrela Dalva", "Rua Estrela Cadente", "Rua Estrela Celeste", "Rua Estrelinha", "Rua Monte Sinai", "Rua Santa Fé", "Rua Guará", "Rua Jauaperi", "Rua José Renato Hadad", "Rua Antônio Silvino de Alexandre", "Rua Quarta Nascente", "Rua C-26", "Rua C-27", "Rua C-28", "Rua C-29", "Rua C-30", "Rua C-31", "Rua C-32", "Rua C-33", "Rua C-35", "Rua C-36", "Rua C-37", "Travessa Rio Quinô", "Travessa Rio Quitauau", "Travessa Estrelinha", "Travessa Estrela Celeste", "Travessa Estrela Cadente", "Travessa Estrela Dalva", "Travessa Santa Fé", "Travessa Eclipse"]
+        };
+
         let pontos = [];
+
+        function carregarSugestoes() {
+            const bairro = document.getElementById('bairro').value;
+            const datalist = document.getElementById('listaRuas');
+            datalist.innerHTML = '';
+            
+            if (baseRuas[bairro]) {
+                baseRuas[bairro].forEach(rua => {
+                    const option = document.createElement('option');
+                    option.value = rua;
+                    datalist.appendChild(option);
+                });
+            }
+        }
 
         function adicionarPonto() {
             const input = document.getElementById('novaRua');
@@ -152,13 +176,12 @@
         function remover(i) {
             pontos.splice(i, 1);
             atualizarUI();
-            document.getElementById('linksMaps').innerHTML = '';
         }
 
         function focarNoMapa(rua) {
             const bairro = document.getElementById('bairro').value;
             const enderecoFull = `${rua}, ${bairro}, Boa Vista, RR`;
-            const url = `https://www.google.com/maps?q=${encodeURIComponent(enderecoFull)}&output=embed`;
+            const url = `https://maps.google.com/maps?q=${encodeURIComponent(enderecoFull)}&output=embed`;
             document.getElementById('mapaFrame').src = url;
         }
 
@@ -173,7 +196,6 @@
                 const listaFull = [base, ...pontos];
                 const coordenadas = [];
 
-                // Busca Latitude e Longitude
                 for (let local of listaFull) {
                     const query = `${local}, ${bairro}, Boa Vista, RR`;
                     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
@@ -186,15 +208,14 @@
                             lon: parseFloat(data[0].lon)
                         });
                     }
-                    await new Promise(r => setTimeout(r, 600)); // Delay p/ evitar bloqueio
+                    await new Promise(r => setTimeout(r, 600)); 
                 }
 
-                if (coordenadas.length < 2) throw new Error("Não foi possível geolocalizar os endereços.");
+                if (coordenadas.length < 2) throw new Error("Não foi possível localizar os endereços no mapa.");
 
-                // Algoritmo de Vizinho Mais Próximo
                 let ordenados = [];
                 let restantes = [...coordenadas];
-                let atual = restantes.shift(); // Começa pela base
+                let atual = restantes.shift(); 
 
                 while (restantes.length > 0) {
                     let closestIdx = 0;
@@ -214,7 +235,7 @@
                 pontos = ordenados;
                 atualizarUI();
                 gerarBotoesMaps(base, bairro);
-                alert("Rota organizada: do mais próximo para o mais distante!");
+                alert("Rota otimizada com sucesso!");
 
             } catch (err) {
                 alert("Erro: " + err.message);
@@ -225,9 +246,9 @@
 
         function gerarBotoesMaps(base, bairro) {
             const container = document.getElementById('linksMaps');
-            container.innerHTML = '<label style="margin:15px 0 5px; display:block">Abrir no GPS (por trechos):</label>';
+            container.innerHTML = '<label style="margin:15px 0 5px; display:block">Abrir no GPS:</label>';
             
-            const paradasMax = 9; // Limite do Google Maps para waypoints
+            const paradasMax = 9; 
             let inicio = base;
 
             for (let i = 0; i < pontos.length; i += paradasMax) {
@@ -240,11 +261,11 @@
                 
                 const btn = document.createElement('button');
                 btn.className = 'btn btn-maps';
-                btn.innerHTML = `🚗 TRECHO ${Math.floor(i/paradasMax) + 1} (${i+1} ao ${Math.min(i+paradasMax, pontos.length)})`;
+                btn.innerHTML = `🚗 GPS TRECHO ${Math.floor(i/paradasMax) + 1}`;
                 btn.onclick = () => window.open(url, '_blank');
                 container.appendChild(btn);
 
-                inicio = destino; // O próximo trecho começa onde o anterior parou
+                inicio = destino; 
             }
         }
     </script>

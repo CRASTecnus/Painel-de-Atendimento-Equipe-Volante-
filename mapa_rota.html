@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logística Boa Vista - 13 de Setembro & Araceli</title>
+    <title>Logística Boa Vista - 8 Trechos</title>
     <style>
         :root {
             --primary: #004a8d;
@@ -35,7 +35,7 @@
         }
         .btn-add { background: var(--primary); width: 100%; margin-top: 10px; }
         .btn-opt { background: var(--secondary); width: 100%; font-size: 16px; margin: 15px 0; }
-        .btn-maps { background: var(--success); margin-bottom: 10px; width: 100%; font-size: 13px; }
+        .btn-maps { background: var(--success); margin-bottom: 8px; width: 100%; font-size: 13px; }
 
         .layout-principal { display: grid; grid-template-columns: 380px 1fr; gap: 20px; }
         
@@ -84,8 +84,8 @@
             </div>
         </div>
         <div>
-            <label>🏠 Digite a Rua (Sugestões Ativas):</label>
-            <input type="text" id="novaRua" list="listaRuas" placeholder="Comece a digitar o nome da rua..." onkeypress="if(event.key==='Enter') adicionarPonto()">
+            <label>🏠 Digite a Rua:</label>
+            <input type="text" id="novaRua" list="listaRuas" placeholder="Digite e aperte Enter..." onkeypress="if(event.key==='Enter') adicionarPonto()">
             <datalist id="listaRuas"></datalist>
             <button class="btn btn-add" onclick="adicionarPonto()">➕ ADICIONAR À LISTA</button>
         </div>
@@ -93,23 +93,22 @@
 
     <div class="layout-principal">
         <aside class="card">
-            <h3 style="margin-top: 0; color: var(--primary);">Roteiro de Entrega (<span id="contador">0</span>/30)</h3>
+            <h3 style="margin-top: 0; color: var(--primary);">Roteiro (<span id="contador">0</span>/80)</h3>
             
             <div id="listaStatus">
-                <p style="text-align: center; color: #a0aec0; padding: 20px;">Adicione endereços para começar.</p>
+                <p style="text-align: center; color: #a0aec0; padding: 20px;">Adicione endereços.</p>
             </div>
 
             <div id="areaAcoes" style="display: none; margin-top: 20px;">
-                <button class="btn btn-opt" onclick="otimizarRota()">⚡ OTIMIZAR POR PROXIMIDADE</button>
-                <div id="loader" class="loader">Processando rota...</div>
+                <button class="btn btn-opt" onclick="otimizarRota()">⚡ OTIMIZAR ROTA COMPLETA</button>
+                <div id="loader" class="loader">Processando endereços...</div>
                 <div id="linksMaps"></div>
-                <button class="btn" style="background: #4a5568; width: 100%;" onclick="window.print()">📄 IMPRIMIR ROTEIRO</button>
+                <button class="btn" style="background: #4a5568; width: 100%; margin-top: 10px;" onclick="window.print()">📄 IMPRIMIR ROTEIRO</button>
             </div>
         </aside>
 
         <main class="card" style="padding: 10px;">
-            <label style="padding: 10px; display: block;">Visualização do Mapa:</label>
-            <iframe id="mapaFrame" src="about:blank" width="100%" height="550" style="border:0; border-radius: 8px; background: #e2e8f0;"></iframe>
+            <iframe id="mapaFrame" src="about:blank" width="100%" height="600" style="border:0; border-radius: 8px; background: #e2e8f0;"></iframe>
         </main>
     </div>
 
@@ -125,7 +124,6 @@
             const bairro = document.getElementById('bairro').value;
             const datalist = document.getElementById('listaRuas');
             datalist.innerHTML = '';
-            
             if (baseRuas[bairro]) {
                 baseRuas[bairro].forEach(rua => {
                     const option = document.createElement('option');
@@ -138,37 +136,28 @@
         function adicionarPonto() {
             const input = document.getElementById('novaRua');
             const valor = input.value.trim();
-            if (valor && pontos.length < 30) {
+            if (valor && pontos.length < 80) {
                 pontos.push(valor);
                 input.value = '';
                 atualizarUI();
-                focarNoMapa(valor);
             }
         }
 
         function atualizarUI() {
             const container = document.getElementById('listaStatus');
-            const contador = document.getElementById('contador');
-            const areaAcoes = document.getElementById('areaAcoes');
-            
-            contador.innerText = pontos.length;
+            document.getElementById('contador').innerText = pontos.length;
+            document.getElementById('areaAcoes').style.display = pontos.length > 0 ? 'block' : 'none';
             
             if (pontos.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #a0aec0; padding: 20px;">Lista vazia.</p>';
-                areaAcoes.style.display = 'none';
                 return;
             }
 
-            areaAcoes.style.display = 'block';
             container.innerHTML = '';
-            
             pontos.forEach((rua, i) => {
                 const item = document.createElement('div');
                 item.className = 'route-item';
-                item.innerHTML = `<div class="num-bola">${i + 1}</div><div style="flex:1">${rua}</div><button onclick="remover(${i})" style="background:none; border:none; color:#e53e3e; cursor:pointer; font-weight:bold; padding:5px;">✕</button>`;
-                item.onclick = (e) => {
-                    if(e.target.tagName !== 'BUTTON') focarNoMapa(rua);
-                };
+                item.innerHTML = `<div class="num-bola">${i + 1}</div><div style="flex:1">${rua}</div><button onclick="remover(${i})" style="background:none; border:none; color:#e53e3e; cursor:pointer; font-weight:bold;">✕</button>`;
                 container.appendChild(item);
             });
         }
@@ -178,17 +167,10 @@
             atualizarUI();
         }
 
-        function focarNoMapa(rua) {
-            const bairro = document.getElementById('bairro').value;
-            const enderecoFull = `${rua}, ${bairro}, Boa Vista, RR`;
-            const url = `https://maps.google.com/maps?q=${encodeURIComponent(enderecoFull)}&output=embed`;
-            document.getElementById('mapaFrame').src = url;
-        }
-
         async function otimizarRota() {
             const base = document.getElementById('partida').value;
             const bairro = document.getElementById('bairro').value;
-            if (!base) return alert("Informe o Ponto de Partida!");
+            if (!base) return alert("Informe a Base!");
 
             document.getElementById('loader').style.display = 'block';
             
@@ -197,21 +179,11 @@
                 const coordenadas = [];
 
                 for (let local of listaFull) {
-                    const query = `${local}, ${bairro}, Boa Vista, RR`;
-                    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
+                    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(local + ', ' + bairro + ', Boa Vista, RR')}`);
                     const data = await res.json();
-                    
-                    if (data[0]) {
-                        coordenadas.push({
-                            nome: local,
-                            lat: parseFloat(data[0].lat),
-                            lon: parseFloat(data[0].lon)
-                        });
-                    }
+                    if (data[0]) coordenadas.push({ nome: local, lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) });
                     await new Promise(r => setTimeout(r, 600)); 
                 }
-
-                if (coordenadas.length < 2) throw new Error("Não foi possível localizar os endereços no mapa.");
 
                 let ordenados = [];
                 let restantes = [...coordenadas];
@@ -220,13 +192,9 @@
                 while (restantes.length > 0) {
                     let closestIdx = 0;
                     let minDist = Infinity;
-
                     for (let i = 0; i < restantes.length; i++) {
                         const d = Math.hypot(restantes[i].lat - atual.lat, restantes[i].lon - atual.lon);
-                        if (d < minDist) {
-                            minDist = d;
-                            closestIdx = i;
-                        }
+                        if (d < minDist) { minDist = d; closestIdx = i; }
                     }
                     atual = restantes.splice(closestIdx, 1)[0];
                     ordenados.push(atual.nome);
@@ -235,10 +203,9 @@
                 pontos = ordenados;
                 atualizarUI();
                 gerarBotoesMaps(base, bairro);
-                alert("Rota otimizada com sucesso!");
-
+                alert("Rota otimizada!");
             } catch (err) {
-                alert("Erro: " + err.message);
+                alert("Erro na otimização.");
             } finally {
                 document.getElementById('loader').style.display = 'none';
             }
@@ -246,26 +213,30 @@
 
         function gerarBotoesMaps(base, bairro) {
             const container = document.getElementById('linksMaps');
-            container.innerHTML = '<label style="margin:15px 0 5px; display:block">Abrir no GPS:</label>';
+            container.innerHTML = '<label style="margin:15px 0 5px; display:block">Links de Navegação (Google Maps):</label>';
             
-            const paradasMax = 9; 
-            let inicio = base;
+            const maxTrechos = 8;
+            const paradasPorTrecho = 9; // Limite de waypoints do Google Maps Free
+            let inicioAtual = base;
 
-            for (let i = 0; i < pontos.length; i += paradasMax) {
-                const trecho = pontos.slice(i, i + paradasMax);
-                const destino = trecho[trecho.length - 1];
-                const intermediarios = trecho.slice(0, -1);
+            for (let t = 0; t < maxTrechos; t++) {
+                let startIdx = t * paradasPorTrecho;
+                if (startIdx >= pontos.length) break;
 
-                const waypoints = intermediarios.map(p => encodeURIComponent(p + ', ' + bairro + ', Boa Vista, RR')).join('|');
-                const url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(inicio + ', ' + bairro + ', Boa Vista, RR')}&destination=${encodeURIComponent(destino + ', ' + bairro + ', Boa Vista, RR')}&waypoints=${waypoints}&travelmode=driving`;
+                let trechoPontos = pontos.slice(startIdx, startIdx + paradasPorTrecho);
+                let destinoFinal = trechoPontos[trechoPontos.length - 1];
+                let paradasIntermediarias = trechoPontos.slice(0, -1);
+
+                const waypoints = paradasIntermediarias.map(p => encodeURIComponent(p + ', ' + bairro + ', Boa Vista, RR')).join('|');
+                const url = `https://www.google.com.br/maps/dir/?api=1&origin=${encodeURIComponent(inicioAtual + ', ' + bairro + ', Boa Vista, RR')}&destination=${encodeURIComponent(destinoFinal + ', ' + bairro + ', Boa Vista, RR')}&waypoints=${waypoints}&travelmode=driving`;
                 
                 const btn = document.createElement('button');
                 btn.className = 'btn btn-maps';
-                btn.innerHTML = `🚗 GPS TRECHO ${Math.floor(i/paradasMax) + 1}`;
+                btn.innerHTML = `🚗 ABRIR TRECHO ${t + 1} (${trechoPontos.length} paradas)`;
                 btn.onclick = () => window.open(url, '_blank');
                 container.appendChild(btn);
 
-                inicio = destino; 
+                inicioAtual = destinoFinal; // O próximo trecho começa onde o anterior terminou
             }
         }
     </script>
